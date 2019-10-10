@@ -1,11 +1,12 @@
 import time
 
+
 Robot = robotmotionclass()
 face_finder = faceoperationclass()
 
 Robot.move_home()
 
-while True:
+while True: #maybe put the frame capture in here instead?
     while face_finder.findface == False:
         Robot.lookaraound()
 
