@@ -54,20 +54,30 @@ class Coord:
 
 
 class ScreenCoord(Coord):
-    # an extra step is  necessary when trying to convert xy screen coordinates to full robot coordinates
+
+    def __init__(self, x, y, x_area, y_area, robot_position, screen_dimensions): #Screencoordinates also require the current robot position
+        super().__init__( x, y, x_area, y_area)
+        self.xy_pos = robot_position[0: 2]
+        self.screen_dimensions = screen_dimensions
+        self.size_calibration = 1 / 3000
 
     def newXY(self):
         # convert the x,y coordinates from the screen coordinate system to the robot coordinate system
-        # the screen coordinate system starts at the top left corner,
-        # the robot coordinate system starts from the center
-        # this method simply converts from one to the other.
-        new_x = self.x - (1 / 2 * self.x_area)
-        new_y = self.y - (1 / 2 * self.y_area)
-        new_XY = [new_x, new_y]
+        screen_center = [self.screen_dimensions[0] / 2, self.screen_dimensions[1] / 2]
+        # calculate position from screen center:
+        new_x = (self.x - screen_center[0]) * self.size_calibration
+        new_y = (self.y - screen_center[1]) * self.size_calibration
 
-        return new_XY
-        # this wont work at all as intended... this has to be adaptive according to the current robot position.
-        # TODO: change this method to incorporate the robot position
+        # add current robot position :
+        new_x = new_x + self.xy_pos[0]
+        new_y = new_y + self.xy_pos[1]
+
+        new_xy = [new_x, new_y]
+
+        print("new robot position:", new_xy)
+
+        return new_xy
+
 
     def convert_screen_coords(self):  # converts screen coordinates to coordinates in the new csys
 

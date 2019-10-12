@@ -14,7 +14,7 @@ Robot = RobotMotion()
 
 Robot.move_home()
 
-while True:  # ?: maybe put the frame capture in here instead?
+while True:  # This is the actual process: lookaround then face tracking if a face is found and lastly write and draw
     while face_finder.findface == False:
         print("No one around. Maybe over here? ")
         # Generate a random xy-coordinate in the robot look area:
@@ -36,16 +36,32 @@ while True:  # ?: maybe put the frame capture in here instead?
         else:
             break
 
-        in_bounds = Robot.test_move()
-        # TODO: execute this here instead
+        #Shorten the move if it would go outside of the lookarea:
+        if (-lookarea_x / 2) <= face_real_location[0] <= (lookarea_x / 2):  #
+            pass
+        else:
+            print("outside of x-extent")
+            if face_real_location[0] > (lookarea_x / 2):
+                face_real_location[0] = (lookarea_x / 2)
+            else:
+                face_real_location[0] = (-lookarea_x / 2)
 
-        if time.time() < watch_time and in_bounds ==True:
+        if (-lookarea_y / 2) <= face_real_location[1] <= (lookarea_y / 2):
+            pass
+        else:
+            print("outside of y-extent")
+            if face_real_location[1] > (lookarea_x / 2):  # If
+                face_real_location[1] = (lookarea_x / 2)
+            else:
+                face_real_location[1] = (-lookarea_x / 2)
+
+        if time.time() < watch_time:  # only start writing after looking at a face for a certain time
             Robot.move(face_real_location)
             continue
 
         else:
             face_finder.landmark_detection()
-            face_landmarks = face_finder.landmarks  #should be a list of list of coordinates
+            face_landmarks = face_finder.landmarks  # should be a list of list of coordinates
             face_finder.detect_emotion()
             emotion_score = face_finder.emotion  # list of strings with top 3 emotions
 

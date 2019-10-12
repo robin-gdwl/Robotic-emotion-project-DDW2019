@@ -11,10 +11,10 @@ class RobotMotion:
 
     def __init__(self):
         self.robot = urx.Robot("192.168.178.22")
-        self.a = 0.3
-        self.v = 0.1
-        self.csys_look = []
-        self.csys_write = []
+        self.a = 0.1
+        self.v = 0.4
+        #self.csys_look = []  # not yet used anywhere
+        #self.csys_write = []  # not yet used anywhere
         print("robot initiated")
 
     def lookaround(self):
@@ -34,7 +34,7 @@ class RobotMotion:
 
     def move(self, full_coords): # gets a list of 6 values and moves the robot according to these values
         # print("full coords: ", full_coords)
-        self.robot.movel(full_coords, self.a, self.v)
+        self.robot.movel(full_coords, self.a, self.v, threshold=200)
 
         return None
 
