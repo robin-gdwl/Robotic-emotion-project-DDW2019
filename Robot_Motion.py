@@ -24,6 +24,7 @@ class RobotMotion:
 
     def test_move(self):
 
+
         return None
 
     def move(self, full_coords): # gets a list of 6 values and moves the robot according to these values
