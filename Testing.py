@@ -35,7 +35,7 @@ face_finder = FaceOperation()
 lookarea_x = 0.4    # overall x- extent of the (rectangular) area in which the robot looks around
 lookarea_y = 0.4    # overall y- extent of the (rectangular) area in which the robot looks around
 
-while True
+while True:
     if face_finder.findface == False:
         print("No one around. Maybe over here? ")
         # Generate a random xy-coordinate in the robot look area:
@@ -48,3 +48,29 @@ while True
 
     else:
         print("face detected, not looking around anymore")
+
+# Test Robot test_move
+# Test xy - Robot coordinates
+
+coords_to_test = [-3, 2]
+amended_coords = [0, 0] # these will be the closest coordinates inside the lookarea
+
+if (-lookarea_x / 2) <= coords_to_test[0] <= (lookarea_x / 2): #
+    pass
+else:
+    print("outside of x-extent")
+    if coords_to_test[0] > (lookarea_x / 2):
+        amended_coords[0] = (lookarea_x / 2)
+    else:
+        amended_coords[0] = (-lookarea_x / 2)
+
+
+if (-lookarea_y / 2) <= coords_to_test[0] <= (lookarea_y / 2):
+    pass
+else:
+    print("outside of y-extent")
+    if coords_to_test[1] > (lookarea_x / 2):  # If
+        amended_coords[1] = (lookarea_x / 2)
+    else:
+        amended_coords[1] = (-lookarea_x / 2)
+

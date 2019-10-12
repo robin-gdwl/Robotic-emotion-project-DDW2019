@@ -1,6 +1,9 @@
 from math import pi, sqrt
 
 class Coord:
+    # !: remember that the urx uses meters as units.
+        # scaling needs to take place when converting between screen and robot coordinates
+        # TODO: implement smart scaling process that is easy to calibrate
 
     # This class is initiated by an x and y- value as well as the x and y size of the robot look area
     # It is the superclass for ScreenCoord and RobotCoord
@@ -30,6 +33,8 @@ class Coord:
         return compound_coord
 
     def apply_z_value(self, new_coordinates): # takes a coordinate list [x, y, 0] and calculates the corresponding z-value according to the z-factor
+
+        new_coordinates.append(0)  # adds a third coordinate to the list for the Z-value
 
         z_factor = 0.2  # defines how far the robot goes in Z doring the look moves
         xy_offset = sqrt(new_coordinates[0] ** 2 + new_coordinates[1] ** 2)
@@ -61,12 +66,12 @@ class ScreenCoord(Coord):
         new_XY = [new_x, new_y]
 
         return new_XY
-
+        # this wont work at all as intended... this has to be adaptive according to the current robot position.
+        # TODO: change this method to incorporate the robot position
 
     def convert_screen_coords(self):  # converts screen coordinates to coordinates in the new csys
 
         new_coord = self.newXY()
-        new_coord.append(0)  # adds a third coordinate to the list for the Z-value
 
         # print("new coordinates x+y+z:", new_coord)
 
@@ -88,7 +93,6 @@ class RobotCoord(Coord):
         # it does this by adding the z value and 3 rotation angles
 
         new_coord = [self.x, self.y]
-        new_coord.append(0) # adds a third coordinate to the list for the Z-value
         new_coord = self.apply_z_value(new_coord)
         rotation_coords = self.apply_rotation(new_coord)
         compound_coord = new_coord.extend(rotation_coords)

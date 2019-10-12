@@ -3,6 +3,10 @@ from math import pi,sqrt
 import urx
 
 
+# simple class that just slightly extends the urx capabilites
+# combines some of the urx functions for convenience and easy calling in the main Program
+# !: remember that the urx uses meters as units
+
 class RobotMotion:
 
     def __init__(self):
@@ -22,7 +26,7 @@ class RobotMotion:
         self.robot.set_csys(home_csys)
         print("Csys set to current pose.")
 
-    def test_move(self):
+    def test_move(self): # this should test weather the move will stay inside of the lookarea
 
 
         return None

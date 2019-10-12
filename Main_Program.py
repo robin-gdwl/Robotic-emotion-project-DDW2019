@@ -10,10 +10,11 @@ Robot = RobotMotion()
 face_finder = FaceOperation()
 lookarea_x = 0.4    # overall x- extent of the (rectangular) area in which the robot looks around
 lookarea_y = 0.4    # overall y- extent of the (rectangular) area in which the robot looks around
+Robot = RobotMotion()
 
 Robot.move_home()
 
-while True:  # maybe put the frame capture in here instead?
+while True:  # ?: maybe put the frame capture in here instead?
     while face_finder.findface == False:
         print("No one around. Maybe over here? ")
         # Generate a random xy-coordinate in the robot look area:
@@ -25,7 +26,7 @@ while True:  # maybe put the frame capture in here instead?
 
     watch_time = time.time() + 5
 
-    while True:
+    while True:  # this loop is used to track the face. If no face is detected the loop breaks and the robot looks around instead (see above)
         if face_finder.findface() == True:
 
             list_facepos = face_finder.facelocation()
@@ -36,6 +37,7 @@ while True:  # maybe put the frame capture in here instead?
             break
 
         in_bounds = Robot.test_move()
+        # TODO: execute this here instead
 
         if time.time() < watch_time and in_bounds ==True:
             Robot.move(face_real_location)
