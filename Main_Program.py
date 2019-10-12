@@ -29,7 +29,7 @@ while True: #maybe put the frame capture in here instead?
     while True:
         if face_finder.findface() == True:
             face_screen_location = ScreenCoord(face_finder.facelocation())
-            face_real_location = face_screen_location.convert_coords()
+            face_real_location = face_screen_location.convert_screen_coords()
         else:
             break
 

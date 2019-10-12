@@ -24,5 +24,5 @@ while True:
         print("list face pos: ", list_facepos)
         face_screen_location = ScreenCoord(list_facepos[0], list_facepos[1], 1, 1)
         face_real_location = face_screen_location.convert_screen_coords()
-        #print(face_screen_location)
+
         print(face_real_location)

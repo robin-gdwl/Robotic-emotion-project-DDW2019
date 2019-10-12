@@ -29,7 +29,7 @@ class FaceOperation:
 
     def facelocation(self):
         # returns location (x,y) of the face if one is detected
-        # TODO: combine this with findface() to not do the same thing twice
+        # TODO: combine this with findface() to not do the same operations twice
 
         _, frame = self.cap.read()
         gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
