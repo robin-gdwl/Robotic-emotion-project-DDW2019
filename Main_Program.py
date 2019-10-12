@@ -1,11 +1,13 @@
 import time
+import random
 from Robot_Motion import RobotMotion
 from Coordinate_conversion import Coord, RobotCoord, ScreenCoord
-import random
+from Face_Detection_Operations import FaceOperation # not yet written
+
 
 
 Robot = RobotMotion()
-face_finder = faceoperationclass()
+face_finder = FaceOperation()
 lookarea_x = 0.4    # overall x- extent of the (rectangular) area in which the robot looks around
 lookarea_y = 0.4    # overall y- extent of the (rectangular) area in which the robot looks around
 
@@ -25,13 +27,13 @@ while True: #maybe put the frame capture in here instead?
     watch_time = time.time() + 5
 
     while True:
-        if face_finder.findface == True:
-            face_screen_location = Coordinateclass(face_finder.facelocation())
-            face_real_location = face_screen_location.convert_coords
+        if face_finder.findface() == True:
+            face_screen_location = ScreenCoord(face_finder.facelocation())
+            face_real_location = face_screen_location.convert_coords()
         else:
             break
 
-        in_bounds = Robot.testmove()
+        in_bounds = Robot.test_move()
 
         if time.time() < watch_time and in_bounds ==True:
             Robot.move(face_real_location)
@@ -46,6 +48,6 @@ while True: #maybe put the frame capture in here instead?
             Robot.move_to_write()
             Robot.draw_landmarks(face_landmarks)
             Robot.write_results(emotion_score)
-            Robot.move_home
+            Robot.move_home()
 
             break

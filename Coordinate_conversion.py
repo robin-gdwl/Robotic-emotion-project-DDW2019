@@ -12,7 +12,6 @@ class Coord:
         self.x_area = x_area
         self.y_area = y_area
 
-
     def apply_rotation(self, new_coordinates):
 
         new_coord = new_coordinates
@@ -21,13 +20,14 @@ class Coord:
         # print(x_area/2)
         rotation_angles[0] = new_coord[1] / self.y_area / 2 * pi * -rotation_factor
         rotation_angles[1] = new_coord[0] / self.x_area / 2 * pi * rotation_factor
-        print("rotation angles:", rotation_angles)
+        # print("rotation angles:", rotation_angles)
 
-        return new_coord
-        # compound_coord = new_coord
-        # compound_coord.extend(rotation_angles)
-        # print("new coordinates with rotation:",compound_coord)
-        print("_____________________________")
+        compound_coord = new_coord
+        compound_coord.extend(rotation_angles)
+        # print("new coordinates with rotation:",new_coord)
+        # print("_____________________________")
+        #print("new coordinates with rotation:", compound_coord)
+        return compound_coord
 
     def apply_z_value(self, new_coordinates): # takes a coordinate list [x, y, 0] and calculates the corresponding z-value according to the z-factor
 
@@ -43,7 +43,7 @@ class Coord:
             new_z = (half_dia) / (half_dia + xy_offset) * z_factor
 
         new_coordinates[2] = new_z
-        print("new z: ", new_z)
+        # print("new z: ", new_z)
 
         return new_coordinates
 
@@ -68,14 +68,15 @@ class ScreenCoord(Coord):
         new_coord = self.newXY()
         new_coord.append(0)  # adds a third coordinate to the list for the Z-value
 
-        print("new coordinates x+y:", new_coord)
+        # print("new coordinates x+y+z:", new_coord)
 
         new_coord = self.apply_z_value(new_coord)
+        # print("nc: ", new_coord)
 
-        rotation_coords = self.apply_rotation(new_coord)
-        compound_coord = new_coord.extend(rotation_coords)
-        print("new coordinates with rotation:", compound_coord)
-        print("_____________________________")
+        compound_coord = self.apply_rotation(new_coord)
+
+        # print("new coordinates with rotation:", compound_coord)
+        # print("_____________________________")
 
         # TODO: add case for center of c_sys!!
         return compound_coord

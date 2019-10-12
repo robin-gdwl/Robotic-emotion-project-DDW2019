@@ -4,8 +4,8 @@
 
 Libraries:
 
-urx  (for robot control)  
-dlib  (face detection and landmark recognition)  
-opencv (cv2)  (use of the webcam)  
-tensorflow  (for emotion recognition)
+**urx**  (for robot control)  
+**dlib**  (face detection and landmark recognition)  
+**opencv (cv2)**  (use of the webcam)  
+**tensorflow**  (for emotion recognition)
 

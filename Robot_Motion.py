@@ -23,12 +23,17 @@ class RobotMotion:
         print("Csys set to current pose.")
 
     def test_move(self):
+        return None
 
     def move(self, full_coords): # gets a list of 6 values and moves the robot according to these values
+        return None
 
     def move_to_write(self):
+        return None
 
     def draw_landmarks(self, landmarks):
+        return None
 
     def write_results(self, results):
+        return None
 
