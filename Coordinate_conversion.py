@@ -18,7 +18,7 @@ class Coord:
     def apply_rotation(self, new_coordinates):
 
         new_coord = new_coordinates
-        rotation_factor = 0.1
+        rotation_factor = 0.6
         rotation_angles = [0, 0, 0]
         # print(x_area/2)
         rotation_angles[0] = new_coord[1] / self.y_area / 2 * pi * -rotation_factor
@@ -95,8 +95,9 @@ class RobotCoord(Coord):
         new_coord = [self.x, self.y]
         new_coord = self.apply_z_value(new_coord)
         rotation_coords = self.apply_rotation(new_coord)
-        compound_coord = new_coord.extend(rotation_coords)
-        print("new coordinates with rotation:", compound_coord)
-        print("_____________________________")
+        # print("rotation_coords", rotation_coords)
+        compound_coord = rotation_coords
+        # print("new coordinates with rotation:", compound_coord)
+        # print("_____________________________")
 
         return compound_coord
