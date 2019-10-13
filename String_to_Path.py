@@ -1,5 +1,11 @@
 # Dictionary of every letter+ Number with a list of coordinate lists- {a : [ [0,1], [1,1], ...] }
-alphabet = {
+
+
+class ThingToWrite:
+
+    def __init__(self,string, z_hop = 0.01):
+        self.string = string
+        self.alphabet =  {
     "a": [[[0.719512, -0.932927], [0.719512, -0.594512], [0.416159, -0.314024], [0.106707, -0.631098], [0.416159, -0.95122], [0.530488, -0.922256]]],
     "b": [[[0.315549, -0.339939], [0.717226, -0.496951], [0.650152, -0.866616], [0.307165, -0.927591], [0.128049, -0.60061], [0.128049, 0]]],
     "c": [[[0.493902, -0.332317], [0.426829, -0.332317], [0.135671, -0.634146], [0.445122, -0.932927], [0.493902, -0.932927]]],
@@ -47,22 +53,18 @@ alphabet = {
     "*": [[[0.579268, -0.109756], [0.182927, -0.347561]], [[0.381098, 0], [0.381098, -0.454268]], [[0.579268, -0.347561], [0.182927, -0.109756]]],
     "%": [[[0.281729, -0.501395], [0.055788, -0.251743], [0.295676, 0.015342], [0.520223, -0.237099], [0.281729, -0.501395]], [[0.291492, -0.061367], [0.148536, -0.245467], [0.288703, -0.423989], [0.428173, -0.239888], [0.291492, -0.061367]], [[0.951185, 0], [0.309623, -1.006974], [0.209902, -1.006974], [0.850767, 0], [0.951185, 0]], [[0.877266, -1.015342], [0.651325, -0.76569], [0.891213, -0.497211], [1.11576, -0.751743], [0.877266, -1.015342]], [[0.887029, -0.576011], [0.744073, -0.760112], [0.88424, -0.937238], [1.02371, -0.753138], [0.887029, -0.576011]]],
     "_": [[[0.695122, -1.152439], [0.067073, -1.152439]]]
-}
+}  # Dictionary of every letter+ Number with a list of coordinate lists- {a : [ [0,1], [1,1], ...] }
+        self.z_hop = z_hop # defines how far the pen retracts after each line
 
-class ThingToWrite:
-
-    def __init__(self,string):
-        self.string = string
-
-    def letter_to_coordinates(letter,origin): #gets a letter, translates the coordinates to the new origin, adds a z hop at beginning and end of each line
+    def letter_to_coordinates(self, letter, origin):
+        # gets a letter, translates the coordinates to the new origin, adds a z hop at beginning and end of each line
         letter_coords = alphabet[letter]
         x_offset = origin[0]
         y_offset = origin[1]
-        z_hop = 1 # defines how far the pen retracts after each line
         letter_coord_list = []
 
         for line in letter_coords:
-            i = 0 # just a value to tell me if this is the first or last point of the line
+            i = 0  # just a value to tell me if this is the first or last point of the line
             line_length = len(line) - 1
 
             for point in line:
@@ -71,7 +73,7 @@ class ThingToWrite:
                     hop_point = [0, 0, 0]
                     hop_point[0] = point[0] + x_offset
                     hop_point[1] = point[1] + y_offset
-                    hop_point[2] = (z_hop)
+                    hop_point[2] = (self.z_hop)
                     print(hop_point)
                     letter_coord_list.append(hop_point)
 
@@ -83,21 +85,21 @@ class ThingToWrite:
 
                 if i == line_length:
                     hop_point = point
-                    hop_point[2] = z_hop
+                    hop_point[2] = self.z_hop
                     print(hop_point)
                     letter_coord_list.append(hop_point)
                 i +=1
 
         print(letter_coord_list)
         return letter_coord_list
-    #letter_to_coordinates("%",[2,2])
+    # letter_to_coordinates("%",[2,2])
 
     # converts a string of text into coordinates as lines
     # returns a list of coordinates (x,y,z) which trace the string in space
-    def string_to_coordinates(text,origin):
+    def string_to_coordinates(self,origin):
         motion_path = []
         offset_amount = 0.1
-        text = text.split() # splits the string at each space
+        text = self.string.split() # splits the string at each space
         print("text: ", text)
         print(origin)
         x_offset = origin[0]
@@ -106,7 +108,7 @@ class ThingToWrite:
 
         for fragment in text:
             for letter in fragment:
-                motion_path.extend(letter_to_coordinates(letter,[x_offset, y_offset]))
+                motion_path.extend(self.letter_to_coordinates(letter,[x_offset, y_offset]))
                 x_offset += offset_amount
                 print("x_offset", x_offset)
 
@@ -114,4 +116,7 @@ class ThingToWrite:
         print("motion_path", motion_path)
         return motion_path
 
-    print(string_to_coordinates("hello, frie nd", [0, 0]))
+
+# Testing:
+text_to_write: ThingToWrite("Hello, my friend % : welcome home!")
+print(text_to_write.string_to_coordinates([0, 0]))

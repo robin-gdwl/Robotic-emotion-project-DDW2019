@@ -30,8 +30,8 @@ while True:
 # works as of 12.10. 21:32
 
 
-Robot = RobotMotion()
-Robot.move_home()
+#Robot = RobotMotion()
+#Robot.move_home()
 
 face_finder = FaceOperation()
 lookarea_x = 0.3    # overall x- extent of the (rectangular) area in which the robot looks around
@@ -85,13 +85,13 @@ else:
 
 
 
-Robot = RobotMotion()
-Robot.move_home()
-position = Robot.robot.getl()
-print(position)
-screen_dim = [face_finder.screen_width, face_finder.screen_height]
-print("SCREEN dim: ", screen_dim)
-
+#Robot = RobotMotion()
+#Robot.move_home()
+#position = Robot.robot.getl()
+#print(position)
+#screen_dim = [face_finder.screen_width, face_finder.screen_height]
+#print("SCREEN dim: ", screen_dim)
+'''
 # Test Face_tracking:
 while True:
     if face_finder.findface() == True:
@@ -119,3 +119,10 @@ while True:
                 face_real_location[1] = (-lookarea_x / 2)
 
         Robot.move(face_real_location)
+
+'''
+face_finder = FaceOperation()
+while True:
+
+    face_finder.landmark_detection()
+

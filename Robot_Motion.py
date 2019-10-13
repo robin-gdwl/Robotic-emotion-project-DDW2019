@@ -5,7 +5,7 @@ import urx
 
 # simple class that just slightly extends the urx capabilites
 # combines some of the urx functions for convenience and easy calling in the main Program
-# !: remember that the urx uses meters as units
+# !: remember that urx uses meters as units
 
 class RobotMotion:
 

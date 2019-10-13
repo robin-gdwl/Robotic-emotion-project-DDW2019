@@ -63,12 +63,13 @@ while True:  # This is the actual process: lookaround then face tracking if a fa
             Robot.move(face_real_location)
             continue
 
-        else:
+        else:  # if the watch_time has passed the actual face evaluation begins
             face_finder.landmark_detection()
             face_landmarks = face_finder.landmarks  # should be a list of list of coordinates
             face_finder.detect_emotion()
             emotion_score = face_finder.emotion  # list of strings with top 3 emotions
 
+            # write the results of the evaluation
             Robot.move_to_write()
             Robot.draw_landmarks(face_landmarks)
             Robot.write_results(emotion_score)
