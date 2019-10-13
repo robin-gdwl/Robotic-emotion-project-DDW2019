@@ -52,7 +52,7 @@ class FaceOperation:
 
             return face_screen_xy
 
-    def landmark_detection(self):
+    def landmark_detection(self, origin = [0,0], scale = 1 / 1000):
         # detects the landmarks of the face and returns them as a list of list of coordinates
         _, frame = self.cap.read()
         gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
@@ -73,7 +73,7 @@ class FaceOperation:
             y2 = face.bottom()
             cv2.rectangle(frame, (x1, y1), (x2, y2), (0, 255, 0), 3)
 
-            # scale the face coordinates:
+            # scale the face coordinates and move them to the upper left corner:
             face_width = face.right() - face.left()
             face_height = face.bottom() - face.top()
             face_average = (face_width + face_height) / 2
@@ -88,8 +88,10 @@ class FaceOperation:
                 y = int((landmarks.part(n).y - face.top()) * face_scale)
                 cv2.circle(frame, (x, y), 3, (100, 0, 0), -1)
 
-                x = landmarks.part(n).x * face_scale - face.left() # apply scale and move to upper left corner
-                y = landmarks.part(n).y * face_scale - face.top() # as above
+                # apply face_scale and overall scale, move to upper left corner and offset by the origin
+                x = (landmarks.part(n).x - face.left()) * face_scale * scale + origin[0]
+                y = (landmarks.part(n).y - face.top()) * face_scale * scale + origin[1]
+
                 landmark_points.append([x, y])
 
 
@@ -100,24 +102,54 @@ class FaceOperation:
             right_brow = landmark_points[22:27]
             nose_ridge = landmark_points[27:31]
             nose_tip = landmark_points[31:36]
-            left_eye = landmark_points[36:42].append(landmark_points[36]) # add the first point to get a closed curve
-            right_eye = landmark_points[42:48].append(landmark_points[42])
-            lips_outer = landmark_points[48:61].append(landmark_points[48])
-            lips_inner = landmark_points[61:68].append(landmark_points[61])
+
+            left_eye = landmark_points[36:42]
+            left_eye.append(left_eye[0].copy()) # add the first point to get a closed curve
+
+            right_eye = landmark_points[42:48]
+            right_eye.append(right_eye[0].copy())
+
+            lips_outer = landmark_points[48:61]
+            lips_outer.append(lips_outer[0].copy())
+
+            lips_inner = landmark_points[61:68]
+            lips_inner.append(lips_inner[0].copy())
 
             feature_lines = [jawline, left_brow, right_brow, nose_ridge, nose_tip, left_eye, right_eye, lips_outer, lips_inner]
             # feature_lines is now a list of all lines to be drawn
             #cv2.imshow("Frame", frame)
-            #cv2.waitKey(1)
+            #cv2.waitKey(1)  # this defines how long each frame is shown
+
+            print("fl:    ", feature_lines)
+            for line in feature_lines:
+                print("line no add: ", line)
+            feature_lines = self.apply_zhop(feature_lines)
 
             return feature_lines
 
     def apply_zhop(self, list_of_lines, z_hop = 0.05):
 
         for line in list_of_lines:
+            line.insert(0, line[0].copy())
+            line.append(line[-1].copy())
+            # print(line)
+            for xy in line:
+                # print(xy)
+                xy.append(0)
+                # xy = [a + [0] for a in xy]  # no idea why this doesnt work...
+            line[0][2] = z_hop
+            line[-1][2] = z_hop
 
-            lines_w_zhop = 0
 
+        print(list_of_lines)
+
+
+
+            #line.insert(0, line[0])
+            #line.append(line[-1])
+
+        time.sleep(4)
+        return list_of_lines
 
     def detect_emotion(self):
         # detects the emotion and returns a list of three strings: ["most common emotion: 20%", ....]
