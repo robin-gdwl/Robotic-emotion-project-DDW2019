@@ -10,7 +10,8 @@ import urx
 class RobotMotion:
 
     def __init__(self):
-        self.robot = urx.Robot("192.168.178.22")
+        #self.robot = urx.Robot("192.168.178.22")
+        self.robot = urx.Robot("172.23.4.26")
         self.a = 0.1
         self.v = 0.4
         #self.csys_look = []  # not yet used anywhere

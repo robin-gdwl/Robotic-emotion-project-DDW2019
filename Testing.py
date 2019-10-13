@@ -85,13 +85,13 @@ else:
 
 
 
-#Robot = RobotMotion()
-#Robot.move_home()
-#position = Robot.robot.getl()
-#print(position)
-#screen_dim = [face_finder.screen_width, face_finder.screen_height]
-#print("SCREEN dim: ", screen_dim)
-'''
+Robot = RobotMotion()
+Robot.move_home()
+position = Robot.robot.getl()
+print(position)
+screen_dim = [face_finder.screen_width, face_finder.screen_height]
+print("SCREEN dim: ", screen_dim)
+
 # Test Face_tracking:
 while True:
     if face_finder.findface() == True:
@@ -122,7 +122,10 @@ while True:
 
 '''
 face_finder = FaceOperation()
-while True:
+#while True:
 
-    face_finder.landmark_detection()
+ #   face_finder.landmark_detection()
 
+Robot = RobotMotion()
+Robot.move_home()
+'''
