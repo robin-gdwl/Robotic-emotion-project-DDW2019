@@ -96,7 +96,7 @@ class ThingToWrite:
 
     # converts a string of text into coordinates as lines
     # returns a list of coordinates (x,y,z) which trace the string in space
-    def string_to_coordinates(self,origin):
+    def string_to_coordinates(self,origin=[0,0]):
         motion_path = []
         offset_amount = 0.1
         text = self.string.split() # splits the string at each space
@@ -118,5 +118,5 @@ class ThingToWrite:
 
 
 # Testing:
-text_to_write: ThingToWrite("Hello, my friend % : welcome home!")
-print(text_to_write.string_to_coordinates([0, 0]))
+#text_to_write: ThingToWrite("Hello, my friend % : welcome home!")
+#print(text_to_write.string_to_coordinates([0, 0]))

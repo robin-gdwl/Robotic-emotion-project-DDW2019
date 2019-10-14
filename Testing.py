@@ -130,12 +130,21 @@ print("face lm: ", face_landmarks)
 
 
 Robot = RobotMotion()
-print(Robot.robot.getl())
-#print(Robot.robot.getj())
+#print(Robot.robot.getl())
+print(Robot.robot.getj())
 
 #Robot.move_home()
 Robot.move_to_write()
 Robot.draw_landmarks(face_landmarks)
-
+#Robot.write_results(emotion_score)
 #[0.6000000521429313, 0.15000001308942848, 0.09000014933946439, -2.221440281881211, -2.2214404854075736, -1.74503212199567e-07]
 #[0.4223927855491638, -2.148930374776022, -1.76170522371401, -0.8017538229571741, 1.5707978010177612, 3.5639853477478027]
+
+results = [["unknown1", 0], ["unknown2", 0], ["unknown3", 0]]
+
+for result in results:
+    percentage = result[1]
+    emotion = result[0]
+    print(f"{percentage} %  {emotion}")
+
+#where to get the emotion string

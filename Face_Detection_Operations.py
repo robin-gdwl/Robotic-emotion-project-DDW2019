@@ -1,6 +1,6 @@
 import dlib
 import cv2
-#import tensorflow
+import tensorflow as tf
 import time
 
 class FaceOperation:
@@ -86,7 +86,7 @@ class FaceOperation:
                 print(landmarks.part(n))
                 x = int((landmarks.part(n).x - face.left()) * face_scale)
                 y = int((landmarks.part(n).y - face.top()) * face_scale)
-                cv2.circle(frame, (x, y), 3, (100, 0, 0), -1)
+                cv2.circle(frame, (x, y), 3, (100, 100, 255), -1)
 
                 # apply face_scale and overall scale, move to upper left corner and offset by the origin
                 x = (landmarks.part(n).x - face.left()) * face_scale * scale + origin[0]
@@ -158,4 +158,7 @@ class FaceOperation:
 
     def detect_emotion(self):
         # detects the emotion and returns a list of three strings: ["most common emotion: 20%", ....]
+
+
+
         return None

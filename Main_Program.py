@@ -3,19 +3,19 @@ import random
 from Robot_Motion import RobotMotion
 from Coordinate_conversion import Coord, RobotCoord, ScreenCoord
 from Face_Detection_Operations import FaceOperation # not yet written
-
+from String_to_Path import ThingToWrite
 
 
 Robot = RobotMotion()
 face_finder = FaceOperation()
 lookarea_x = 0.4    # overall x- extent of the (rectangular) area in which the robot looks around
 lookarea_y = 0.4    # overall y- extent of the (rectangular) area in which the robot looks around
-Robot = RobotMotion()
+
 
 Robot.move_home()
 
 while True:  # This is the actual process: lookaround then face tracking if a face is found and lastly write and draw
-    while face_finder.findface == False:
+    while face_finder.findface() == False:
         print("No one around. Maybe over here? ")
         # Generate a random xy-coordinate in the robot look area:
         look_x = random.uniform(- (lookarea_x/2), (lookarea_x/2))
@@ -35,7 +35,9 @@ while True:  # This is the actual process: lookaround then face tracking if a fa
 
             list_facepos = face_finder.facelocation()
             print("list face pos: ", list_facepos)
-            face_screen_location = ScreenCoord(list_facepos[0], list_facepos[1], 1, 1)
+            robot_pos = Robot.robot.getl()
+            screensize = [face_finder.screen_width, face_finder.screen_height]
+            face_screen_location = ScreenCoord(list_facepos[0], list_facepos[1], lookarea_x, lookarea_y, robot_pos, screensize)
             face_real_location = face_screen_location.convert_screen_coords()
         else:
             break
@@ -68,13 +70,17 @@ while True:  # This is the actual process: lookaround then face tracking if a fa
             face_landmarks = face_finder.landmarks  # should be a list of list of coordinates
             face_finder.detect_emotion()
             emotion_score = face_finder.emotion  # list of strings with top 3 emotions
+            for string in emotion_score:
+                string = ThingToWrite(string)
+                converted_string = string.string_to_coordinates()
 
             # write the results of the evaluation
             Robot.move_to_write()
+            print("current l: ", Robot.robot.getl())
             Robot.draw_landmarks(face_landmarks)
-            Robot.write_results(emotion_score)
+            #Robot.write_results(emotion_score)
             # ADD: test wether to advance the paper roll
-            Robot.move_paper()
+            #Robot.move_paper()
             Robot.move_home()
 
             break
