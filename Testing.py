@@ -33,7 +33,7 @@ while True:
 #Robot = RobotMotion()
 #Robot.move_home()
 
-face_finder = FaceOperation()
+#face_finder = FaceOperation()
 lookarea_x = 0.3    # overall x- extent of the (rectangular) area in which the robot looks around
 lookarea_y = 0.3    # overall y- extent of the (rectangular) area in which the robot looks around
 '''
@@ -84,7 +84,7 @@ else:
 '''
 
 
-
+'''
 Robot = RobotMotion()
 Robot.move_home()
 position = Robot.robot.getl()
@@ -119,13 +119,23 @@ while True:
                 face_real_location[1] = (-lookarea_x / 2)
 
         Robot.move(face_real_location)
-
 '''
-face_finder = FaceOperation()
-#while True:
 
- #   face_finder.landmark_detection()
+print("lets go")
+face_finder = FaceOperation()
+time.sleep(1)
+face_finder.landmark_detection()
+face_landmarks = face_finder.landmarks
+print("face lm: ", face_landmarks)
+
 
 Robot = RobotMotion()
-Robot.move_home()
-'''
+print(Robot.robot.getl())
+#print(Robot.robot.getj())
+
+#Robot.move_home()
+Robot.move_to_write()
+Robot.draw_landmarks(face_landmarks)
+
+#[0.6000000521429313, 0.15000001308942848, 0.09000014933946439, -2.221440281881211, -2.2214404854075736, -1.74503212199567e-07]
+#[0.4223927855491638, -2.148930374776022, -1.76170522371401, -0.8017538229571741, 1.5707978010177612, 3.5639853477478027]

@@ -52,7 +52,7 @@ class FaceOperation:
 
             return face_screen_xy
 
-    def landmark_detection(self, origin = [0,0], scale = 1 / 1000):
+    def landmark_detection(self, origin = [0,0], scale = 1 / 3000):
         # detects the landmarks of the face and returns them as a list of list of coordinates
         _, frame = self.cap.read()
         gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
@@ -83,7 +83,7 @@ class FaceOperation:
 
 
             for n in range(0, 68):
-                #print(landmarks.part(n))
+                print(landmarks.part(n))
                 x = int((landmarks.part(n).x - face.left()) * face_scale)
                 y = int((landmarks.part(n).y - face.top()) * face_scale)
                 cv2.circle(frame, (x, y), 3, (100, 0, 0), -1)
@@ -117,17 +117,22 @@ class FaceOperation:
 
             feature_lines = [jawline, left_brow, right_brow, nose_ridge, nose_tip, left_eye, right_eye, lips_outer, lips_inner]
             # feature_lines is now a list of all lines to be drawn
-            #cv2.imshow("Frame", frame)
-            #cv2.waitKey(1)  # this defines how long each frame is shown
+            cv2.imshow("Frame", frame)
+            cv2.waitKey(10)  # this defines how long each frame is shown
 
             print("fl:    ", feature_lines)
             for line in feature_lines:
                 print("line no add: ", line)
             feature_lines = self.apply_zhop(feature_lines)
+            print("feature lines", feature_lines)
+            single_coords = []
+            single_coords = [item for sublist in feature_lines for item in sublist]
+            print("sc: ", single_coords)
+            self.landmarks = single_coords
 
             return feature_lines
 
-    def apply_zhop(self, list_of_lines, z_hop = 0.05):
+    def apply_zhop(self, list_of_lines, z_hop = -0.05):
 
         for line in list_of_lines:
             line.insert(0, line[0].copy())

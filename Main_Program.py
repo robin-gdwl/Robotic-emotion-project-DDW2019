@@ -73,6 +73,8 @@ while True:  # This is the actual process: lookaround then face tracking if a fa
             Robot.move_to_write()
             Robot.draw_landmarks(face_landmarks)
             Robot.write_results(emotion_score)
+            # ADD: test wether to advance the paper roll
+            Robot.move_paper()
             Robot.move_home()
 
             break
