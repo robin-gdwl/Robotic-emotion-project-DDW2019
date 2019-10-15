@@ -60,7 +60,7 @@ class ThingToWrite:
 
     def letter_to_coordinates(self, letter, origin):
         # gets a letter, translates the coordinates to the new origin, adds a z hop at beginning and end of each line
-        letter_coords = self.alphabet[letter]
+        letter_coords = self.alphabet[letter].copy()
         x_offset = origin[0]
         y_offset = origin[1]
         letter_coord_list = []
@@ -79,14 +79,15 @@ class ThingToWrite:
                     print("hop_point start: ", hop_point)
                     letter_coord_list.append(hop_point.copy())
 
-                point[0] = point[0] * self.scale + x_offset
-                point[1] = point[1] * self.scale + y_offset
-                point.append(0)
-                print("point", point)
-                letter_coord_list.append(point.copy())
+                scaled_offset_point = [0, 0, 0]
+                scaled_offset_point[0] = point[0] * self.scale + x_offset
+                scaled_offset_point[1] = point[1] * self.scale + y_offset
+
+                print("point", scaled_offset_point)
+                letter_coord_list.append(scaled_offset_point)
 
                 if i == line_length:
-                    hop_point = point.copy()
+                    hop_point = scaled_offset_point.copy()
                     hop_point[2] = self.z_hop
                     print("hop_point end: ", hop_point)
                     letter_coord_list.append(hop_point)

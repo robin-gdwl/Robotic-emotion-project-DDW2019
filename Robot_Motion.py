@@ -75,7 +75,6 @@ class RobotMotion:
         return None
 
     def write_results(self, results):
-        # FIXME: there is a bug where this doesnt work with any strings containing the same letter twice
 
         result_as_coords = []  # python y u no work? this seems unecessary but i cant get it to work otherwise
 

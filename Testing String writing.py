@@ -10,7 +10,7 @@ Robot = RobotMotion()
 Robot.move_to_write()
 print("current l: ", Robot.robot.getl())
 #Robot.draw_landmarks(face_landmarks)
-emotions = ["20% unk nown", "40% unknowm 2", "40% unknown 3"]
+emotions = ["--", "hallo leute ihr seid cool", "33% happy", "45% surprisedd"]
 print(emotions)
 for emotion in emotions:
     emotion_coords = ThingToWrite(emotion).string_to_coordinates() # add origin here
