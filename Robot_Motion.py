@@ -12,9 +12,10 @@ class RobotMotion:
 
     def __init__(self):
         #alternate IP: "192.168.178.22"
-        self.IP = "172.23.4.26"
-        self.a = 10
-        self.v = 1
+        #self.IP = "172.23.4.26"
+        self.IP = "192.168.178.22"
+        self.a = 0.3
+        self.v = 0.4
         #self.csys_look = []  # not yet used anywhere
         #self.csys_write = []  # not yet used anywhere
         self.robot = None
@@ -35,7 +36,9 @@ class RobotMotion:
 
 
     def move_home(self):
-        self.robot.movej((1.841301679611206, -1.6310561339007776, -1.7878111044513147, 0.28027474880218506, 1.30446195602417, 0), self.a, self.v)
+        # self.robot.movej((1.841301679611206, -1.6310561339007776, -1.7878111044513147, 0.28027474880218506, 1.30446195602417, 0), self.a, self.v)
+        self.robot.movej((-0.028123203908101857, -1.1558621565448206, -1.9442971388446253, -0.012953106557027638, 1.5486491918563843, 0.011556537821888924), self.a, self.v)
+
         print("Robot moved to home position.")
         self.robot.csys = m3d.Transform() # reset csys otherwise weird things happen.
         home_csys = self.robot.get_pose()
@@ -55,13 +58,7 @@ class RobotMotion:
 
     def move_to_write(self):
 
-        #self.robot.movej(
-        #    (0.4223927855491638, -2.148930374776022, -1.76170522371401, -0.8017538229571741, 1.5707978010177612, 3.5639853477478027),
-        #    self.a, self.v)
-
-        self.robot.movej(
-            (1.5707963268, -2.097018543873922, -1.7439802328692835, -0.8702052275287073, 1.5746145248413086,.5161566734313965),
-            self.a, self.v)
+        self.robot.movej((-1.188862148915426, -1.9500582853900355, -1.8263033072101038, -0.9351370970355433, 1.5643458366394043, 0.37276408076286316), self.a, self.v)
 
         # if movel should be used csys has to be reset to base before move
         # #self.robot.movel((0.6000000521429313, 0.15000001308942848, 0.09000014933946439, -2.221440281881211, -2.2214404854075736, -1.74503212199567e-07), self.a, self.v)

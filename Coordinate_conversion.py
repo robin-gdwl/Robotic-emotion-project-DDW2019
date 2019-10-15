@@ -36,7 +36,7 @@ class Coord:
 
         new_coordinates.append(0)  # adds a third coordinate to the list for the Z-value
 
-        z_factor = 0.2  # defines how far the robot goes in Z doring the look moves
+        z_factor = 0.1  # defines how far the robot goes in Z during the look moves
         xy_offset = sqrt(new_coordinates[0] ** 2 + new_coordinates[1] ** 2)
         # print("xy offset: ", xy_offset)
         overall_dia = sqrt(self.x_area ** 2 + self.y_area ** 2)

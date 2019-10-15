@@ -29,7 +29,7 @@ while True:  # This is the actual process: lookaround then face tracking if a fa
         full_coords = coordinates.convert_robot_coords()  # converts the object to a full 6D coordinate
         Robot.move(full_coords)  # move the robot to the random coordinates with the correct z and rotation
 
-    watch_time = time.time() + 5
+    watch_time = time.time() + 4
 
     # TODO: implement inverse kinematics and use a speedl or servoc
     while True:
@@ -89,6 +89,7 @@ while True:  # This is the actual process: lookaround then face tracking if a fa
             # write the results of the evaluation
 
             Robot.move_to_write()
+            # Robot.move_home()
             print("current l: ", Robot.robot.getl())
             Robot.draw_landmarks(face_landmarks)
             emotions = face_finder.detect_emotion()

@@ -15,7 +15,7 @@ class FaceOperation:
         self.emotion = []
         self.detector = dlib.get_frontal_face_detector()
         self.predictor = dlib.shape_predictor("shape_predictor_68_face_landmarks.dat")
-        self.cap = cv2.VideoCapture(0)
+        self.cap = cv2.VideoCapture(1)
         self.screen_width = self.cap.get(3)   # x- extent of the captured frame
         self.screen_height = self.cap.get(4)  # y- extent
         self.face_loc = []
