@@ -1,5 +1,6 @@
 import time
 import random
+import numpy as np
 from Robot_Motion import RobotMotion
 from Coordinate_conversion import Coord, RobotCoord, ScreenCoord
 from Face_Detection_Operations import FaceOperation # not yet written
@@ -10,9 +11,13 @@ Robot = RobotMotion()
 face_finder = FaceOperation()
 lookarea_x = 0.4    # overall x- extent of the (rectangular) area in which the robot looks around
 lookarea_y = 0.4    # overall y- extent of the (rectangular) area in which the robot looks around
-
+position = 0
+draw_origin = [0,0]
+origin_offset = [0.01, 0.01]
+line_spacing = 0.01
 
 Robot.move_home()
+
 
 while True:  # This is the actual process: lookaround then face tracking if a face is found and lastly write and draw
     while face_finder.findface() == False:
@@ -31,9 +36,9 @@ while True:  # This is the actual process: lookaround then face tracking if a fa
         # this loop is used to track the face. If no face is detected the loop breaks and the robot looks around instead (see above)
         # if a face is detected it is tracked and after a time its analysed and recorded
 
-        if face_finder.findface() == True:
+        if face_finder.facelocation() == True:
 
-            list_facepos = face_finder.facelocation()
+            list_facepos = face_finder.face_loc
             print("list face pos: ", list_facepos)
             robot_pos = Robot.robot.getl()
             screensize = [face_finder.screen_width, face_finder.screen_height]
@@ -66,7 +71,14 @@ while True:  # This is the actual process: lookaround then face tracking if a fa
             continue
 
         else:  # if the watch_time has passed the actual face evaluation begins
-            face_finder.landmark_detection()
+            if position == 0:
+                draw_origin = [0.001, 0.001]
+            elif position == 1:
+                draw_origin = [0.1, 0.001]
+            else:
+                draw_origin = [0.3, 0.001]
+
+            face_finder.landmark_detection(draw_origin)
             face_landmarks = face_finder.landmarks  # should be a list of list of coordinates
             face_finder.detect_emotion()
             emotion_score = face_finder.emotion  # list of strings with top 3 emotions
@@ -75,16 +87,26 @@ while True:  # This is the actual process: lookaround then face tracking if a fa
                 converted_string = string.string_to_coordinates()
 
             # write the results of the evaluation
+
             Robot.move_to_write()
             print("current l: ", Robot.robot.getl())
             Robot.draw_landmarks(face_landmarks)
             emotions = face_finder.detect_emotion()
             print(emotions)
+
+            draw_origin[0] += origin_offset[0]
+            draw_origin[1] += origin_offset[1]
+
             for emotion in emotions:
-                emotion_coords = ThingToWrite(emotion).string_to_coordinates() # add origin here
+                emotion_coords = ThingToWrite(emotion).string_to_coordinates(draw_origin) # add origin here
                 Robot.write_results(emotion_coords)
-            # ADD: test wether to advance the paper roll
-            #Robot.move_paper()
+                draw_origin[1] += line_spacing
+
+            if position == 2:
+                position = 0
+                Robot.move_paper()
+            else:
+                position += 1
             Robot.move_home()
 
             break

@@ -18,7 +18,7 @@ class FaceOperation:
         self.cap = cv2.VideoCapture(0)
         self.screen_width = self.cap.get(3)   # x- extent of the captured frame
         self.screen_height = self.cap.get(4)  # y- extent
-
+        self.face_loc = []
 
     def findface(self):
         # returns boolean weather or not a face is found
@@ -49,8 +49,11 @@ class FaceOperation:
             face_x = face_pos.x
             face_y = face_pos.y
             face_screen_xy = [face_pos.x, face_pos.y]
+            self.face_loc = face_screen_xy
 
-            return face_screen_xy
+            return True
+        else:
+            return False
 
     def landmark_detection(self, origin = [0,0], scale = 1 / 3000):
         # detects the landmarks of the face and returns them as a list of list of coordinates
