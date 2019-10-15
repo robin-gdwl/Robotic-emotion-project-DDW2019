@@ -12,9 +12,9 @@ class RobotMotion:
 
     def __init__(self):
         #self.robot = urx.Robot("192.168.178.22")
-        self.robot = urx.Robot("192.168.178.22")
-        self.a = 0.3
-        self.v = 0.6
+        self.robot = urx.Robot("172.23.4.26")
+        self.a = 10
+        self.v = 3
         #self.csys_look = []  # not yet used anywhere
         #self.csys_write = []  # not yet used anywhere
         print("robot initiated")
@@ -74,13 +74,22 @@ class RobotMotion:
 
         return None
 
-    def write_results(self, results= [["unknown1",0],["unknown2",0],["unknown3",0]]):
+    def write_results(self, results):
+        # FIXME: there is a bug where this doesnt work with any strings containing the same letter twice
 
-        for result in results:
-            percentage = result[1]
-            emotion = result[0]
-            print(f"{percentage} % {emotion}")
-            return None
+        result_as_coords = []  # python y u no work? this seems unecessary but i cant get it to work otherwise
+
+        for coord in results:
+            coord = coord.copy()
+            coord.extend([0, 0, 0])
+            print("coord: ", coord)
+            result_as_coords.append(coord.copy())
+        time.sleep(1)
+
+        print("results as coordinate list: ", result_as_coords)
+        self.robot.movels(result_as_coords, self.a, self.v, 0.00015)
+
+
 
     def move_paper(self):
         return None

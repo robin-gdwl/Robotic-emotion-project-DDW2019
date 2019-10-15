@@ -157,6 +157,8 @@ class FaceOperation:
         return list_of_lines
 
     def detect_emotion(self):
+        results = ["20% unknown", "40% unknown 2", "40% unknown 3"]
+        return results
         # detects the emotion and returns a list of three strings: ["most common emotion: 20%", ....]
 
 

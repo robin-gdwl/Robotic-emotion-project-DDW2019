@@ -132,7 +132,6 @@ print("face lm: ", face_landmarks)
 Robot = RobotMotion()
 #print(Robot.robot.getl())
 print(Robot.robot.getj())
-
 #Robot.move_home()
 Robot.move_to_write()
 Robot.draw_landmarks(face_landmarks)

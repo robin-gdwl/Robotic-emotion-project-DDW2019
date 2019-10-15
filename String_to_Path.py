@@ -3,7 +3,7 @@
 
 class ThingToWrite:
 
-    def __init__(self,string, z_hop = 0.01):
+    def __init__(self,string, z_hop = -0.01):
         self.string = string
         self.alphabet =  {
     "a": [[[0.719512, -0.932927], [0.719512, -0.594512], [0.416159, -0.314024], [0.106707, -0.631098], [0.416159, -0.95122], [0.530488, -0.922256]]],
@@ -55,10 +55,12 @@ class ThingToWrite:
     "_": [[[0.695122, -1.152439], [0.067073, -1.152439]]]
 }  # Dictionary of every letter+ Number with a list of coordinate lists- {a : [ [0,1], [1,1], ...] }
         self.z_hop = z_hop # defines how far the pen retracts after each line
+        self.scale = 1 / 700
+
 
     def letter_to_coordinates(self, letter, origin):
         # gets a letter, translates the coordinates to the new origin, adds a z hop at beginning and end of each line
-        letter_coords = alphabet[letter]
+        letter_coords = self.alphabet[letter]
         x_offset = origin[0]
         y_offset = origin[1]
         letter_coord_list = []
@@ -68,25 +70,25 @@ class ThingToWrite:
             line_length = len(line) - 1
 
             for point in line:
-                print(i)
+                #print("i: ", i)
                 if i == 0:
                     hop_point = [0, 0, 0]
-                    hop_point[0] = point[0] + x_offset
-                    hop_point[1] = point[1] + y_offset
+                    hop_point[0] = point[0] * self.scale + x_offset
+                    hop_point[1] = point[1] * self.scale + y_offset
                     hop_point[2] = (self.z_hop)
-                    print(hop_point)
-                    letter_coord_list.append(hop_point)
+                    print("hop_point start: ", hop_point)
+                    letter_coord_list.append(hop_point.copy())
 
-                point[0] = point[0] + x_offset
-                point[1] = point[1] + y_offset
+                point[0] = point[0] * self.scale + x_offset
+                point[1] = point[1] * self.scale + y_offset
                 point.append(0)
-                print(point)
-                letter_coord_list.append(point)
+                print("point", point)
+                letter_coord_list.append(point.copy())
 
                 if i == line_length:
-                    hop_point = point
+                    hop_point = point.copy()
                     hop_point[2] = self.z_hop
-                    print(hop_point)
+                    print("hop_point end: ", hop_point)
                     letter_coord_list.append(hop_point)
                 i +=1
 
@@ -98,7 +100,7 @@ class ThingToWrite:
     # returns a list of coordinates (x,y,z) which trace the string in space
     def string_to_coordinates(self,origin=[0,0]):
         motion_path = []
-        offset_amount = 0.1
+        offset_amount = 0.005
         text = self.string.split() # splits the string at each space
         print("text: ", text)
         print(origin)
@@ -108,7 +110,8 @@ class ThingToWrite:
 
         for fragment in text:
             for letter in fragment:
-                motion_path.extend(self.letter_to_coordinates(letter,[x_offset, y_offset]))
+                print("letter:", letter)
+                motion_path.extend(self.letter_to_coordinates(letter,[x_offset, y_offset]).copy())
                 x_offset += offset_amount
                 print("x_offset", x_offset)
 

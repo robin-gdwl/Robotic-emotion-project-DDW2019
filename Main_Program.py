@@ -78,7 +78,11 @@ while True:  # This is the actual process: lookaround then face tracking if a fa
             Robot.move_to_write()
             print("current l: ", Robot.robot.getl())
             Robot.draw_landmarks(face_landmarks)
-            #Robot.write_results(emotion_score)
+            emotions = face_finder.detect_emotion()
+            print(emotions)
+            for emotion in emotions:
+                emotion_coords = ThingToWrite(emotion).string_to_coordinates() # add origin here
+                Robot.write_results(emotion_coords)
             # ADD: test wether to advance the paper roll
             #Robot.move_paper()
             Robot.move_home()
