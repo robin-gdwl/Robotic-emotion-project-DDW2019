@@ -1,13 +1,23 @@
 import dlib
 import cv2
-import tensorflow as tf
 import time
+import imutils
+from keras.preprocessing.image import img_to_array
+from keras.models import load_model
+import numpy as np
+
+# parameters for loading data and images
+detection_model_path = 'haarcascade_files/haarcascade_frontalface_default.xml'
+emotion_model_path = 'models/_mini_XCEPTION.102-0.66.hdf5'
+
+# hyper-parameters for bounding boxes shape
+# loading models
+face_detection = cv2.CascadeClassifier(detection_model_path)
+emotion_classifier = load_model(emotion_model_path, compile=False)
+EMOTIONS = ["angry" ,"disgust","scared", "happy", "sad", "surprised",
+ "neutral"]
 
 class FaceOperation:
-
-    # there is no visualisation of this process yet
-    # the camera activates but all image processing is done in the background
-    # preview with cv2.imshow("Frame", frame)
 
     def __init__(self):
 
@@ -162,12 +172,59 @@ class FaceOperation:
             #line.insert(0, line[0])
             #line.append(line[-1])
 
-        time.sleep(4)
+        time.sleep(0.1)
         return list_of_lines
 
     def detect_emotion(self):
-        results = ["20% unknown", "40% unknown 2", "40% unknown 3"]
-        return results
+        timer = time.time()
+        print("emotion detection:")
+        _, frame = self.cap.read()
+        gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
+        frame = imutils.resize(frame, width=300)
+        faces = face_detection.detectMultiScale(gray, scaleFactor=1.1, minNeighbors=5, minSize=(30, 30),
+                                                flags=cv2.CASCADE_SCALE_IMAGE)
+        print("initialised in:", time.time()-timer)
+
+        time.sleep(0.1)
+        i = 0
+        if len(faces) > 0:
+            faces = sorted(faces, reverse=True,
+                           key=lambda x: (x[2] - x[0]) * (x[3] - x[1]))[0]
+            (fX, fY, fW, fH) = faces
+            # Extract the ROI of the face from the grayscale image, resize it to a fixed 28x28 pixels, and then prepare
+            # the ROI for classification via the CNN
+            roi = gray[fY:fY + fH, fX:fX + fW]
+            roi = cv2.resize(roi, (64, 64))
+            roi = roi.astype("float") / 255.0
+            roi = img_to_array(roi)
+            roi = np.expand_dims(roi, axis=0)
+
+            preds = emotion_classifier.predict(roi)[0]
+            emotion_probability = np.max(preds)
+            emotion_list = EMOTIONS
+            label = emotion_list[preds.argmax()]
+
+            srtd_lst = np.argsort(preds)
+
+            emotion_results = []
+            for n in range(1,4):
+                emotion = EMOTIONS[srtd_lst[-n]]
+                prob = preds[srtd_lst[-n]] * 100
+                text = "{}: {:.2f}%".format(emotion, prob)
+                print(text)
+                emotion_results.append(text)
+            print(emotion_results)
+
+            return emotion_results
+
+        elif i<10:
+            self.detect_emotion()
+            i += 1
+        else:
+            person_emo = ["Error", "no emotion evaluated"]
+            return person emo
+
+        return emotion_results
         # detects the emotion and returns a list of three strings: ["most common emotion: 20%", ....]
 
 
