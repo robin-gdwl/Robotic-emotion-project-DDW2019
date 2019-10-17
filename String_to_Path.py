@@ -63,6 +63,7 @@ class ThingToWrite:
                     print("old coordinate:    ", coordinate)
                     coordinate[1] *= -1
                     print("okay is this it? : ", coordinate)
+        print(self.alphabet)
 
 
     def letter_to_coordinates(self, letter, origin):
