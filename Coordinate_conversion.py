@@ -3,7 +3,6 @@ from math import pi, sqrt
 class Coord:
     # !: remember that the urx uses meters as units.
         # scaling needs to take place when converting between screen and robot coordinates
-        # TODO: implement smart scaling process that is easy to calibrate
 
     # This class is initiated by an x and y- value as well as the x and y size of the robot look area
     # It is the superclass for ScreenCoord and RobotCoord
@@ -59,7 +58,7 @@ class ScreenCoord(Coord):
         super().__init__( x, y, x_area, y_area)
         self.xy_pos = robot_position[0: 2]
         self.screen_dimensions = screen_dimensions
-        self.size_calibration = 1 / 3000
+        self.size_calibration = 1 / 5000
 
     def newXY(self):
         # convert the x,y coordinates from the screen coordinate system to the robot coordinate system
