@@ -1,5 +1,6 @@
 # Dictionary of every letter+ Number with a list of coordinate lists- {a : [ [0,1], [1,1], ...] }
 
+# TODO: Letters are upside down, fix that.
 
 class ThingToWrite:
 
@@ -55,7 +56,13 @@ class ThingToWrite:
     "_": [[[0.695122, -1.152439], [0.067073, -1.152439]]]
 }  # Dictionary of every letter+ Number with a list of coordinate lists- {a : [ [0,1], [1,1], ...] }
         self.z_hop = z_hop # defines how far the pen retracts after each line
-        self.scale = 1 / 700
+        self.scale = 1 / 100
+        for letter in self.alphabet.values():
+            for line in letter:
+                for coordinate in line:
+                    print("old coordinate:    ", coordinate)
+                    coordinate[1] *= -1
+                    print("okay is this it? : ", coordinate)
 
 
     def letter_to_coordinates(self, letter, origin):
@@ -101,7 +108,7 @@ class ThingToWrite:
     # returns a list of coordinates (x,y,z) which trace the string in space
     def string_to_coordinates(self,origin=[0,0]):
         motion_path = []
-        offset_amount = 0.005
+        offset_amount = 0.01
         text = self.string.split() # splits the string at each space
         print("text: ", text)
         print(origin)

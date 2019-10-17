@@ -15,7 +15,7 @@ class FaceOperation:
         self.emotion = []
         self.detector = dlib.get_frontal_face_detector()
         self.predictor = dlib.shape_predictor("shape_predictor_68_face_landmarks.dat")
-        self.cap = cv2.VideoCapture(1)
+        self.cap = cv2.VideoCapture(0)
         self.screen_width = self.cap.get(3)   # x- extent of the captured frame
         self.screen_height = self.cap.get(4)  # y- extent
         self.face_loc = []
@@ -24,6 +24,9 @@ class FaceOperation:
         # returns boolean weather or not a face is found
         _, frame = self.cap.read()
         gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
+
+        cv2.imshow("Frame", frame)
+        cv2.waitKey(10)  # this defines how long each frame is shown
 
         faces = self.detector(gray)
         if len(faces) >= 1:
@@ -41,6 +44,9 @@ class FaceOperation:
         gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
 
         faces = self.detector(gray)
+        cv2.imshow("Frame", frame)
+        cv2.waitKey(10)  # this defines how long each frame is shown
+
         if len(faces) >= 1:
             face_to_eval = faces[0]
             print(face_to_eval)

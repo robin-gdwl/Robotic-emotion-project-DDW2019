@@ -13,7 +13,7 @@ lookarea_x = 0.4    # overall x- extent of the (rectangular) area in which the r
 lookarea_y = 0.4    # overall y- extent of the (rectangular) area in which the robot looks around
 position = 0
 draw_origin = [0,0]
-origin_offset = [0.01, 0.01]
+origin_offset = [0.07, 0.03]
 line_spacing = 0.01
 
 Robot.move_home()
@@ -72,9 +72,9 @@ while True:  # This is the actual process: lookaround then face tracking if a fa
 
         else:  # if the watch_time has passed the actual face evaluation begins
             if position == 0:
-                draw_origin = [0.001, 0.001]
+                draw_origin = [0.01, 0.07]
             elif position == 1:
-                draw_origin = [0.1, 0.001]
+                draw_origin = [0.01, 0.001]
             else:
                 draw_origin = [0.3, 0.001]
 

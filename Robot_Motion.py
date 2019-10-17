@@ -13,9 +13,9 @@ class RobotMotion:
     def __init__(self):
         #alternate IP: "192.168.178.22"
         #self.IP = "172.23.4.26"
-        self.IP = "192.168.178.22"
-        self.a = 0.3
-        self.v = 0.4
+        self.IP = "192.168.178.20"
+        self.a = 0.2
+        self.v = 0.2
         #self.csys_look = []  # not yet used anywhere
         #self.csys_write = []  # not yet used anywhere
         self.robot = None
@@ -36,8 +36,11 @@ class RobotMotion:
 
 
     def move_home(self):
+        self.move_between()
         # self.robot.movej((1.841301679611206, -1.6310561339007776, -1.7878111044513147, 0.28027474880218506, 1.30446195602417, 0), self.a, self.v)
-        self.robot.movej((-0.028123203908101857, -1.1558621565448206, -1.9442971388446253, -0.012953106557027638, 1.5486491918563843, 0.011556537821888924), self.a, self.v)
+        #self.robot.movej((-0.028123203908101857, -1.1558621565448206, -1.9442971388446253, -0.012953106557027638, 1.5486491918563843, 0.011556537821888924), self.a, self.v)
+        self.robot.movej((1.7691065073013306, -1.0238812605487269, -2.190423313771383, 0.09588956832885742, 1.3761399984359741, 0.052045244723558426), self.a, self.v)
+
 
         print("Robot moved to home position.")
         self.robot.csys = m3d.Transform() # reset csys otherwise weird things happen.
@@ -56,10 +59,16 @@ class RobotMotion:
 
         return None
 
+    def move_between(self):
+        self.robot.movej((0.5004713535308838, -0.884106461201803, -1.5667465368853968, -0.792891804371969, 1.5332516431808472, 0.1559387445449829), self.a, self.v)
+
+
     def move_to_write(self):
 
-        self.robot.movej((-1.188862148915426, -1.9500582853900355, -1.8263033072101038, -0.9351370970355433, 1.5643458366394043, 0.37276408076286316), self.a, self.v)
+        self.move_between()
 
+        # über dem papier 01 self.robot.movej((-1.186561409627096, -1.9445274511920374, -1.7661479155169886, -1.006078068410055, 1.5503629446029663, 0.3756316900253296), self.a, self.v)
+        self.robot.movej((-1.2749927679644983, -1.9379289785968226, -2.09098464647402, -0.6840408484088343, 1.5629680156707764, 0.28495118021965027), self.a, self.v)
         # if movel should be used csys has to be reset to base before move
         # #self.robot.movel((0.6000000521429313, 0.15000001308942848, 0.09000014933946439, -2.221440281881211, -2.2214404854075736, -1.74503212199567e-07), self.a, self.v)
 
@@ -100,4 +109,17 @@ class RobotMotion:
 
 
     def move_paper(self):
+        self.robot.set_csys(m3d.Transform())  # reset csys otherwise weird things happen...
+        self.robot.movel((0.013, -0.553, 0.1980, 0.0, -3.14, 0), self.a, self.v)
+        self.robot.movel((0.013, -0.553, 0.0640, 0.0, -3.14, 0), self.a, self.v)
+        self.robot.movel((-0.113, -0.553, 0.0640, 0.0, -3.14, 0), self.a, self.v)
+        self.robot.movel((-0.113, -0.553, 0.1980, 0.0, -3.14, 0), self.a, self.v)
+        '''self.robot.movels([(0.009, -0.578, 0.280, 0.794, -3.14, 0),
+                           (0.009, -0.578, 0.080, 0.794, -3.14, 0),
+                           (-0.1, -0.578, 0.080, 0.794, -3.14, 0),
+                           (-0.1, -0.578, 0.280, 0.794, -3.14, 0)
+                           ],self.a, self.v)
+                           '''
+        print("paper moved ")
+
         return None
