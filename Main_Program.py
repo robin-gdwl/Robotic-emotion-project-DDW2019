@@ -12,6 +12,7 @@ from String_to_Path import ThingToWrite
 
 Robot = RobotMotion()
 face_finder = FaceOperation()
+
 lookarea_x = 0.4    # overall x- extent of the (rectangular) area in which the robot looks around
 lookarea_y = 0.2    # overall y- extent of the (rectangular) area in which the robot looks around
 position = 0
@@ -32,6 +33,7 @@ while True:
     if exhibit_start_hr < curr_time < exhibit_end_hr:
 
         while True:  # This is the actual process: lookaround then face tracking if a face is found and lastly write and draw
+            face_finder.getframe()  # take image with pi camera
             while face_finder.findface() == False:
                 print("No one around. Maybe over here? ")
                 # Generate a random xy-coordinate in the robot look area:
@@ -40,6 +42,7 @@ while True:
                 coordinates = RobotCoord(look_x, look_y, lookarea_x, lookarea_y) # creates a RobotCoords object with the random xy coordinates
                 full_coords = coordinates.convert_robot_coords()  # converts the object to a full 6D coordinate
                 Robot.move(full_coords)  # move the robot to the random coordinates with the correct z and rotation
+                face_finder.getframe()  # take new image after moving
 
             watch_time = time.time() + 4
 
@@ -80,6 +83,7 @@ while True:
 
                 if time.time() < watch_time:  # only start writing after looking at a face for a certain time
                     Robot.move(face_real_location)
+                    face_finder.getframe()
                     continue
 
                 else:  # if the watch_time has passed the actual face evaluation begins

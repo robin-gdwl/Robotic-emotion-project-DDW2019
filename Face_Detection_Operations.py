@@ -1,3 +1,4 @@
+
 import dlib
 import cv2
 import time
@@ -37,10 +38,12 @@ class FaceOperation:
         self.frame = None
 
     def getframe(self):
+        timer = time.time()
         self.camera.capture(self.rawCapture, format="bgr")
         image = self.rawCapture.array
         self.frame = image
         self.rawCapture.truncate(0)
+        print("image taken in", timer - time.time())
         return image
 
     def findface(self):
@@ -48,10 +51,11 @@ class FaceOperation:
         frame = self.frame
         gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
 
-        #cv2.imshow("Frame", frame)
-        #cv2.waitKey(10)  # this defines how long each frame is shown
+        cv2.imshow("Frame", frame)
+        cv2.waitKey(10)  # this defines how long each frame is shown
 
         faces = self.detector(gray)
+
         if len(faces) >= 1:
             return True
         else:
@@ -63,7 +67,7 @@ class FaceOperation:
         # returns location (x,y) of the face if one is detected
         # TODO: combine this with findface() to not do the same operations twice
 
-        frame = self.getframe()
+        frame = self.frame
         gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
 
         faces = self.detector(gray)
@@ -86,7 +90,7 @@ class FaceOperation:
 
     def landmark_detection(self, origin = [0,0], scale = 1 / 3000):
         # detects the landmarks of the face and returns them as a list of list of coordinates
-        frame = self.getframe()
+        frame = self.frame
         gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
 
 
@@ -189,6 +193,7 @@ class FaceOperation:
         return list_of_lines
 
     def detect_emotion(self):
+
         timer = time.time()
         print("emotion detection:")
         frame = self.getframe()
