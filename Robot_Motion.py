@@ -110,11 +110,17 @@ class RobotMotion:
 
 
     def move_paper(self):
+        drag_dist = 0.1
+        plunge_dist = 0.134
+
+        print("moving paper")
+
         self.robot.set_csys(m3d.Transform())  # reset csys otherwise weird things happen...
-        self.robot.movel((0.013, -0.548, 0.1980, 0.0, -3.14, 0), self.a, self.v)
-        self.robot.movel((0.013, -0.548, 0.0640, 0.0, -3.14, 0), self.a, self.v)
-        self.robot.movel((-0.113, -0.548, 0.0640, 0.0, -3.14, 0), self.a, self.v)
-        self.robot.movel((-0.113, -0.548, 0.1980, 0.0, -3.14, 0), self.a, self.v)
+        self.robot.movel((0.013,       -0.548,        0.1980, 0.0, -3.14, 0), self.a, self.v)
+        self.robot.movel((0.0,            0.0, - plunge_dist, 0.0, -3.14, 0), self.a, self.v, relative=True)
+        self.robot.movel((- drag_dist,    0.0,           0.0, 0.0, -3.14, 0), self.a, self.v, relative=True)
+        self.robot.movel((0.0,            0.0,   plunge_dist, 0.0, -3.14, 0), self.a, self.v, relative=True)
+
         '''self.robot.movels([(0.009, -0.578, 0.280, 0.794, -3.14, 0),
                            (0.009, -0.578, 0.080, 0.794, -3.14, 0),
                            (-0.1, -0.578, 0.080, 0.794, -3.14, 0),
@@ -124,3 +130,12 @@ class RobotMotion:
         print("paper moved ")
 
         return None
+
+    def pause(self):
+        # get current Position
+        # if position = rest position:
+            # do nothing
+        # else:
+            # go to rest position via highpoint
+        return None
+

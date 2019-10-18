@@ -34,16 +34,18 @@ class FaceOperation:
         self.camera = picamera.PiCamera()
         self.camera.resolution = (800, 800)
         self.rawCapture = PiRGBArray(self.camera)
+        self.frame = None
 
     def getframe(self):
         self.camera.capture(self.rawCapture, format="bgr")
         image = self.rawCapture.array
+        self.frame = image
         self.rawCapture.truncate(0)
         return image
 
     def findface(self):
         # returns boolean weather or not a face is found
-        frame = self.getframe()
+        frame = self.frame
         gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
 
         #cv2.imshow("Frame", frame)
@@ -95,7 +97,7 @@ class FaceOperation:
             landmarks = self.predictor(gray, face)
             landmark_points = []
             face_scale = 1  # this will be used to scale each face to a similar size
-            face_target_size = 200
+            face_target_size = 185
 
             x1 = face.left()
             y1 = face.top()

@@ -135,7 +135,7 @@ class ThingToWrite:
     # returns a list of coordinates (x,y,z) which trace the string in space
     def string_to_coordinates(self,origin=[0,0]):
         motion_path = []
-        offset_amount = 0.004
+        offset_amount = 0.006
         text = self.string.split() # splits the string at each space
         print("text: ", text)
         print(origin)
