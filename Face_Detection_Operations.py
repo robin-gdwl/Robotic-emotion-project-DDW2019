@@ -189,7 +189,7 @@ class FaceOperation:
     def detect_emotion(self):
         timer = time.time()
         print("emotion detection:")
-        _, frame = self.cap.read()
+        frame = self.getframe()
         gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
         frame = imutils.resize(frame, width=300)
         faces = face_detection.detectMultiScale(gray, scaleFactor=1.1, minNeighbors=5, minSize=(30, 30),
