@@ -29,6 +29,7 @@ class RobotMotion:
             self.robot = urx.Robot(self.IP)
         except:
             print("retrying to connect to robot")
+            time.sleep(1)
             self.connect()
 
     def lookaround(self):
