@@ -13,9 +13,9 @@ class RobotMotion:
     def __init__(self):
         #alternate IP: "192.168.178.22"
         #self.IP = "172.23.4.26"
-        self.IP = "10.210.155.126"
-        self.a = 0.5
-        self.v = 1
+        self.IP = "192.168.178.20"
+        self.a = 0.2
+        self.v = 0.2
         #self.csys_look = []  # not yet used anywhere
         #self.csys_write = []  # not yet used anywhere
         self.robot = None
@@ -62,7 +62,7 @@ class RobotMotion:
 
     def move_between(self):
         self.robot.movej((0.5004713535308838, -0.884106461201803, -1.5667465368853968, -0.792891804371969, 1.5332516431808472, 0.1559387445449829), self.a, self.v)
-
+        #self.robot.movej((-1.198425594960348, -1.518754784260885, -1.8426645437823694, -0.7939837614642542, 1.5331677198410034, 0.15597468614578247), self.a, self.v)
 
     def move_to_write(self):
 
@@ -111,10 +111,10 @@ class RobotMotion:
 
     def move_paper(self):
         self.robot.set_csys(m3d.Transform())  # reset csys otherwise weird things happen...
-        self.robot.movel((0.013, -0.553, 0.1980, 0.0, -3.14, 0), self.a, self.v)
-        self.robot.movel((0.013, -0.553, 0.0640, 0.0, -3.14, 0), self.a, self.v)
-        self.robot.movel((-0.113, -0.553, 0.0640, 0.0, -3.14, 0), self.a, self.v)
-        self.robot.movel((-0.113, -0.553, 0.1980, 0.0, -3.14, 0), self.a, self.v)
+        self.robot.movel((0.013, -0.548, 0.1980, 0.0, -3.14, 0), self.a, self.v)
+        self.robot.movel((0.013, -0.548, 0.0640, 0.0, -3.14, 0), self.a, self.v)
+        self.robot.movel((-0.113, -0.548, 0.0640, 0.0, -3.14, 0), self.a, self.v)
+        self.robot.movel((-0.113, -0.548, 0.1980, 0.0, -3.14, 0), self.a, self.v)
         '''self.robot.movels([(0.009, -0.578, 0.280, 0.794, -3.14, 0),
                            (0.009, -0.578, 0.080, 0.794, -3.14, 0),
                            (-0.1, -0.578, 0.080, 0.794, -3.14, 0),

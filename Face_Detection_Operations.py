@@ -32,7 +32,7 @@ class FaceOperation:
         self.screen_height = self.cap.get(4)  # y- extent
         self.face_loc = []
         self.camera = picamera.PiCamera()
-        self.camera.resolution = (1920, 1080)
+        self.camera.resolution = (800, 800)
         self.rawCapture = PiRGBArray(self.camera)
 
     def getframe(self):
@@ -65,8 +65,8 @@ class FaceOperation:
         gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
 
         faces = self.detector(gray)
-        #cv2.imshow("Frame", frame)
-        #cv2.waitKey(10)  # this defines how long each frame is shown
+        cv2.imshow("Frame", frame)
+        cv2.waitKey(10)  # this defines how long each frame is shown
 
         if len(faces) >= 1:
             face_to_eval = faces[0]
