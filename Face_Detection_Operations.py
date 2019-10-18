@@ -33,7 +33,7 @@ class FaceOperation:
         self.face_loc = []
         self.camera = picamera.PiCamera()
         self.camera.resolution = (1920, 1080)
-        self.rawCapture = PiRGBArray(camera)
+        self.rawCapture = PiRGBArray(self.camera)
 
     def getframe(self):
         camera.capture(rawCapture, format="bgr")
