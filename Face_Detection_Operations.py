@@ -232,7 +232,7 @@ class FaceOperation:
             else:
                 i += 1
 
-        person_emo = ["Error", "no emotion evaluated"]
+        person_emo = ["-- error --", "no emotion could be evaluated", "_____"]
         return person_emo
 
 
