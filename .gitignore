@@ -1,8 +1,6 @@
 
 *.idea
 .idea/workspace.xml
-.idea/workspace.xml
-*.xml
 *.pyc
 .idea/workspace.xml
 .idea/workspace.xml
