@@ -36,7 +36,7 @@ class FaceOperation:
         self.rawCapture = PiRGBArray(self.camera)
 
     def getframe(self):
-        camera.capture(rawCapture, format="bgr")
+        self.camera.capture(rawCapture, format="bgr")
         image = rawCapture.array
         return image
 
