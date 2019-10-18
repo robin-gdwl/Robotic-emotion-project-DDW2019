@@ -235,7 +235,7 @@ class FaceOperation:
             person_emo = ["Error", "no emotion evaluated"]
             return person_emo
 
-        return emotion_results
+
         # detects the emotion and returns a list of three strings: ["most common emotion: 20%", ....]
 
 
