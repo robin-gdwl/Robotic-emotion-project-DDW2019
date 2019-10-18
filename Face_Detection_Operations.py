@@ -38,6 +38,7 @@ class FaceOperation:
     def getframe(self):
         self.camera.capture(self.rawCapture, format="bgr")
         image = self.rawCapture.array
+        self.rawCapture.truncate(0)
         return image
 
     def findface(self):
