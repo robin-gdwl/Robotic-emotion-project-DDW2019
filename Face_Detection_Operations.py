@@ -198,42 +198,42 @@ class FaceOperation:
 
         time.sleep(0.1)
         i = 0
-        if len(faces) > 0:
-            faces = sorted(faces, reverse=True,
-                           key=lambda x: (x[2] - x[0]) * (x[3] - x[1]))[0]
-            (fX, fY, fW, fH) = faces
-            # Extract the ROI of the face from the grayscale image, resize it to a fixed 28x28 pixels, and then prepare
-            # the ROI for classification via the CNN
-            roi = gray[fY:fY + fH, fX:fX + fW]
-            roi = cv2.resize(roi, (64, 64))
-            roi = roi.astype("float") / 255.0
-            roi = img_to_array(roi)
-            roi = np.expand_dims(roi, axis=0)
+        while i <= 10:
+            if len(faces) > 0:
+                faces = sorted(faces, reverse=True,
+                               key=lambda x: (x[2] - x[0]) * (x[3] - x[1]))[0]
+                (fX, fY, fW, fH) = faces
+                # Extract the ROI of the face from the grayscale image, resize it to a fixed 28x28 pixels, and then prepare
+                # the ROI for classification via the CNN
+                roi = gray[fY:fY + fH, fX:fX + fW]
+                roi = cv2.resize(roi, (64, 64))
+                roi = roi.astype("float") / 255.0
+                roi = img_to_array(roi)
+                roi = np.expand_dims(roi, axis=0)
 
-            preds = emotion_classifier.predict(roi)[0]
-            emotion_probability = np.max(preds)
-            emotion_list = EMOTIONS
-            label = emotion_list[preds.argmax()]
+                preds = emotion_classifier.predict(roi)[0]
+                emotion_probability = np.max(preds)
+                emotion_list = EMOTIONS
+                label = emotion_list[preds.argmax()]
 
-            srtd_lst = np.argsort(preds)
+                srtd_lst = np.argsort(preds)
 
-            emotion_results = []
-            for n in range(1,4):
-                emotion = EMOTIONS[srtd_lst[-n]]
-                prob = preds[srtd_lst[-n]] * 100
-                text = "{}: {:.2f}%".format(emotion, prob)
-                print(text)
-                emotion_results.append(text)
-            print(emotion_results)
+                emotion_results = []
+                for n in range(1,4):
+                    emotion = EMOTIONS[srtd_lst[-n]]
+                    prob = preds[srtd_lst[-n]] * 100
+                    text = "{}: {:.2f}%".format(emotion, prob)
+                    print(text)
+                    emotion_results.append(text)
+                print(emotion_results)
 
-            return emotion_results
+                return emotion_results
 
-        elif i<10:
-            self.detect_emotion()
-            i += 1
-        else:
-            person_emo = ["Error", "no emotion evaluated"]
-            return person_emo
+            else:
+                i += 1
+
+        person_emo = ["Error", "no emotion evaluated"]
+        return person_emo
 
 
         # detects the emotion and returns a list of three strings: ["most common emotion: 20%", ....]
