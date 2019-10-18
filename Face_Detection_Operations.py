@@ -5,7 +5,7 @@ import imutils
 from keras.preprocessing.image import img_to_array
 from keras.models import load_model
 import numpy as np
-from picamera import Picamera
+import picamera
 from picamera.array import PiRGBArray
 
 # parameters for loading data and images
@@ -31,7 +31,7 @@ class FaceOperation:
         self.screen_width = self.cap.get(3)   # x- extent of the captured frame
         self.screen_height = self.cap.get(4)  # y- extent
         self.face_loc = []
-        self.camera = PiCamera()
+        self.camera = picamera.PiCamera()
         self.camera.resolution = (1920, 1080)
         self.rawCapture = PiRGBArray(camera)
 
