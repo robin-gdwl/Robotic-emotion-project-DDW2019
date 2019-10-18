@@ -46,8 +46,8 @@ class FaceOperation:
         frame = self.getframe()
         gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
 
-        cv2.imshow("Frame", frame)
-        cv2.waitKey(10)  # this defines how long each frame is shown
+        #cv2.imshow("Frame", frame)
+        #cv2.waitKey(10)  # this defines how long each frame is shown
 
         faces = self.detector(gray)
         if len(faces) >= 1:
@@ -65,8 +65,8 @@ class FaceOperation:
         gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
 
         faces = self.detector(gray)
-        cv2.imshow("Frame", frame)
-        cv2.waitKey(10)  # this defines how long each frame is shown
+        #cv2.imshow("Frame", frame)
+        #cv2.waitKey(10)  # this defines how long each frame is shown
 
         if len(faces) >= 1:
             face_to_eval = faces[0]
