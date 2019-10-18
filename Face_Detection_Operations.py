@@ -5,6 +5,8 @@ import imutils
 from keras.preprocessing.image import img_to_array
 from keras.models import load_model
 import numpy as np
+from picamera import Picamera
+from picamera.array import PiRGBArray
 
 # parameters for loading data and images
 detection_model_path = 'haarcascade_files/haarcascade_frontalface_default.xml'
@@ -29,10 +31,18 @@ class FaceOperation:
         self.screen_width = self.cap.get(3)   # x- extent of the captured frame
         self.screen_height = self.cap.get(4)  # y- extent
         self.face_loc = []
+        self.camera = PiCamera()
+        self.camera.resolution = (1920, 1080)
+        self.rawCapture = PiRGBArray(camera)
+
+    def getframe(self):
+        camera.capture(rawCapture, format="bgr")
+        image = rawCapture.array
+        return image
 
     def findface(self):
         # returns boolean weather or not a face is found
-        _, frame = self.cap.read()
+        frame = self.getframe()
         gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
 
         cv2.imshow("Frame", frame)
@@ -50,7 +60,7 @@ class FaceOperation:
         # returns location (x,y) of the face if one is detected
         # TODO: combine this with findface() to not do the same operations twice
 
-        _, frame = self.cap.read()
+        frame = self.getframe()
         gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
 
         faces = self.detector(gray)
@@ -73,7 +83,7 @@ class FaceOperation:
 
     def landmark_detection(self, origin = [0,0], scale = 1 / 3000):
         # detects the landmarks of the face and returns them as a list of list of coordinates
-        _, frame = self.cap.read()
+        frame = self.getframe()
         gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
 
 

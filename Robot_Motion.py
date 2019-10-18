@@ -13,7 +13,7 @@ class RobotMotion:
     def __init__(self):
         #alternate IP: "192.168.178.22"
         #self.IP = "172.23.4.26"
-        self.IP = "192.168.178.20"
+        self.IP = "10.210.155.126"
         self.a = 0.2
         self.v = 0.2
         #self.csys_look = []  # not yet used anywhere
