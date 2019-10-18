@@ -222,7 +222,7 @@ class FaceOperation:
                 for n in range(1,4):
                     emotion = EMOTIONS[srtd_lst[-n]]
                     prob = preds[srtd_lst[-n]] * 100
-                    text = "{}: {:.2f}%".format(emotion, prob)
+                    text = "{} - {:.2f}%".format(emotion, prob)
                     print(text)
                     emotion_results.append(text)
                 print(emotion_results)
