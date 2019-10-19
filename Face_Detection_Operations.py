@@ -38,8 +38,8 @@ class FaceOperation:
         #self.screen_width = self.cap.get(3)   # x- extent of the captured frame
         #self.screen_height = self.cap.get(4)  # y- extent
         self.face_loc = []
-        self.camera = picamera.PiCamera()
-        self.camera.resolution = (800, 800)
+        #self.camera = picamera.PiCamera()
+        #self.camera.resolution = (800, 800)
         self.rawCapture = PiRGBArray(self.camera)
         self.frame = None
         self.vs = VideoStream(usePiCamera=True,
@@ -58,16 +58,16 @@ class FaceOperation:
         timer = time.time()
         #self.camera.capture(self.rawCapture, format="bgr")  # capture the image
         frame = self.vs.read()
+        self.frame = frame
         cv2.imshow("capture", frame)
         cv2.waitKey(1)
 
-        image = self.rawCapture.array
-        print("image taken in", timer - time.time())
-        self.frame = image
-        self.rawCapture.truncate(0)
+        #image = self.rawCapture.array
+        print("image taken in", time.time() - timer)
+        #self.rawCapture.truncate(0)
         print("image processed in", timer - time.time())
-        print("exposure time: ", self.camera.exposure_speed)
-        return image
+        #print("exposure time: ", self.camera.exposure_speed)
+        return frame
 
     def findface(self):
         # returns boolean weather or not a face is found
@@ -88,7 +88,7 @@ class FaceOperation:
 
     def facelocation(self):
         # returns location (x,y) of the face if one is detected
-        # TODO: combine this with findface() to not do the same operations twice
+
 
         frame = self.frame
         gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
