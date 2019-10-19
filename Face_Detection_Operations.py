@@ -100,7 +100,7 @@ class FaceOperation:
 
         if len(faces) >= 1:
             face_to_eval = faces[0]
-            print(face_to_eval)
+            # print(face_to_eval)
             face_pos = face_to_eval.center()
 
             face_x = face_pos.x
@@ -266,7 +266,7 @@ class FaceOperation:
             cv2.waitKey(1000)  # this defines how long each frame is shown
 
         person_emo = ["ERROR - 0 %", "_ _ _ _ _",
-                      "Algorithmic emotion"]
+                      "Algorithmic emotion", "git.io/JeBaC"]
         return person_emo
 
 

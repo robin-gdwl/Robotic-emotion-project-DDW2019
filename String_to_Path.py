@@ -107,30 +107,30 @@ class ThingToWrite:
             line_length = len(line) - 1
 
             for point in line:
-                #print("i: ", i)
+                # print("i: ", i)
                 if i == 0:
                     hop_point = [0, 0, 0]
                     hop_point[0] = point[0] * self.scale + x_offset
                     hop_point[1] = point[1] * self.scale + y_offset
                     hop_point[2] = (self.z_hop)
-                    #print("hop_point start: ", hop_point)
+                    # print("hop_point start: ", hop_point)
                     letter_coord_list.append(hop_point.copy())
 
                 scaled_offset_point = [0, 0, 0]
                 scaled_offset_point[0] = point[0] * self.scale + x_offset
                 scaled_offset_point[1] = point[1] * self.scale + y_offset
 
-                #print("point", scaled_offset_point)
+                # print("point", scaled_offset_point)
                 letter_coord_list.append(scaled_offset_point)
 
                 if i == line_length:
                     hop_point = scaled_offset_point.copy()
                     hop_point[2] = self.z_hop
-                    #print("hop_point end: ", hop_point)
+                    # print("hop_point end: ", hop_point)
                     letter_coord_list.append(hop_point)
                 i +=1
 
-        print(letter_coord_list)
+        # print(letter_coord_list)
         return letter_coord_list
     # letter_to_coordinates("%",[2,2])
 
@@ -141,14 +141,14 @@ class ThingToWrite:
         offset_amount = 0.0039
         text = self.string.split() # splits the string at each space
         print("text: ", text)
-        print(origin)
+        # print(origin)
         x_offset = origin[0]
         y_offset = origin[1]
 
 
         for fragment in text:
             for letter in fragment:
-                print("letter:", letter)
+                # print("letter:", letter)
                 motion_path.extend(self.letter_to_coordinates(letter,[x_offset, y_offset]).copy())
                 x_offset += offset_amount
                 #print("x_offset", x_offset)

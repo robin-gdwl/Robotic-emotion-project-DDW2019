@@ -88,13 +88,13 @@ class RobotMotion:
 
     def draw_landmarks(self, landmark_coords):
         a = 0.2
-        s = 0.7
+        s = 0.8
         # print("landmark coords:",landmark_coords)
         for coord in landmark_coords:
             coord.extend([0, 0, 0])
             # print(coord)
         time.sleep(1)
-        self.robot.movels(landmark_coords, a, s, 0.0015)
+        self.robot.movels(landmark_coords, a, s, 0.00015)
 
         return None
 

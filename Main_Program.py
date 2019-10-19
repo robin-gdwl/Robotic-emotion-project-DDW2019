@@ -15,7 +15,7 @@ face_finder = FaceOperation()
 
 lookarea_x = 0.4    # overall x- extent of the (rectangular) area in which the robot looks around
 lookarea_y = 0.2    # overall y- extent of the (rectangular) area in which the robot looks around
-position = 1
+position = 3
 draw_origin = [0,0]
 origin_offset = [0.05, 0.01]
 line_spacing = 0.01
@@ -90,11 +90,11 @@ while True:
                     if position == 0:
                         draw_origin = [0.00, -0.04]
                     elif position == 1:
-                        draw_origin = [0.00, 0.01]
+                        draw_origin = [0.00, 0.015]
                     elif position == 2:
-                        draw_origin = [0.0, 0.06]
+                        draw_origin = [0.0, 0.07]
                     else:
-                        draw_origin = [0.0, 0.115]
+                        draw_origin = [0.0, 0.125]
 
                     face_finder.landmark_detection(draw_origin)
                     face_landmarks = face_finder.landmarks  # should be a list of list of coordinates

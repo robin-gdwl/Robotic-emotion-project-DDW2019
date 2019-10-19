@@ -1,14 +1,14 @@
 # Robotic-emotion-project
- Project that uses Robots and Emotion detection through neural networks for an Installation at the dutch design Week 2019
 
-Main_program.py will be the actual procedure. 
-Testing.py used to test classes and functions. 
+Project that uses Robots and Emotion detection through neural networks for an Installation at the dutch design Week 2019  
+Created by Robin Godwyll and Yang Ni 
+contact: Robin.godwyll@burg-halle.de
+
+Robot Lab Residency @burg-halle.de 
+Winter Semester 2019 / 2020
+
+Instagram: [ur.burg](instagram.com/ur.burg)
+Website: [sites.google.com/view/urburg](www.sites.google.com/view/urburg)
 
 
-Libraries:
-
-**urx**  (for robot control)  
-**dlib**  (face detection and landmark recognition)  
-**opencv (cv2)**  (use of the webcam)  
-**tensorflow**  (for emotion recognition)
 
