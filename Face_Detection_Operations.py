@@ -9,9 +9,10 @@ from keras.models import load_model
 import numpy as np
 import picamera
 from picamera.array import PiRGBArray
+from imutils.video import VideoStream
 
 # TODO: use imutils videostream instead of a single image capture!!!
-    # TODO: camera args as described here: https://github.com/jrosebr1/imutils/blob/master/imutils/video/pivideostream.py
+    # TODO: camera args as described here: https://github.com/jrosebr1/imutils/blob/master/imutils/video/videostream.py#L6
 # camera stream will work in the bg
 
 # parameters for loading data and images
@@ -37,26 +38,37 @@ class FaceOperation:
         #self.screen_width = self.cap.get(3)   # x- extent of the captured frame
         #self.screen_height = self.cap.get(4)  # y- extent
         self.face_loc = []
-        self.camera = picamera.PiCamera()
-        self.camera.resolution = (800, 800)
-        self.rawCapture = PiRGBArray(self.camera)
+        #self.camera = picamera.PiCamera()
+        #self.camera.resolution = (800, 800)
+        #self.rawCapture = PiRGBArray(self.camera)
         self.frame = None
+        self.vs = VideoStream(usePiCamera=True,
+                              resolution=(1080, 720),
+                              framerate = 16,
+                              meter_mode = "backlit",
+                              exposure_mode ="backlight",
+                              shutter_speed = 160000).start()
+        time.sleep(0.2)
 
     def getframe(self):
         # set camera options to guarantee good picture:
-        self.camera.exposure_mode = "backlight"
-        self.camera.meter_mode = "backlit"
-        self.camera.shutter_speed = 0
+        #self.camera.exposure_mode = "backlight"
+        #self.camera.meter_mode = "backlit"
+        #self.camera.shutter_speed = 0
 
         timer = time.time()
-        self.camera.capture(self.rawCapture, format="bgr")  # capture the image
-        image = self.rawCapture.array
-        print("image taken in", timer - time.time())
-        self.frame = image
-        self.rawCapture.truncate(0)
-        print("image processed in", timer - time.time())
-        print("exposure time: ", self.camera.exposure_speed)
-        return image
+        #self.camera.capture(self.rawCapture, format="bgr")  # capture the image
+        frame = self.vs.read()
+        self.frame = frame
+        cv2.imshow("Frame", frame)
+        cv2.waitKey(1)
+
+        #image = self.rawCapture.array
+        # print("image taken in", time.time() - timer)
+        #self.rawCapture.truncate(0)
+        # print("image processed in", timer - time.time())
+        #print("exposure time: ", self.camera.exposure_speed)
+        return frame
 
     def findface(self):
         # returns boolean weather or not a face is found
@@ -77,7 +89,7 @@ class FaceOperation:
 
     def facelocation(self):
         # returns location (x,y) of the face if one is detected
-        # TODO: combine this with findface() to not do the same operations twice
+
 
         frame = self.frame
         gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
@@ -88,7 +100,7 @@ class FaceOperation:
 
         if len(faces) >= 1:
             face_to_eval = faces[0]
-            print(face_to_eval)
+            # print(face_to_eval)
             face_pos = face_to_eval.center()
 
             face_x = face_pos.x
@@ -113,7 +125,7 @@ class FaceOperation:
             landmarks = self.predictor(gray, face)
             landmark_points = []
             face_scale = 1  # this will be used to scale each face to a similar size
-            face_target_size = 185
+            face_target_size = 140
 
             x1 = face.left()
             y1 = face.top()
@@ -126,12 +138,12 @@ class FaceOperation:
             face_height = face.bottom() - face.top()
             face_average = (face_width + face_height) / 2
             print("face width and height: ", face_width, " , ", face_height)
-            print("face average size: ", face_average)
+            #print("face average size: ", face_average)
             face_scale = face_target_size / face_average
 
 
             for n in range(0, 68):
-                print(landmarks.part(n))
+                # print(landmarks.part(n))
                 x = int((landmarks.part(n).x - face.left()) * face_scale)
                 y = int((landmarks.part(n).y - face.top()) * face_scale)
                 cv2.circle(frame, (x, y), 3, (100, 100, 255), -1)
@@ -157,25 +169,25 @@ class FaceOperation:
             right_eye = landmark_points[42:48]
             right_eye.append(right_eye[0].copy())
 
-            lips_outer = landmark_points[48:61]
+            lips_outer = landmark_points[48:60]
             lips_outer.append(lips_outer[0].copy())
 
-            lips_inner = landmark_points[61:68]
+            lips_inner = landmark_points[60:68]
             lips_inner.append(lips_inner[0].copy())
 
-            feature_lines = [jawline, left_brow, right_brow, nose_ridge, nose_tip, left_eye, right_eye, lips_outer, lips_inner]
+            feature_lines = [jawline, left_brow, right_brow, nose_ridge, nose_tip, left_eye, right_eye, lips_inner, lips_outer]
             # feature_lines is now a list of all lines to be drawn
             cv2.imshow("Frame", frame)
             cv2.waitKey(10)  # this defines how long each frame is shown
 
-            print("fl:    ", feature_lines)
-            for line in feature_lines:
-                print("line no add: ", line)
+            # print("fl:    ", feature_lines)
+            # for line in feature_lines:
+            #    print("line no add: ", line)
             feature_lines = self.apply_zhop(feature_lines)
-            print("feature lines", feature_lines)
+            # print("feature lines", feature_lines)
             single_coords = []
             single_coords = [item for sublist in feature_lines for item in sublist]
-            print("sc: ", single_coords)
+            # print("sc: ", single_coords)
             self.landmarks = single_coords
 
             return feature_lines
@@ -194,7 +206,7 @@ class FaceOperation:
             line[-1][2] = z_hop
 
 
-        print(list_of_lines)
+        # print(list_of_lines)
 
 
 
@@ -241,8 +253,8 @@ class FaceOperation:
                 for n in range(1,4):
                     emotion = EMOTIONS[srtd_lst[-n]]
                     prob = preds[srtd_lst[-n]] * 100
-                    text = "{} - {:.2f}%".format(emotion, prob)
-                    print(text)
+                    text = "{}-{:.0f}%".format(emotion, prob)
+                    #print(text)
                     emotion_results.append(text)
                 print(emotion_results)
 
@@ -253,7 +265,8 @@ class FaceOperation:
             cv2.imshow("Frame", frame)
             cv2.waitKey(1000)  # this defines how long each frame is shown
 
-        person_emo = ["-- error --", "no emotion could be evaluated", "_____"]
+        person_emo = ["ERROR - 0 %", "_ _ _ _ _",
+                      "Algorithmic emotion", "git.io/JeBaC"]
         return person_emo
 
 

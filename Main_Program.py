@@ -15,13 +15,13 @@ face_finder = FaceOperation()
 
 lookarea_x = 0.4    # overall x- extent of the (rectangular) area in which the robot looks around
 lookarea_y = 0.2    # overall y- extent of the (rectangular) area in which the robot looks around
-position = 0
+position = 3
 draw_origin = [0,0]
-origin_offset = [0.035, 0.01]
+origin_offset = [0.05, 0.01]
 line_spacing = 0.01
 
-exhibit_start_hr = 1
-exhibit_end_hr = 17
+exhibit_start_hr = 0
+exhibit_end_hr = 24
 
 Robot.move_home()
 
@@ -37,14 +37,14 @@ while True:
             while face_finder.findface() == False:
                 print("No one around. Maybe over here? ")
                 # Generate a random xy-coordinate in the robot look area:
-                look_x = random.uniform(- (lookarea_x/2), (lookarea_x/2))
-                look_y = random.uniform(- (lookarea_y / 2), (lookarea_y / 2))
+                look_x = random.uniform(- (lookarea_x/3), (lookarea_x/3))
+                look_y = random.uniform(- (lookarea_y / 3), (lookarea_y / 3))
                 coordinates = RobotCoord(look_x, look_y, lookarea_x, lookarea_y) # creates a RobotCoords object with the random xy coordinates
                 full_coords = coordinates.convert_robot_coords()  # converts the object to a full 6D coordinate
                 Robot.move(full_coords)  # move the robot to the random coordinates with the correct z and rotation
                 face_finder.getframe()  # take new image after moving
 
-            watch_time = time.time() + 4
+            watch_time = time.time() + 6
 
             # TODO: implement inverse kinematics and use a speedl or servoc
             while True:
@@ -56,7 +56,7 @@ while True:
                     list_facepos = face_finder.face_loc
                     print("list face pos: ", list_facepos)
                     robot_pos = Robot.robot.getl()
-                    screensize = [face_finder.screen_width, face_finder.screen_height]
+                    screensize = [1080, 720]
                     face_screen_location = ScreenCoord(list_facepos[0], list_facepos[1], lookarea_x, lookarea_y, robot_pos, screensize)
                     face_real_location = face_screen_location.convert_screen_coords()
                 else:
@@ -88,11 +88,13 @@ while True:
 
                 else:  # if the watch_time has passed the actual face evaluation begins
                     if position == 0:
-                        draw_origin = [0.00, -0.05]
+                        draw_origin = [0.00, -0.04]
                     elif position == 1:
-                        draw_origin = [0.00, 0.01]
+                        draw_origin = [0.00, 0.015]
+                    elif position == 2:
+                        draw_origin = [0.0, 0.07]
                     else:
-                        draw_origin = [0.0, 0.7]
+                        draw_origin = [0.0, 0.125]
 
                     face_finder.landmark_detection(draw_origin)
                     face_landmarks = face_finder.landmarks  # should be a list of list of coordinates
@@ -119,7 +121,7 @@ while True:
                         Robot.write_results(emotion_coords)
                         draw_origin[1] += line_spacing
 
-                    if position == 2:
+                    if position == 3:
                         position = 0
                         Robot.move_paper()  # move the paper after
                     else:
