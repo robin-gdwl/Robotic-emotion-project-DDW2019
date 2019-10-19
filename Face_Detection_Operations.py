@@ -64,9 +64,9 @@ class FaceOperation:
         cv2.waitKey(1)
 
         #image = self.rawCapture.array
-        print("image taken in", time.time() - timer)
+        # print("image taken in", time.time() - timer)
         #self.rawCapture.truncate(0)
-        print("image processed in", timer - time.time())
+        # print("image processed in", timer - time.time())
         #print("exposure time: ", self.camera.exposure_speed)
         return frame
 
@@ -206,7 +206,7 @@ class FaceOperation:
             line[-1][2] = z_hop
 
 
-        print(list_of_lines)
+        # print(list_of_lines)
 
 
 
