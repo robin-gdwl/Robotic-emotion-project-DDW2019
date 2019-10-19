@@ -1,3 +1,5 @@
+import os
+os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3'
 import dlib
 import cv2
 import time
@@ -5,6 +7,12 @@ import imutils
 from keras.preprocessing.image import img_to_array
 from keras.models import load_model
 import numpy as np
+import picamera
+from picamera.array import PiRGBArray
+
+# TODO: use imutils videostream instead of a single image capture!!!
+    # TODO: camera args as described here: https://github.com/jrosebr1/imutils/blob/master/imutils/video/pivideostream.py
+# camera stream will work in the bg
 
 # parameters for loading data and images
 detection_model_path = 'haarcascade_files/haarcascade_frontalface_default.xml'
@@ -25,20 +33,41 @@ class FaceOperation:
         self.emotion = []
         self.detector = dlib.get_frontal_face_detector()
         self.predictor = dlib.shape_predictor("shape_predictor_68_face_landmarks.dat")
-        self.cap = cv2.VideoCapture(0)
-        self.screen_width = self.cap.get(3)   # x- extent of the captured frame
-        self.screen_height = self.cap.get(4)  # y- extent
+        #self.cap = cv2.VideoCapture(0)
+        #self.screen_width = self.cap.get(3)   # x- extent of the captured frame
+        #self.screen_height = self.cap.get(4)  # y- extent
         self.face_loc = []
+        self.camera = picamera.PiCamera()
+        self.camera.resolution = (800, 800)
+        self.rawCapture = PiRGBArray(self.camera)
+        self.frame = None
+
+    def getframe(self):
+        # set camera options to guarantee good picture:
+        self.camera.exposure_mode = "backlight"
+        self.camera.meter_mode = "backlit"
+        self.camera.shutter_speed = 0
+
+        timer = time.time()
+        self.camera.capture(self.rawCapture, format="bgr")  # capture the image
+        image = self.rawCapture.array
+        print("image taken in", timer - time.time())
+        self.frame = image
+        self.rawCapture.truncate(0)
+        print("image processed in", timer - time.time())
+        print("exposure time: ", self.camera.exposure_speed)
+        return image
 
     def findface(self):
         # returns boolean weather or not a face is found
-        _, frame = self.cap.read()
+        frame = self.frame
         gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
 
         cv2.imshow("Frame", frame)
         cv2.waitKey(10)  # this defines how long each frame is shown
 
         faces = self.detector(gray)
+
         if len(faces) >= 1:
             return True
         else:
@@ -50,7 +79,7 @@ class FaceOperation:
         # returns location (x,y) of the face if one is detected
         # TODO: combine this with findface() to not do the same operations twice
 
-        _, frame = self.cap.read()
+        frame = self.frame
         gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
 
         faces = self.detector(gray)
@@ -73,7 +102,7 @@ class FaceOperation:
 
     def landmark_detection(self, origin = [0,0], scale = 1 / 3000):
         # detects the landmarks of the face and returns them as a list of list of coordinates
-        _, frame = self.cap.read()
+        frame = self.frame
         gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
 
 
@@ -84,7 +113,7 @@ class FaceOperation:
             landmarks = self.predictor(gray, face)
             landmark_points = []
             face_scale = 1  # this will be used to scale each face to a similar size
-            face_target_size = 200
+            face_target_size = 185
 
             x1 = face.left()
             y1 = face.top()
@@ -176,9 +205,10 @@ class FaceOperation:
         return list_of_lines
 
     def detect_emotion(self):
+
         timer = time.time()
         print("emotion detection:")
-        _, frame = self.cap.read()
+        frame = self.frame
         gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
         frame = imutils.resize(frame, width=300)
         faces = face_detection.detectMultiScale(gray, scaleFactor=1.1, minNeighbors=5, minSize=(30, 30),
@@ -187,44 +217,46 @@ class FaceOperation:
 
         time.sleep(0.1)
         i = 0
-        if len(faces) > 0:
-            faces = sorted(faces, reverse=True,
-                           key=lambda x: (x[2] - x[0]) * (x[3] - x[1]))[0]
-            (fX, fY, fW, fH) = faces
-            # Extract the ROI of the face from the grayscale image, resize it to a fixed 28x28 pixels, and then prepare
-            # the ROI for classification via the CNN
-            roi = gray[fY:fY + fH, fX:fX + fW]
-            roi = cv2.resize(roi, (64, 64))
-            roi = roi.astype("float") / 255.0
-            roi = img_to_array(roi)
-            roi = np.expand_dims(roi, axis=0)
+        while i <= 10:
+            if len(faces) > 0:
+                faces = sorted(faces, reverse=True,
+                               key=lambda x: (x[2] - x[0]) * (x[3] - x[1]))[0]
+                (fX, fY, fW, fH) = faces
+                # Extract the ROI of the face from the grayscale image, resize it to a fixed 28x28 pixels, and then prepare
+                # the ROI for classification via the CNN
+                roi = gray[fY:fY + fH, fX:fX + fW]
+                roi = cv2.resize(roi, (64, 64))
+                roi = roi.astype("float") / 255.0
+                roi = img_to_array(roi)
+                roi = np.expand_dims(roi, axis=0)
 
-            preds = emotion_classifier.predict(roi)[0]
-            emotion_probability = np.max(preds)
-            emotion_list = EMOTIONS
-            label = emotion_list[preds.argmax()]
+                preds = emotion_classifier.predict(roi)[0]
+                emotion_probability = np.max(preds)
+                emotion_list = EMOTIONS
+                label = emotion_list[preds.argmax()]
 
-            srtd_lst = np.argsort(preds)
+                srtd_lst = np.argsort(preds)
 
-            emotion_results = []
-            for n in range(1,4):
-                emotion = EMOTIONS[srtd_lst[-n]]
-                prob = preds[srtd_lst[-n]] * 100
-                text = "{}: {:.2f}%".format(emotion, prob)
-                print(text)
-                emotion_results.append(text)
-            print(emotion_results)
+                emotion_results = []
+                for n in range(1,4):
+                    emotion = EMOTIONS[srtd_lst[-n]]
+                    prob = preds[srtd_lst[-n]] * 100
+                    text = "{} - {:.2f}%".format(emotion, prob)
+                    print(text)
+                    emotion_results.append(text)
+                print(emotion_results)
 
-            return emotion_results
+                return emotion_results
 
-        elif i<10:
-            self.detect_emotion()
-            i += 1
-        else:
-            person_emo = ["Error", "no emotion evaluated"]
-            return person_emo
+            else:
+                i += 1
+            cv2.imshow("Frame", frame)
+            cv2.waitKey(1000)  # this defines how long each frame is shown
 
-        return emotion_results
+        person_emo = ["-- error --", "no emotion could be evaluated", "_____"]
+        return person_emo
+
+
         # detects the emotion and returns a list of three strings: ["most common emotion: 20%", ....]
 
 
