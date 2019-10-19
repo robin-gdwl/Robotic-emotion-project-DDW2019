@@ -1,4 +1,5 @@
-
+import os
+os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3'
 import dlib
 import cv2
 import time
@@ -8,6 +9,10 @@ from keras.models import load_model
 import numpy as np
 import picamera
 from picamera.array import PiRGBArray
+
+# TODO: use imutils videostream instead of a single image capture!!!
+    # TODO: camera args as described here: https://github.com/jrosebr1/imutils/blob/master/imutils/video/pivideostream.py
+# camera stream will work in the bg
 
 # parameters for loading data and images
 detection_model_path = 'haarcascade_files/haarcascade_frontalface_default.xml'
@@ -28,9 +33,9 @@ class FaceOperation:
         self.emotion = []
         self.detector = dlib.get_frontal_face_detector()
         self.predictor = dlib.shape_predictor("shape_predictor_68_face_landmarks.dat")
-        self.cap = cv2.VideoCapture(0)
-        self.screen_width = self.cap.get(3)   # x- extent of the captured frame
-        self.screen_height = self.cap.get(4)  # y- extent
+        #self.cap = cv2.VideoCapture(0)
+        #self.screen_width = self.cap.get(3)   # x- extent of the captured frame
+        #self.screen_height = self.cap.get(4)  # y- extent
         self.face_loc = []
         self.camera = picamera.PiCamera()
         self.camera.resolution = (800, 800)
@@ -38,12 +43,19 @@ class FaceOperation:
         self.frame = None
 
     def getframe(self):
+        # set camera options to guarantee good picture:
+        self.camera.exposure_mode = "backlight"
+        self.camera.meter_mode = "backlit"
+        self.camera.shutter_speed = 0
+
         timer = time.time()
-        self.camera.capture(self.rawCapture, format="bgr")
+        self.camera.capture(self.rawCapture, format="bgr")  # capture the image
         image = self.rawCapture.array
+        print("image taken in", timer - time.time())
         self.frame = image
         self.rawCapture.truncate(0)
-        print("image taken in", timer - time.time())
+        print("image processed in", timer - time.time())
+        print("exposure time: ", self.camera.exposure_speed)
         return image
 
     def findface(self):
@@ -196,7 +208,7 @@ class FaceOperation:
 
         timer = time.time()
         print("emotion detection:")
-        frame = self.getframe()
+        frame = self.frame
         gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
         frame = imutils.resize(frame, width=300)
         faces = face_detection.detectMultiScale(gray, scaleFactor=1.1, minNeighbors=5, minSize=(30, 30),
@@ -238,6 +250,8 @@ class FaceOperation:
 
             else:
                 i += 1
+            cv2.imshow("Frame", frame)
+            cv2.waitKey(1000)  # this defines how long each frame is shown
 
         person_emo = ["-- error --", "no emotion could be evaluated", "_____"]
         return person_emo

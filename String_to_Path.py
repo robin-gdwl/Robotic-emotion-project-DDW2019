@@ -82,14 +82,17 @@ class ThingToWrite:
             "_": [[[-0.020579, 1.188262], [0.793445, 1.188262]]]
 }  # Dictionary of every letter+ Number with a list of coordinate lists- {a : [ [0,1], [1,1], ...] }
         self.z_hop = z_hop # defines how far the pen retracts after each line
-        self.scale = 1 / 100
-        for letter in self.alphabet.values():
+        self.scale = 1 / 150  # Letter size
+
+        # reflect letters (they are mirrored in the alphabet dictionary)
+        '''for letter in self.alphabet.values():
             for line in letter:
                 for coordinate in line:
                     print("old coordinate:    ", coordinate)
                     coordinate[1] *= -1
                     print("okay is this it? : ", coordinate)
         print(self.alphabet)
+        '''
 
 
     def letter_to_coordinates(self, letter, origin):

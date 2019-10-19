@@ -20,8 +20,8 @@ draw_origin = [0,0]
 origin_offset = [0.035, 0.01]
 line_spacing = 0.01
 
-exhibit_start_hr = 11
-exhibit_end_hr = 18
+exhibit_start_hr = 1
+exhibit_end_hr = 17
 
 Robot.move_home()
 
@@ -129,6 +129,6 @@ while True:
                     break
     else:  #  stop robot when the exhibition is closed
 
-        print(datetime())
+        print(datetime.datetime.now())
         print("outside of exhibition hours - Robot stopped")
         time.sleep(60)
