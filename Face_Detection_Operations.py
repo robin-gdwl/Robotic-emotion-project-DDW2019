@@ -9,9 +9,10 @@ from keras.models import load_model
 import numpy as np
 import picamera
 from picamera.array import PiRGBArray
+from imutils.video import VideoStream
 
 # TODO: use imutils videostream instead of a single image capture!!!
-    # TODO: camera args as described here: https://github.com/jrosebr1/imutils/blob/master/imutils/video/pivideostream.py
+    # TODO: camera args as described here: https://github.com/jrosebr1/imutils/blob/master/imutils/video/videostream.py#L6
 # camera stream will work in the bg
 
 # parameters for loading data and images
@@ -41,15 +42,25 @@ class FaceOperation:
         self.camera.resolution = (800, 800)
         self.rawCapture = PiRGBArray(self.camera)
         self.frame = None
+        self.vs = VideoStream(usePiCamera=True,
+                              resolution=(1080, 720),
+                              framerate = 16,
+                              meter_mode = "backlit",
+                              exposure_mode ="backlight" ).start()
+        time.sleep(0.2)
 
     def getframe(self):
         # set camera options to guarantee good picture:
-        self.camera.exposure_mode = "backlight"
-        self.camera.meter_mode = "backlit"
-        self.camera.shutter_speed = 0
+        #self.camera.exposure_mode = "backlight"
+        #self.camera.meter_mode = "backlit"
+        #self.camera.shutter_speed = 0
 
         timer = time.time()
-        self.camera.capture(self.rawCapture, format="bgr")  # capture the image
+        #self.camera.capture(self.rawCapture, format="bgr")  # capture the image
+        frame = self.vs.read()
+        cv2.imshow("capture", frame)
+        cv2.waitKey(1)
+
         image = self.rawCapture.array
         print("image taken in", timer - time.time())
         self.frame = image
