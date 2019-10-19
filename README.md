@@ -4,10 +4,10 @@ Project that uses Robots and Emotion detection through neural networks for an In
 Created by Robin Godwyll and Yang Ni 
 contact: Robin.godwyll@burg-halle.de
 
-Robot Lab Residency @burg-halle.de 
-Winter Semester 2019 / 2020
+Robot Lab Residency @burg-halle.de   
+Winter Semester 2019 / 2020  
 
-Instagram: [ur.burg](instagram.com/ur.burg)
+Instagram: [ur.burg](instagram.com/ur.burg)  
 Website: [sites.google.com/view/urburg](www.sites.google.com/view/urburg)
 
 
