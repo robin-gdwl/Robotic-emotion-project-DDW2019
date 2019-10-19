@@ -82,7 +82,7 @@ class ThingToWrite:
             "_": [[[-0.020579, 1.188262], [0.793445, 1.188262]]]
 }  # Dictionary of every letter+ Number with a list of coordinate lists- {a : [ [0,1], [1,1], ...] }
         self.z_hop = z_hop # defines how far the pen retracts after each line
-        self.scale = 1 / 150  # Letter size
+        self.scale = 1 / 200  # Letter size
 
         # reflect letters (they are mirrored in the alphabet dictionary)
         '''for letter in self.alphabet.values():
@@ -113,20 +113,20 @@ class ThingToWrite:
                     hop_point[0] = point[0] * self.scale + x_offset
                     hop_point[1] = point[1] * self.scale + y_offset
                     hop_point[2] = (self.z_hop)
-                    print("hop_point start: ", hop_point)
+                    #print("hop_point start: ", hop_point)
                     letter_coord_list.append(hop_point.copy())
 
                 scaled_offset_point = [0, 0, 0]
                 scaled_offset_point[0] = point[0] * self.scale + x_offset
                 scaled_offset_point[1] = point[1] * self.scale + y_offset
 
-                print("point", scaled_offset_point)
+                #print("point", scaled_offset_point)
                 letter_coord_list.append(scaled_offset_point)
 
                 if i == line_length:
                     hop_point = scaled_offset_point.copy()
                     hop_point[2] = self.z_hop
-                    print("hop_point end: ", hop_point)
+                    #print("hop_point end: ", hop_point)
                     letter_coord_list.append(hop_point)
                 i +=1
 
@@ -138,7 +138,7 @@ class ThingToWrite:
     # returns a list of coordinates (x,y,z) which trace the string in space
     def string_to_coordinates(self,origin=[0,0]):
         motion_path = []
-        offset_amount = 0.006
+        offset_amount = 0.0039
         text = self.string.split() # splits the string at each space
         print("text: ", text)
         print(origin)
@@ -151,10 +151,10 @@ class ThingToWrite:
                 print("letter:", letter)
                 motion_path.extend(self.letter_to_coordinates(letter,[x_offset, y_offset]).copy())
                 x_offset += offset_amount
-                print("x_offset", x_offset)
+                #print("x_offset", x_offset)
 
             x_offset += offset_amount # add a whitespace move here
-        print("motion_path", motion_path)
+        #print("motion_path", motion_path)
         return motion_path
 
 

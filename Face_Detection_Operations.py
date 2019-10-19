@@ -40,13 +40,14 @@ class FaceOperation:
         self.face_loc = []
         #self.camera = picamera.PiCamera()
         #self.camera.resolution = (800, 800)
-        self.rawCapture = PiRGBArray(self.camera)
+        #self.rawCapture = PiRGBArray(self.camera)
         self.frame = None
         self.vs = VideoStream(usePiCamera=True,
                               resolution=(1080, 720),
                               framerate = 16,
                               meter_mode = "backlit",
-                              exposure_mode ="backlight" ).start()
+                              exposure_mode ="backlight",
+                              shutter_speed = 160000).start()
         time.sleep(0.2)
 
     def getframe(self):
@@ -59,7 +60,7 @@ class FaceOperation:
         #self.camera.capture(self.rawCapture, format="bgr")  # capture the image
         frame = self.vs.read()
         self.frame = frame
-        cv2.imshow("capture", frame)
+        cv2.imshow("Frame", frame)
         cv2.waitKey(1)
 
         #image = self.rawCapture.array
@@ -137,7 +138,7 @@ class FaceOperation:
             face_height = face.bottom() - face.top()
             face_average = (face_width + face_height) / 2
             print("face width and height: ", face_width, " , ", face_height)
-            print("face average size: ", face_average)
+            #print("face average size: ", face_average)
             face_scale = face_target_size / face_average
 
 
@@ -168,25 +169,25 @@ class FaceOperation:
             right_eye = landmark_points[42:48]
             right_eye.append(right_eye[0].copy())
 
-            lips_outer = landmark_points[48:61]
+            lips_outer = landmark_points[48:60]
             lips_outer.append(lips_outer[0].copy())
 
-            lips_inner = landmark_points[61:68]
+            lips_inner = landmark_points[60:68]
             lips_inner.append(lips_inner[0].copy())
 
-            feature_lines = [jawline, left_brow, right_brow, nose_ridge, nose_tip, left_eye, right_eye, lips_outer, lips_inner]
+            feature_lines = [jawline, left_brow, right_brow, nose_ridge, nose_tip, left_eye, right_eye, lips_inner, lips_outer]
             # feature_lines is now a list of all lines to be drawn
             cv2.imshow("Frame", frame)
             cv2.waitKey(10)  # this defines how long each frame is shown
 
-            print("fl:    ", feature_lines)
+            # print("fl:    ", feature_lines)
             for line in feature_lines:
                 print("line no add: ", line)
             feature_lines = self.apply_zhop(feature_lines)
-            print("feature lines", feature_lines)
+            # print("feature lines", feature_lines)
             single_coords = []
             single_coords = [item for sublist in feature_lines for item in sublist]
-            print("sc: ", single_coords)
+            # print("sc: ", single_coords)
             self.landmarks = single_coords
 
             return feature_lines
@@ -252,7 +253,7 @@ class FaceOperation:
                 for n in range(1,4):
                     emotion = EMOTIONS[srtd_lst[-n]]
                     prob = preds[srtd_lst[-n]] * 100
-                    text = "{} - {:.2f}%".format(emotion, prob)
+                    text = "{}-{:.0f}%".format(emotion, prob)
                     print(text)
                     emotion_results.append(text)
                 print(emotion_results)
@@ -264,7 +265,7 @@ class FaceOperation:
             cv2.imshow("Frame", frame)
             cv2.waitKey(1000)  # this defines how long each frame is shown
 
-        person_emo = ["-- error --", "no emotion could be evaluated", "_____"]
+        person_emo = ["?????? - 0 %", "_ _ _ _ _"]
         return person_emo
 
 

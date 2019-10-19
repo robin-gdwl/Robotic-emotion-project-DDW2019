@@ -12,10 +12,11 @@ class RobotMotion:
 
     def __init__(self):
         #alternate IP: "192.168.178.20"
+        # 10.210.155.126
         #self.IP = "172.23.4.26"
-        self.IP = "10.210.155.126"
-        self.a = 0.2
-        self.v = 0.2
+        self.IP = "192.168.178.20"
+        self.a = 0.3
+        self.v = 0.3
         #self.csys_look = []  # not yet used anywhere
         #self.csys_write = []  # not yet used anywhere
         self.robot = None
@@ -56,7 +57,7 @@ class RobotMotion:
 
     def move(self, full_coords): # gets a list of 6 values and moves the robot according to these values
         # print("full coords: ", full_coords)
-        self.robot.movel(full_coords, self.a, self.v, threshold=200)
+        self.robot.movel(full_coords, self.a*0.5, self.v*0.5)
 
         return None
 
@@ -67,6 +68,8 @@ class RobotMotion:
     def move_to_write(self):
 
         self.move_between()
+        self.robot.movej((-1.198425594960348, -1.518754784260885, -1.8426645437823694, -0.7939837614642542,
+                          1.5331677198410034, 0.15597468614578247), self.a, self.v *0.8)
 
         # über dem papier 01 self.robot.movej((-1.186561409627096, -1.9445274511920374, -1.7661479155169886, -1.006078068410055, 1.5503629446029663, 0.3756316900253296), self.a, self.v)
         self.robot.movej((-1.2749927679644983, -1.9379289785968226, -2.09098464647402, -0.6840408484088343, 1.5629680156707764, 0.28495118021965027), self.a, self.v)
@@ -79,47 +82,53 @@ class RobotMotion:
         time.sleep(0.1)
         self.robot.set_csys(write_csys)
         time.sleep(0.3)
-        print("write_csys: ", write_csys)
+        #print("write_csys: ", write_csys)
         print("Csys set to current pose: Write")
         return None
 
     def draw_landmarks(self, landmark_coords):
+        a = 0.1
+        s = 0.6
         print("landmark coords:",landmark_coords)
         for coord in landmark_coords:
             coord.extend([0, 0, 0])
             print(coord)
         time.sleep(1)
-        self.robot.movels(landmark_coords, self.a, self.v, 0.0015)
+        self.robot.movels(landmark_coords, a, s, 0.0015)
 
         return None
 
     def write_results(self, results):
+
+        a = 0.1
+        s = 0.6
 
         result_as_coords = []  # python y u no work? this seems unecessary but i cant get it to work otherwise
 
         for coord in results:
             coord = coord.copy()
             coord.extend([0, 0, 0])
-            print("coord: ", coord)
+            #print("coord: ", coord)
             result_as_coords.append(coord.copy())
         time.sleep(1)
 
-        print("results as coordinate list: ", result_as_coords)
-        self.robot.movels(result_as_coords, self.a, self.v, 0.00015)
+        #print("results as coordinate list: ", result_as_coords)
+        self.robot.movels(result_as_coords, a, s, 0.00015)
 
 
 
     def move_paper(self):
-        drag_dist = 0.1
-        plunge_dist = 0.134
+        drag_dist = 0.08
+        plunge_dist = 0.125
 
         print("moving paper")
 
         self.robot.set_csys(m3d.Transform())  # reset csys otherwise weird things happen...
-        self.robot.movel((0.013,       -0.548,        0.1980, 0.0, -3.14, 0), self.a, self.v)
-        self.robot.movel((0.0,            0.0, - plunge_dist, 0.0, -3.14, 0), self.a, self.v, relative=True)
-        self.robot.movel((- drag_dist,    0.0,           0.0, 0.0, -3.14, 0), self.a, self.v, relative=True)
-        self.robot.movel((0.0,            0.0,   plunge_dist, 0.0, -3.14, 0), self.a, self.v, relative=True)
+        self.robot.movel((0.013,       -0.548,         0.1980, 0.0, -3.14, 0), self.a, self.v)
+        self.robot.movel((0.0,            0.0,  - plunge_dist, 0.0, 0, 0), self.a, self.v, relative=True)
+        self.robot.movel((- drag_dist,    0.0,            0.0, 0.0, 0, 0), self.a, self.v, relative=True)
+        self.robot.movel((0.0,            0.0,    plunge_dist, 0.0, 0, 0), self.a, self.v, relative=True)
+        self.robot.movel((0.0,            0.0, -plunge_dist/2, 0.0, 0, 0), self.a*2, self.v*2, relative=True)
 
         '''self.robot.movels([(0.009, -0.578, 0.280, 0.794, -3.14, 0),
                            (0.009, -0.578, 0.080, 0.794, -3.14, 0),
