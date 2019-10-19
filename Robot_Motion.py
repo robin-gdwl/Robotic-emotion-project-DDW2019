@@ -87,12 +87,12 @@ class RobotMotion:
         return None
 
     def draw_landmarks(self, landmark_coords):
-        a = 0.1
-        s = 0.6
-        print("landmark coords:",landmark_coords)
+        a = 0.2
+        s = 0.7
+        # print("landmark coords:",landmark_coords)
         for coord in landmark_coords:
             coord.extend([0, 0, 0])
-            print(coord)
+            # print(coord)
         time.sleep(1)
         self.robot.movels(landmark_coords, a, s, 0.0015)
 
@@ -100,8 +100,8 @@ class RobotMotion:
 
     def write_results(self, results):
 
-        a = 0.1
-        s = 0.6
+        a = 0.3
+        s = 0.9
 
         result_as_coords = []  # python y u no work? this seems unecessary but i cant get it to work otherwise
 
@@ -118,8 +118,8 @@ class RobotMotion:
 
 
     def move_paper(self):
-        drag_dist = 0.08
-        plunge_dist = 0.125
+        drag_dist = 0.10
+        plunge_dist = 0.1269
 
         print("moving paper")
 

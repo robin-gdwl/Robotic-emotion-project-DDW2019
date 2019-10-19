@@ -125,7 +125,7 @@ class FaceOperation:
             landmarks = self.predictor(gray, face)
             landmark_points = []
             face_scale = 1  # this will be used to scale each face to a similar size
-            face_target_size = 185
+            face_target_size = 140
 
             x1 = face.left()
             y1 = face.top()
@@ -143,7 +143,7 @@ class FaceOperation:
 
 
             for n in range(0, 68):
-                print(landmarks.part(n))
+                # print(landmarks.part(n))
                 x = int((landmarks.part(n).x - face.left()) * face_scale)
                 y = int((landmarks.part(n).y - face.top()) * face_scale)
                 cv2.circle(frame, (x, y), 3, (100, 100, 255), -1)
@@ -181,8 +181,8 @@ class FaceOperation:
             cv2.waitKey(10)  # this defines how long each frame is shown
 
             # print("fl:    ", feature_lines)
-            for line in feature_lines:
-                print("line no add: ", line)
+            # for line in feature_lines:
+            #    print("line no add: ", line)
             feature_lines = self.apply_zhop(feature_lines)
             # print("feature lines", feature_lines)
             single_coords = []
@@ -254,7 +254,7 @@ class FaceOperation:
                     emotion = EMOTIONS[srtd_lst[-n]]
                     prob = preds[srtd_lst[-n]] * 100
                     text = "{}-{:.0f}%".format(emotion, prob)
-                    print(text)
+                    #print(text)
                     emotion_results.append(text)
                 print(emotion_results)
 
@@ -265,7 +265,8 @@ class FaceOperation:
             cv2.imshow("Frame", frame)
             cv2.waitKey(1000)  # this defines how long each frame is shown
 
-        person_emo = ["?????? - 0 %", "_ _ _ _ _"]
+        person_emo = ["ERROR - 0 %", "_ _ _ _ _",
+                      "Algorithmic emotion"]
         return person_emo
 
 

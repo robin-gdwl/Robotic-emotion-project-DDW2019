@@ -15,9 +15,9 @@ face_finder = FaceOperation()
 
 lookarea_x = 0.4    # overall x- extent of the (rectangular) area in which the robot looks around
 lookarea_y = 0.2    # overall y- extent of the (rectangular) area in which the robot looks around
-position = 0
+position = 1
 draw_origin = [0,0]
-origin_offset = [0.055, 0.01]
+origin_offset = [0.05, 0.01]
 line_spacing = 0.01
 
 exhibit_start_hr = 0
@@ -37,8 +37,8 @@ while True:
             while face_finder.findface() == False:
                 print("No one around. Maybe over here? ")
                 # Generate a random xy-coordinate in the robot look area:
-                look_x = random.uniform(- (lookarea_x/2), (lookarea_x/2))
-                look_y = random.uniform(- (lookarea_y / 2), (lookarea_y / 2))
+                look_x = random.uniform(- (lookarea_x/3), (lookarea_x/3))
+                look_y = random.uniform(- (lookarea_y / 3), (lookarea_y / 3))
                 coordinates = RobotCoord(look_x, look_y, lookarea_x, lookarea_y) # creates a RobotCoords object with the random xy coordinates
                 full_coords = coordinates.convert_robot_coords()  # converts the object to a full 6D coordinate
                 Robot.move(full_coords)  # move the robot to the random coordinates with the correct z and rotation
@@ -94,7 +94,7 @@ while True:
                     elif position == 2:
                         draw_origin = [0.0, 0.06]
                     else:
-                        draw_origin = [0.0, 0.1]
+                        draw_origin = [0.0, 0.115]
 
                     face_finder.landmark_detection(draw_origin)
                     face_landmarks = face_finder.landmarks  # should be a list of list of coordinates
