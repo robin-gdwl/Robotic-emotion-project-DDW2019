@@ -15,7 +15,8 @@ face_finder = FaceOperation()
 
 lookarea_x = 0.4    # overall x- extent of the (rectangular) area in which the robot looks around
 lookarea_y = 0.2    # overall y- extent of the (rectangular) area in which the robot looks around
-position = 3
+position = 0
+iteration = 0
 draw_origin = [0,0]
 origin_offset = [0.05, 0.01]
 line_spacing = 0.01
@@ -30,7 +31,7 @@ while True:
     print("Date and time:", curr_time)
     curr_time = curr_time.hour
 
-    if exhibit_start_hr < curr_time < exhibit_end_hr:
+    if exhibit_start_hr < curr_time < exhibit_end_hr: # disabled because the time on the raspberry pi is not consistent
 
         while True:  # This is the actual process: lookaround then face tracking if a face is found and lastly write and draw
             face_finder.getframe()  # take image with pi camera
