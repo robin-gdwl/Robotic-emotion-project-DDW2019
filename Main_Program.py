@@ -104,7 +104,8 @@ while True:
 
                 else:  # if the watch_time has passed the actual face evaluation begins
                     iteration += 1
-                    print("Face evaluation number: ", iteration:)
+                    print("Face evaluation number: ", iteration)
+
                     if position == 0:
                         draw_origin = [0.00, -0.04]
                     elif position == 1:
