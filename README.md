@@ -1,8 +1,11 @@
 # Robotic-emotion-project
 
 HOW DO I SEE TECHNOLOGY
+
 WHEN I REALISE
+
 TECHNOLOGY SEES ME
+
  ?
 ___
 
@@ -12,6 +15,7 @@ Contact: Robin.godwyll(at)burg-halle.de
 ![Robotic emotion project 2019](https://github.com/boundlessmaking/Robotic-emotion-project-DDW2019/blob/master/images/Robotic%20emotion%2003.jpg?raw=true "Installation at DDW 2019")
 
 Robot Lab Residency @ Burg Giebichenstein University of Art and Design Halle
+
 Winter Semester 2019 / 2020  
  
 Instagram: [ur.burg](https://www.instagram.com/ur.burg/)
