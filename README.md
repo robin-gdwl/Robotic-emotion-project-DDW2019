@@ -5,7 +5,7 @@ WHEN I REALISE
 TECHNOLOGY SEES ME
  ?
 
-Project that uses Robots and Emotion detection through neural networks for an Installation at the dutch design Week 2019  
+
 Created by Robin Godwyll and Yang Ni
 Contact: Robin.godwyll(at)burg-halle.de
 
