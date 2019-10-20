@@ -15,7 +15,7 @@ face_finder = FaceOperation()
 
 lookarea_x = 0.4    # overall x- extent of the (rectangular) area in which the robot looks around
 lookarea_y = 0.2    # overall y- extent of the (rectangular) area in which the robot looks around
-position = 0
+position = 1
 iteration = 0
 draw_origin = [0,0]
 origin_offset = [0.05, 0.01]
@@ -60,7 +60,7 @@ while True:
                 Robot.move(full_coords)  # move the robot to the random coordinates with the correct z and rotation
                 face_finder.getframe()  # take new image after moving
 
-            watch_time = time.time() + 6
+            watch_time = time.time() + 10
 
             # TODO: implement inverse kinematics and use a speedl or servoc
             while True:
@@ -142,11 +142,14 @@ while True:
 
                     if position == 3:
                         position = 0
-                        Robot.move_paper()  # move the paper after
+                        print("position reset, iteration:",iteration)
+                        Robot.move_paper()  # move the paper after drawing 4 faces
                     else:
                         position += 1
 
                     if iteration >= message_after  and position == 0:
+                        draw_origin = [0,0]
+                        Robot.move_to_write()
                         for line in proj_message:
                             print("writing: ", line)
                             message_coords = ThingToWrite(line).string_to_coordinates(draw_origin)  # add origin here
@@ -154,7 +157,7 @@ while True:
                             draw_origin[1] += line_spacing + 0.002
                         iteration = 0
                         Robot.move_paper()
-                        time.sleep(10)
+                        time.sleep(30)
 
                     Robot.move_home()
 

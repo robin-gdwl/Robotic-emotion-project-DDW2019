@@ -4,7 +4,7 @@
 
 class ThingToWrite:
 
-    def __init__(self,string, z_hop = -0.01):
+    def __init__(self,string, z_hop = -0.03):
         self.string = string
         self.alphabet =  {
             "A": [[[0.734756, 0.60061], [0.185213, 0.60061]], [[0, 1], [0.458079, 0.003811], [0.927591, 1]]],
@@ -140,9 +140,9 @@ class ThingToWrite:
 
     # converts a string of text into coordinates as lines
     # returns a list of coordinates (x,y,z) which trace the string in space
-    def string_to_coordinates(self,origin=[0,0]):
+    def string_to_coordinates(self,origin=[0,0],offset = 0.0039):
         motion_path = []
-        offset_amount = 0.0039
+        offset_amount = offset
         text = self.string.split() # splits the string at each space
         print("text: ", text)
         # print(origin)

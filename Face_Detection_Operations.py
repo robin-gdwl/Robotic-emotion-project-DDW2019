@@ -266,7 +266,7 @@ class FaceOperation:
             cv2.waitKey(1000)  # this defines how long each frame is shown
 
         person_emo = ["ERROR - 0 %", "_ _ _ _ _",
-                      "Algorithmic emotion", "git.io/JeBaC"]
+                      "Algorithmic", "Emotion", "git.io/JeBaC"]
         return person_emo
 
 

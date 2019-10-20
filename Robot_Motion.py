@@ -15,7 +15,7 @@ class RobotMotion:
         # 10.210.155.126
         #self.IP = "172.23.4.26"
         self.IP = "192.168.178.20"
-        self.a = 0.3
+        self.a = 0.35
         self.v = 0.3
         #self.csys_look = []  # not yet used anywhere
         #self.csys_write = []  # not yet used anywhere
@@ -79,11 +79,13 @@ class RobotMotion:
         self.robot.csys = m3d.Transform() # reset csys otherwise weird things happen...
         write_csys = self.robot.get_pose()
 
+
         time.sleep(0.1)
         self.robot.set_csys(write_csys)
         time.sleep(0.3)
         #print("write_csys: ", write_csys)
         print("Csys set to current pose: Write")
+        self.robot.movel((0, 0, -0.02, 0, 0, 0))
         return None
 
     def draw_landmarks(self, landmark_coords):
@@ -118,8 +120,8 @@ class RobotMotion:
 
 
     def move_paper(self):
-        drag_dist = 0.10
-        plunge_dist = 0.1269
+        drag_dist = 0.15
+        plunge_dist = 0.1272
 
         print("moving paper")
 
@@ -127,8 +129,10 @@ class RobotMotion:
         self.robot.movel((0.013,       -0.548,         0.1980, 0.0, -3.14, 0), self.a, self.v)
         self.robot.movel((0.0,            0.0,  - plunge_dist, 0.0, 0, 0), self.a, self.v, relative=True)
         self.robot.movel((- drag_dist,    0.0,            0.0, 0.0, 0, 0), self.a, self.v, relative=True)
+        time.sleep(3)
         self.robot.movel((0.0,            0.0,    plunge_dist, 0.0, 0, 0), self.a, self.v, relative=True)
         self.robot.movel((0.0,            0.0, -plunge_dist/2, 0.0, 0, 0), self.a*2.5, self.v*2.6, relative=True)
+        self.robot.movel((0.0,            0.0,  plunge_dist/2, 0.0, 0, 0), self.a*2.7, self.v*2.7, relative=True)
         time.sleep(3)
         '''self.robot.movels([(0.009, -0.578, 0.280, 0.794, -3.14, 0),
                            (0.009, -0.578, 0.080, 0.794, -3.14, 0),
