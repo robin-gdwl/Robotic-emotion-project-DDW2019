@@ -24,6 +24,21 @@ line_spacing = 0.01
 exhibit_start_hr = 0
 exhibit_end_hr = 24
 
+message_after = 40 # number of evaluations after which the proj_message is written
+proj_message = ["___________________",
+                "HOW DO I SEE TECHNOLOGY",
+                "WHEN I REALISE ",
+                "TECHNOLOGY SEES ME",
+                " - ? -",
+                "______________________",
+                "Robotic emotion project",
+                "created by:",
+                "Robin Godwyll and Yang Ni",
+                "Dutch Design Week 2019",
+                "www.git.io/JeBir"]  # This message is written by the robot after a certain amount of evaluations
+
+
+
 Robot.move_home()
 
 while True:
@@ -88,6 +103,8 @@ while True:
                     continue
 
                 else:  # if the watch_time has passed the actual face evaluation begins
+                    iteration += 1
+                    print("Face evaluation number: ", iteration:)
                     if position == 0:
                         draw_origin = [0.00, -0.04]
                     elif position == 1:
@@ -108,7 +125,7 @@ while True:
                     # write the results of the evaluation
 
                     Robot.move_to_write()
-                    # Robot.move_home()
+
                     print("current l: ", Robot.robot.getl())
                     Robot.draw_landmarks(face_landmarks)
                     emotions = face_finder.detect_emotion()
@@ -127,9 +144,21 @@ while True:
                         Robot.move_paper()  # move the paper after
                     else:
                         position += 1
+
+                    if iteration >= message_after  and position == 0:
+                        for line in proj_message:
+                            print("writing: ", line)
+                            message_coords = ThingToWrite(line).string_to_coordinates(draw_origin)  # add origin here
+                            Robot.write_results(message_coords)
+                            draw_origin[1] += line_spacing + 0.002
+                        iteration = 0
+                        Robot.move_paper()
+                        time.sleep(10)
+
                     Robot.move_home()
 
                     break
+
     else:  #  stop robot when the exhibition is closed
 
         print(datetime.datetime.now())
