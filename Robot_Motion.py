@@ -120,8 +120,8 @@ class RobotMotion:
 
 
     def move_paper(self):
-        drag_dist = 0.15
-        plunge_dist = 0.1272
+        drag_dist = 0.15  # 15 cm 
+        plunge_dist = 0.1273
 
         print("moving paper")
 
@@ -134,12 +134,7 @@ class RobotMotion:
         self.robot.movel((0.0,            0.0, -plunge_dist/2, 0.0, 0, 0), self.a*2.5, self.v*2.6, relative=True)
         self.robot.movel((0.0,            0.0,  plunge_dist/2, 0.0, 0, 0), self.a*2.7, self.v*2.7, relative=True)
         time.sleep(3)
-        '''self.robot.movels([(0.009, -0.578, 0.280, 0.794, -3.14, 0),
-                           (0.009, -0.578, 0.080, 0.794, -3.14, 0),
-                           (-0.1, -0.578, 0.080, 0.794, -3.14, 0),
-                           (-0.1, -0.578, 0.280, 0.794, -3.14, 0)
-                           ],self.a, self.v)
-                           '''
+      
         print("paper moved, hopefully it fell off the pen again...  ")
 
         return None

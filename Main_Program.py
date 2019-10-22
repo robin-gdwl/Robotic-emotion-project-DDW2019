@@ -5,7 +5,7 @@ import threading
 import numpy as np
 from Robot_Motion import RobotMotion
 from Coordinate_conversion import Coord, RobotCoord, ScreenCoord
-from Face_Detection_Operations import FaceOperation # not yet written
+from Face_Detection_Operations import FaceOperation 
 from String_to_Path import ThingToWrite
 
 # TODO: Refactor this mess of a code
