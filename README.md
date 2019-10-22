@@ -9,7 +9,7 @@ TECHNOLOGY SEES ME
  ?
 ___
 
-Created by Robin Godwyll and Yang Ni
+Created by Robin Godwyll and Yang Ni  
 Contact: Robin.godwyll(at)burg-halle.de
 
 ![Robotic emotion project 2019](https://github.com/boundlessmaking/Robotic-emotion-project-DDW2019/blob/master/images/Robotic%20emotion%2003.jpg?raw=true "Installation at DDW 2019")
