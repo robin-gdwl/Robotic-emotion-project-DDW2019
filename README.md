@@ -23,10 +23,11 @@ Website: [sites.google.com/view/urburg](https://sites.google.com/view/urburg)
 
 ___
 ### About:
+A robot, scanning the faces of the crowd,
 The images taken by the Robot are only used to generate the drawing contours and evaluate the the emotion of the person. No images or data is stored digitally.
 
 ___
-Credits:
+### Credits:
 
 Emotion recognition: https://github.com/omar178/Emotion-recognition
 Universal Robot Library: https://github.com/SintefManufacturing/python-urx
