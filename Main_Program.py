@@ -65,7 +65,7 @@ while True:  # This is the actual process: lookaround then face tracking if a fa
 
         watch_time = time.time() + 10
 
-        # TODO: implement inverse kinematics and use a speedl or servoc
+        # TODO: implement inverse kinematics and use a speedl or servoc to make face tracking more reliable
 
         while True:
             # this loop is used to track the face. If no face is detected the loop breaks and the robot looks around instead (see above)
