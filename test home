@@ -7,7 +7,7 @@ i=0
 while i<5:
     robot.fold()
     i+=1
-    time.sleep(2)
+    time.sleep(3)
 
 """
 This file contains 2 classes:
