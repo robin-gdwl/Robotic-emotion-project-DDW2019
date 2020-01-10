@@ -33,11 +33,7 @@ proj_message = ["___________________",
                 "______________________",
                 "Robotic emotion project",
                 "created by:",
-                "Robin Godwyll and Yang N i",
-                "Dutch Design Week 2019",
-                "www.git.io / JeBaC"]  # This message is written by the robot after a certain amount of evaluations
-
-
+                "Robin Godwyll and Yang N i"]  # This message is written by the robot after a certain amount of evaluations
 
 Robot.move_home()
 

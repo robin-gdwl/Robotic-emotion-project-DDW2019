@@ -14,7 +14,7 @@ class RobotMotion:
         #alternate IP: "192.168.178.20"
         # 10.210.155.126
         #self.IP = "172.23.4.26"
-        self.IP = "192.168.178.20"
+        self.IP = "172.23.4.26"
         self.a = 0.35
         self.v = 0.3
         #self.csys_look = []  # not yet used anywhere
@@ -35,6 +35,20 @@ class RobotMotion:
 
     def lookaround(self):
         return []
+
+    def rehome(self, acc= None, vel = None):
+        if acc == None:
+            acc = self.a
+        if vel == None:
+            vel = self.v
+
+        self.robot.movej((0, -1.5708, 0, -1.5708, 0, 0), acc, vel)
+
+    def fold(self):
+        """folds the robot into the box position"""
+        self.rehome()
+        self.robot.movej((1.53589, -0.05689773, -2.7209683, -1.91864045, 3.13024801, 0.0523599), self.a, self.v)
+
 
 
     def move_home(self):
@@ -91,10 +105,10 @@ class RobotMotion:
     def draw_landmarks(self, landmark_coords):
         a = 0.2
         s = 0.8
-        # print("landmark coords:",landmark_coords)
+
         for coord in landmark_coords:
             coord.extend([0, 0, 0])
-            # print(coord)
+
         time.sleep(1)
         self.robot.movels(landmark_coords, a, s, 0.00015)
 
