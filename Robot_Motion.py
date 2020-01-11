@@ -22,9 +22,9 @@ class RobotMotion:
         #self.csys_look = []  # not yet used anywhere
         #self.csys_write = []  # not yet used anywhere
         self.robot = None
-        print("robot initiated")
-        self.connect()
 
+        self.connect()
+        print("robot initiated")
 
 
     def connect(self):

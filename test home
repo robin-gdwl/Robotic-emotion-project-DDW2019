@@ -1,12 +1,31 @@
 from Robot_Motion import RobotMotion
 import time
+from Toolpath import Toolpath
 
 robot = RobotMotion()
+kinematics = Toolpath()
 
-print(robot.robot.get_pose())
-print(robot.robot.get_pos())
+#print(robot.robot.get_pose())
+#print(robot.robot.get_pos())
 print(robot.robot.getj())
-robot.move_home()
+#robot.move_home()
+
+print(kinematics.invKine((0.1,0.1,0.1,0,0,0),(-2.7305217424975794, -1.4448440710650843, -1.7374909559832972, -0.07689410844911748, 1.5629560947418213, 0.24104845523834229)))
+"""
+if True:
+    #robot.robot.servoc()
+    robot.robot.servoj((1.53589, -0.05689773, -2.7209683, -1.91864045, 3.13024801, 0.0523599),acc= 0.02, looktime=0.2)
+    time.sleep(2)
+    robot.robot.servoj((-2.7305217424975794, -1.4448440710650843, -1.7374909559832972, -0.07689410844911748, 1.5629560947418213, 0.24104845523834229))
+    time.sleep(2)
+    robot.robot.servoj((1.53589, -0.05689773, -2.7209683, -1.91864045, 3.13024801, 0.0523599),acc= 0.02, looktime=0.2)
+    """
+
+
+
+#robot.robot.servoj()
+
+
 
 """
 i=0

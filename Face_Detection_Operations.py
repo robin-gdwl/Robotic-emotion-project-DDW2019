@@ -54,7 +54,7 @@ class FaceOperation:
                               framerate = 16,
                               meter_mode = "backlit",
                               exposure_mode ="backlight",
-                              shutter_speed = 160000).start()
+                              shutter_speed = 16000).start()
         time.sleep(0.2)
 
     def getframe(self):
