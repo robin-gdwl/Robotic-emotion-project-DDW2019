@@ -14,8 +14,10 @@ class RobotMotion:
         #alternate IP: "192.168.178.20"
         # 10.210.155.126
         #self.IP = "172.23.4.26"
-        self.IP = "172.23.4.26"
-        self.a = 0.35
+        #self.IP = "172.23.4.26"
+        self.IP = "192.168.178.20"
+
+        self.a = 0.5
         self.v = 0.3
         #self.csys_look = []  # not yet used anywhere
         #self.csys_write = []  # not yet used anywhere
@@ -55,8 +57,12 @@ class RobotMotion:
         self.move_between()
         # self.robot.movej((1.841301679611206, -1.6310561339007776, -1.7878111044513147, 0.28027474880218506, 1.30446195602417, 0), self.a, self.v)
         #self.robot.movej((-0.028123203908101857, -1.1558621565448206, -1.9442971388446253, -0.012953106557027638, 1.5486491918563843, 0.011556537821888924), self.a, self.v)
-        self.robot.movej((1.7691065073013306, -1.0238812605487269, -2.190423313771383, 0.09588956832885742, 1.3761399984359741, 0.052045244723558426), self.a, self.v)
+        #Backwards, towards cable:
+        # self.robot.movej((1.7691065073013306, -1.0238812605487269, -2.190423313771383, 0.09588956832885742, 1.3761399984359741, 0.052045244723558426), self.a, self.v)
+        #To the right:
+        self.robot.movej((-2.7305217424975794, -1.4448440710650843, -1.7374909559832972, -0.07689410844911748, 1.5629560947418213, 0.24104845523834229), self.a, self.v)
 
+        #-2.7305217424975794, -1.4448440710650843, -1.7374909559832972, -0.07689410844911748, 1.5629560947418213, 0.24104845523834229
 
         print("Robot moved to home position.")
         self.robot.csys = m3d.Transform() # reset csys otherwise weird things happen.
@@ -75,9 +81,19 @@ class RobotMotion:
 
         return None
 
+    def move_speed(self, full_coords):
+        pose = self.robot.get_pose()
+        pose
+        self.robot.speedl()
+
     def move_between(self):
-        self.robot.movej((0.5004713535308838, -0.884106461201803, -1.5667465368853968, -0.792891804371969, 1.5332516431808472, 0.1559387445449829), self.a, self.v)
+        #for backwards looking:
+        #self.robot.movej((0.5004713535308838, -0.884106461201803, -1.5667465368853968, -0.792891804371969, 1.5332516431808472, 0.1559387445449829), self.a, self.v)
+        #??
         #self.robot.movej((-1.198425594960348, -1.518754784260885, -1.8426645437823694, -0.7939837614642542, 1.5331677198410034, 0.15597468614578247), self.a, self.v)
+        #from looking to the right:
+        self.robot.movej((-1.4970853964435022, -1.4696648756610315, -1.6335142294513147, -1.576144043599264, 1.5420225858688354, 0.18122133612632751), self.a, self.v)
+
 
     def move_to_write(self):
 

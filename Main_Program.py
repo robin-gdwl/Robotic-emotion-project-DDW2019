@@ -22,7 +22,7 @@ origin_offset = [0.05, 0.01]
 line_spacing = 0.01
 
 exhibit_start_hr = 11
-exhibit_end_hr = 18
+exhibit_end_hr = 24
 
 message_after = 24  # number of evaluations after which the proj_message is written
 proj_message = ["___________________",
@@ -166,5 +166,6 @@ while True:  # This is the actual process: lookaround then face tracking if a fa
     else:  #  stop robot when the exhibition is closed
         print(datetime.datetime.now())
         print("outside of exhibition hours - Robot stopped")
+        Robot.fold()
         time.sleep(300)
 

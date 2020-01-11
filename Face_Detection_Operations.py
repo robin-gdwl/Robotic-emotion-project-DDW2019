@@ -1,4 +1,5 @@
 import os
+import sys
 os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3'
 import dlib
 import cv2
@@ -7,9 +8,15 @@ import imutils
 from keras.preprocessing.image import img_to_array
 from keras.models import load_model
 import numpy as np
-import picamera
-from picamera.array import PiRGBArray
 from imutils.video import VideoStream
+
+RASPBERRY_BOOL = False
+
+if sys.platform == "linux":
+    import picamera
+    from picamera.array import PiRGBArray
+    RASPBERRY_BOOL = True
+
 
 # TODO: use imutils videostream instead of a single image capture!!!
     # TODO: camera args as described here: https://github.com/jrosebr1/imutils/blob/master/imutils/video/videostream.py#L6
@@ -42,7 +49,7 @@ class FaceOperation:
         #self.camera.resolution = (800, 800)
         #self.rawCapture = PiRGBArray(self.camera)
         self.frame = None
-        self.vs = VideoStream(usePiCamera=True,
+        self.vs = VideoStream(usePiCamera= RASPBERRY_BOOL,
                               resolution=(1080, 720),
                               framerate = 16,
                               meter_mode = "backlit",
