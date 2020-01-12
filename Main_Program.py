@@ -21,8 +21,8 @@ draw_origin = [0,0]
 origin_offset = [0.05, 0.01]
 line_spacing = 0.01
 
-exhibit_start_hr = 11
-exhibit_end_hr = 24
+exhibit_start_hr = 9
+exhibit_end_hr = 18
 
 message_after = 24  # number of evaluations after which the proj_message is written
 proj_message = ["___________________",
@@ -45,7 +45,7 @@ while True:  # This is the actual process: lookaround then face tracking if a fa
     if exhibit_start_hr <= curr_time < exhibit_end_hr:  # disabled because the time on the raspberry pi is not consistent
 
         face_finder.getframe()  # take image with pi camera
-        while face_finder.findface() == False and exhibit_start_hr < curr_time < exhibit_end_hr:
+        while face_finder.findface() == False and exhibit_start_hr <= curr_time < exhibit_end_hr:
             print("No one around. Maybe over here? ")
             # Generate a random xy-coordinate in the robot look area:
             look_x = random.uniform(- (lookarea_x/3), (lookarea_x/3))
