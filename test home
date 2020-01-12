@@ -11,7 +11,8 @@ print(robot.robot.getj())
 robot.move_home()
 #robot.move_to_write()
 #robot.move_paper()
-robot.fold()
+#robot.move_paper_backwards()
+#robot.fold()
 
 #print(kinematics.invKine((1,1,1,0,0,0),(-2.7305217424975794, -1.4448440710650843, -1.7374909559832972, -0.07689410844911748, 1.5629560947418213, 0.24104845523834229)))
 """

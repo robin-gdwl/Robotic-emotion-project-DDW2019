@@ -63,7 +63,7 @@ class RobotMotion:
         #Backwards, towards cable:
         # self.robot.movej((1.7691065073013306, -1.0238812605487269, -2.190423313771383, 0.09588956832885742, 1.3761399984359741, 0.052045244723558426), self.a, self.v)
         #To the right:
-        self.robot.movej((-2.7305217424975794, -1.4448440710650843, -1.7374909559832972, -0.07689410844911748, 1.5629560947418213, 0), self.a, self.v)
+        self.robot.movej((-2.7305453459369, -1.4448559919940, -1.737550560628, 0.09947538375854, 1.56294405460357, 0), self.a, self.v)
 
         #-2.7305217424975794, -1.4448440710650843, -1.7374909559832972, -0.07689410844911748, 1.5629560947418213, 0.24104845523834229
 
@@ -153,13 +153,13 @@ class RobotMotion:
 
 
     def move_paper(self):
-        drag_dist = 0.15  # 15 cm 
+        drag_dist = 0.10  # 10 cm
         plunge_dist = 0.1273
 
         print("moving paper")
 
         self.robot.set_csys(m3d.Transform())  # reset csys otherwise weird things happen...
-        self.robot.movel((0.013,       -0.548,         0.1980, 0.0, -3.14, 0), self.a, self.v)
+        self.robot.movel((0.02,       -0.548,         0.1980, 0.0, -3.14, 0), self.a, self.v)
         self.robot.movel((0.0,            0.0,  - plunge_dist, 0.0, 0, 0), self.a, self.v, relative=True)
         self.robot.movel((- drag_dist,    0.0,            0.0, 0.0, 0, 0), self.a, self.v, relative=True)
         time.sleep(3)
@@ -168,6 +168,26 @@ class RobotMotion:
         self.robot.movel((0.0,            0.0,  plunge_dist/2, 0.0, 0, 0), self.a*2.7, self.v*2.7, relative=True)
         time.sleep(3)
       
+        print("paper moved, hopefully it fell off the pen again...  ")
+
+        return True
+
+    def move_paper_backwards(self):
+        drag_dist = 0.1  # 10 cm
+        plunge_dist = 0.1273
+
+        print("moving paper")
+
+        self.robot.set_csys(m3d.Transform())  # reset csys otherwise weird things happen...
+        self.robot.movel((0.02 -drag_dist, -0.548, 0.1980, 0.0, -3.14, 0), self.a, self.v)
+        self.robot.movel((0.0, 0.0, - plunge_dist, 0.0, 0, 0), self.a, self.v, relative=True)
+        self.robot.movel((drag_dist, 0.0, 0.0, 0.0, 0, 0), self.a, self.v, relative=True)
+        time.sleep(3)
+        self.robot.movel((0.0, 0.0, plunge_dist, 0.0, 0, 0), self.a, self.v, relative=True)
+        self.robot.movel((0.0, 0.0, -plunge_dist / 2, 0.0, 0, 0), self.a * 2.5, self.v * 2.6, relative=True)
+        self.robot.movel((0.0, 0.0, plunge_dist / 2, 0.0, 0, 0), self.a * 2.7, self.v * 2.7, relative=True)
+        #time.sleep(3)
+
         print("paper moved, hopefully it fell off the pen again...  ")
 
         return None
