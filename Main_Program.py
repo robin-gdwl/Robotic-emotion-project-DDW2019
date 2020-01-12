@@ -98,7 +98,7 @@ while True:  # This is the actual process: lookaround then face tracking if a fa
                     face_real_location[1] = (-lookarea_x / 2)
 
             if time.time() < watch_time:  # only start writing after looking at a face for a certain time
-                Robot.move(face_real_location)
+                Robot.move(face_real_location, thresh= 0.1)
                 face_finder.getframe()
                 continue
 

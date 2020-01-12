@@ -17,8 +17,8 @@ class RobotMotion:
         #self.IP = "172.23.4.26"
         self.IP = "192.168.178.20"
 
-        self.a = 0.35
-        self.v = 0.14
+        self.a = 0.37
+        self.v = 0.6
         #self.csys_look = []  # not yet used anywhere
         #self.csys_write = []  # not yet used anywhere
         self.robot = None
@@ -78,9 +78,9 @@ class RobotMotion:
 
         return None
 
-    def move(self, full_coords): # gets a list of 6 values and moves the robot according to these values
+    def move(self, full_coords, thresh = None): # gets a list of 6 values and moves the robot according to these values
         # print("full coords: ", full_coords)
-        self.robot.movel(full_coords, self.a*0.5, self.v*0.5)
+        self.robot.movel(full_coords, self.a*0.5, self.v*0.5, threshold= thresh)
 
         return None
 
