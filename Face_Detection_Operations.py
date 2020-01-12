@@ -5,8 +5,8 @@ import dlib
 import cv2
 import time
 import imutils
-from keras.preprocessing.image import img_to_array
-from keras.models import load_model
+#from keras.preprocessing.image import img_to_array
+#from keras.models import load_model
 import numpy as np
 from imutils.video import VideoStream
 
@@ -29,7 +29,7 @@ emotion_model_path = 'models/_mini_XCEPTION.102-0.66.hdf5'
 # hyper-parameters for bounding boxes shape
 # loading models
 face_detection = cv2.CascadeClassifier(detection_model_path)
-emotion_classifier = load_model(emotion_model_path, compile=False)
+#emotion_classifier = load_model(emotion_model_path, compile=False)
 EMOTIONS = ["angry" ,"disgust","scared", "happy", "sad", "surprised",
  "neutral"]
 
@@ -50,7 +50,7 @@ class FaceOperation:
         #self.rawCapture = PiRGBArray(self.camera)
         self.frame = None
         self.vs = VideoStream(usePiCamera= RASPBERRY_BOOL,
-                              resolution=(1080, 620),
+                              resolution=(1080, 720),
                               framerate = 16,
                               meter_mode = "backlit",
                               exposure_mode ="backlight",
@@ -67,9 +67,10 @@ class FaceOperation:
         timer = time.time()
         #self.camera.capture(self.rawCapture, format="bgr")  # capture the image
         frame = self.vs.read()
+        #frame = cv2.flip(frame,1)
         self.frame = frame
-        cv2.imshow("Frame", frame)
-        cv2.waitKey(1)
+        #cv2.imshow("Frame", frame)
+        #cv2.waitKey(1)
 
         #image = self.rawCapture.array
         # print("image taken in", time.time() - timer)
@@ -83,14 +84,17 @@ class FaceOperation:
         frame = self.frame
         gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
 
-        cv2.imshow("Frame", frame)
-        cv2.waitKey(10)  # this defines how long each frame is shown
-
         faces = self.detector(gray)
 
         if len(faces) >= 1:
+            location = self.face_loc
+            cv2.circle(frame, tuple(location), 5, (100, 100, 255), -1)
+            cv2.imshow("Frame", frame)
+            cv2.waitKey(10)  # this defines how long each frame is shown
             return True
         else:
+            cv2.imshow("Frame", frame)
+            cv2.waitKey(10)  # this defines how long each frame is shown
             return False
 
             # track_face(face_x, face_y, screen_width, screen_height) # ignore this for now
@@ -103,8 +107,8 @@ class FaceOperation:
         gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
 
         faces = self.detector(gray)
-        cv2.imshow("Frame", frame)
-        cv2.waitKey(10)  # this defines how long each frame is shown
+        #cv2.imshow("Frame", frame)
+        #cv2.waitKey(10)  # this defines how long each frame is shown
 
         if len(faces) >= 1:
             face_to_eval = faces[0]

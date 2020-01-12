@@ -1,9 +1,14 @@
 from Robot_Motion import RobotMotion
 import time
+import math3d as m3d
+import numpy as np
 from Toolpath import Toolpath
+from Face_Detection_Operations import FaceOperation
+from Coordinate_conversion import Coord, RobotCoord, ScreenCoord
 
 robot = RobotMotion()
 kinematics = Toolpath()
+face_finder = FaceOperation()
 
 #print(robot.robot.get_pose())
 #print(robot.robot.get_pos())
@@ -14,17 +19,83 @@ robot.move_home()
 #robot.move_paper_backwards()
 #robot.fold()
 
-#print(kinematics.invKine((1,1,1,0,0,0),(-2.7305217424975794, -1.4448440710650843, -1.7374909559832972, -0.07689410844911748, 1.5629560947418213, 0.24104845523834229)))
+t = m3d.Transform([1,1,1,0,0,0])
+t = t.matrix
+m= kinematics.invKine(t,(-2.7305217424975794, -1.4448440710650843, -1.7374909559832972, -0.07689410844911748, 1.5629560947418213, 0.24104845523834229))
+
+
+lookarea_x = 0.4    # overall x- extent of the (rectangular) area in which the robot looks around
+lookarea_y = 0.22
+send_interval = 0.3
+k = []
+
+while True:
+    print("restarting loop")
+    now = time.time()
+
+    face_finder.getframe()  # take image with pi camera
+    new_time = time.time() -now
+    print("capture time: ", new_time)
+
+    if face_finder.facelocation() == True:
+        face_finder.findface()
+        list_facepos = face_finder.face_loc
+        print("list face pos: ", list_facepos)
+        robot_pos = robot.robot.getl()
+        screensize = [1080, 720]
+        face_screen_location = ScreenCoord(list_facepos[0], list_facepos[1], lookarea_x, lookarea_y, robot_pos,
+                                           screensize)
+        face_real_location = face_screen_location.convert_screen_coords()
+    else:
+        continue
+
+    # Shorten the move if it would go outside of the lookarea:
+    if (-lookarea_x / 2) <= face_real_location[0] <= (lookarea_x / 2):  #
+        pass
+    else:
+        print("outside of x-extent")
+        if face_real_location[0] > (lookarea_x / 2):
+            face_real_location[0] = (lookarea_x / 2)
+        else:
+            face_real_location[0] = (-lookarea_x / 2)
+
+    if (-lookarea_y / 2) <= face_real_location[1] <= (lookarea_y / 2):
+        pass
+    else:
+        print("outside of y-extent")
+        if face_real_location[1] > (lookarea_x / 2):  # If
+            face_real_location[1] = (lookarea_x / 2)
+        else:
+            face_real_location[1] = (-lookarea_x / 2)
+
+
+    #robot.move(face_real_location, thresh=None)
+    print("real face loc:", face_real_location)
+    t = robot.robot.csys * m3d.Transform(face_real_location)
+    t = t.matrix
+    m = kinematics.invKine(t, robot.robot.getj())
+    print(k)
+    print(m)
+    k = m
+
+    cur_time = time.time()- now
+    if send_interval > cur_time:
+        time.sleep(send_interval-cur_time)
+    cur_time = time.time()- now
+    print(cur_time)
+    robot.robot.servoj(m, acc= 0, vel= 0, time= send_interval, looktime=0.2,gain= 300)
+    #time.sleep(0.1)
+
 """
 if True:
     #robot.robot.servoc()
-    robot.robot.servoj((1.53589, -0.05689773, -2.7209683, -1.91864045, 3.13024801, 0.0523599),acc= 0.02, looktime=0.2)
+    robot.robot.servoj(m ,acc= 0.02, looktime=0.2)
     time.sleep(2)
     robot.robot.servoj((-2.7305217424975794, -1.4448440710650843, -1.7374909559832972, -0.07689410844911748, 1.5629560947418213, 0.24104845523834229))
     time.sleep(2)
-    robot.robot.servoj((1.53589, -0.05689773, -2.7209683, -1.91864045, 3.13024801, 0.0523599),acc= 0.02, looktime=0.2)
-    """
+    robot.robot.servoj(m ,acc= 0.02, looktime=0.2)
 
+"""
 
 
 #robot.robot.servoj()

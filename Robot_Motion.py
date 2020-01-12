@@ -14,8 +14,8 @@ class RobotMotion:
         #alternate IP: "192.168.178.20"
         # 10.210.155.126
         #self.IP = "172.23.4.26"
-        #self.IP = "172.23.4.26"
-        self.IP = "192.168.178.20"
+        self.IP = "192.168.43.86"
+        #self.IP = "192.168.178.20"
 
         self.a = 0.37
         self.v = 0.6
