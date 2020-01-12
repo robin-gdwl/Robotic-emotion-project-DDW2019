@@ -17,8 +17,8 @@ class RobotMotion:
         #self.IP = "172.23.4.26"
         self.IP = "192.168.178.20"
 
-        self.a = 0.5
-        self.v = 0.3
+        self.a = 0.35
+        self.v = 0.4
         #self.csys_look = []  # not yet used anywhere
         #self.csys_write = []  # not yet used anywhere
         self.robot = None
