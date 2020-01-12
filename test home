@@ -41,8 +41,9 @@ while True:
         face_finder.findface()
         list_facepos = face_finder.face_loc
         print("list face pos: ", list_facepos)
-        robot_pos = robot.robot.getl()
-        screensize = [1080, 720]
+        robot_pos = robot.robot.get_pose()
+        robot_pos = robot_pos.pose_vector
+        screensize = [1280, 720]
         face_screen_location = ScreenCoord(list_facepos[0], list_facepos[1], lookarea_x, lookarea_y, robot_pos,
                                            screensize)
         face_real_location = face_screen_location.convert_screen_coords()

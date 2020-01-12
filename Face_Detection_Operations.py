@@ -69,6 +69,7 @@ class FaceOperation:
         frame = self.vs.read()
         #frame = cv2.flip(frame,1)
         self.frame = frame
+        print("capture size: ", frame.shape)
         #cv2.imshow("Frame", frame)
         #cv2.waitKey(1)
 
