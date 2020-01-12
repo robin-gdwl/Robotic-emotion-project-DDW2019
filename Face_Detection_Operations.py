@@ -54,7 +54,7 @@ class FaceOperation:
                               framerate = 16,
                               meter_mode = "backlit",
                               exposure_mode ="backlight",
-                              shutter_speed = 1600,
+                              shutter_speed = 3600,
                               rotation = 180).start()
         time.sleep(0.2)
 
