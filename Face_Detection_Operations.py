@@ -50,11 +50,12 @@ class FaceOperation:
         #self.rawCapture = PiRGBArray(self.camera)
         self.frame = None
         self.vs = VideoStream(usePiCamera= RASPBERRY_BOOL,
-                              resolution=(1080, 720),
+                              resolution=(1080, 620),
                               framerate = 16,
                               meter_mode = "backlit",
                               exposure_mode ="backlight",
-                              shutter_speed = 16000).start()
+                              shutter_speed = 1600,
+                              rotation = 180).start()
         time.sleep(0.2)
 
     def getframe(self):
