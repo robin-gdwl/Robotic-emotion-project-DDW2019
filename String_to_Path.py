@@ -4,7 +4,7 @@
 
 class ThingToWrite:
 
-    def __init__(self,string, z_hop = -0.03):
+    def __init__(self,string, z_hop = -0.02):
         self.string = string
         self.alphabet =  {
             "A": [[[0.734756, 0.60061], [0.185213, 0.60061]], [[0, 1], [0.458079, 0.003811], [0.927591, 1]]],

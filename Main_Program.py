@@ -13,8 +13,8 @@ from String_to_Path import ThingToWrite
 Robot = RobotMotion()
 face_finder = FaceOperation()
 
-lookarea_x = 0.4    # overall x- extent of the (rectangular) area in which the robot looks around
-lookarea_y = 0.22    # overall y- extent of the (rectangular) area in which the robot looks around
+lookarea_x = 0.43    # overall x- extent of the (rectangular) area in which the robot looks around
+lookarea_y = 0.3    # overall y- extent of the (rectangular) area in which the robot looks around
 position = 0
 iteration = 0
 draw_origin = [0,0]
@@ -25,7 +25,7 @@ exhibit_start_hr = 9
 exhibit_end_hr = 18
 
 message_after = 24  # number of evaluations after which the proj_message is written
-proj_message = ["___________________",
+proj_message = ["______________________",
                 "HOW DO I SEE TECHNOLOGY",
                 "WHEN I REALISE ",
                 "TECHNOLOGY SEES ME",
@@ -59,7 +59,7 @@ while True:  # This is the actual process: lookaround then face tracking if a fa
             print("Date and time:", curr_time)
             curr_time = curr_time.hour
 
-        watch_time = time.time() + 10
+        watch_time = time.time() + 6
 
         # TODO: implement inverse kinematics and use a speedl or servoc to make face tracking more reliable
 

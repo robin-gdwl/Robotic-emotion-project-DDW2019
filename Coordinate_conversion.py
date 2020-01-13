@@ -17,11 +17,12 @@ class Coord:
     def apply_rotation(self, new_coordinates):
 
         new_coord = new_coordinates
-        rotation_factor = 0.55
+        rotation_factor_x = 0.2
+        rotation_factor_y = 0.8
         rotation_angles = [0, 0, 0]
         # print(x_area/2)
-        rotation_angles[0] = new_coord[1] / self.y_area / 2 * pi * -rotation_factor
-        rotation_angles[1] = new_coord[0] / self.x_area / 2 * pi * rotation_factor
+        rotation_angles[0] = new_coord[1] / self.y_area / 2 * pi * -rotation_factor_x
+        rotation_angles[1] = new_coord[0] / self.x_area / 2 * pi * rotation_factor_y
         # print("rotation angles:", rotation_angles)
 
         compound_coord = new_coord
@@ -35,7 +36,7 @@ class Coord:
 
         new_coordinates.append(0)  # adds a third coordinate to the list for the Z-value
 
-        z_factor = 0.1  # defines how far the robot goes in Z during the look moves
+        z_factor = 0.13  # defines how far the robot goes in Z during the look moves
         xy_offset = sqrt(new_coordinates[0] ** 2 + new_coordinates[1] ** 2)
         # print("xy offset: ", xy_offset)
         overall_dia = sqrt(self.x_area ** 2 + self.y_area ** 2)

@@ -17,8 +17,8 @@ class RobotMotion:
         #self.IP = "172.23.4.26"
         self.IP = "192.168.178.20"
 
-        self.a = 0.37
-        self.v = 0.6
+        self.a = 0.39
+        self.v = 0.7
         #self.csys_look = []  # not yet used anywhere
         #self.csys_write = []  # not yet used anywhere
         self.robot = None
@@ -63,7 +63,7 @@ class RobotMotion:
         #Backwards, towards cable:
         # self.robot.movej((1.7691065073013306, -1.0238812605487269, -2.190423313771383, 0.09588956832885742, 1.3761399984359741, 0.052045244723558426), self.a, self.v)
         #To the right:
-        self.robot.movej((-2.7305453459369, -1.4448559919940, -1.737550560628, 0.09947538375854, 1.56294405460357, 0), self.a, self.v)
+        self.robot.movej((-2.9600074926959437, -1.447723690663473, -1.59929067293276, -0.09472972551454717, 1.5610744953155518, 0.0), self.a, self.v)
 
         #-2.7305217424975794, -1.4448440710650843, -1.7374909559832972, -0.07689410844911748, 1.5629560947418213, 0.24104845523834229
 
@@ -122,8 +122,8 @@ class RobotMotion:
         return None
 
     def draw_landmarks(self, landmark_coords):
-        a = 0.2
-        s = 0.8
+        a = 0.25
+        s = 0.99
 
         for coord in landmark_coords:
             coord.extend([0, 0, 0])
@@ -135,8 +135,8 @@ class RobotMotion:
 
     def write_results(self, results):
 
-        a = 0.3
-        s = 0.9
+        a = 0.45
+        s = 1.2
 
         result_as_coords = []  # python y u no work? this seems unecessary but i cant get it to work otherwise
 

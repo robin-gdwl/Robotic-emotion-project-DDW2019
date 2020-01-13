@@ -50,11 +50,12 @@ class FaceOperation:
         #self.rawCapture = PiRGBArray(self.camera)
         self.frame = None
         self.vs = VideoStream(usePiCamera= RASPBERRY_BOOL,
-                              resolution=(1080, 620),
+                              resolution=(1080, 720),
                               framerate = 16,
-                              meter_mode = "backlit",
-                              exposure_mode ="backlight",
-                              shutter_speed = 3600,
+                              meter_mode = "average",
+                              exposure_mode ="auto",
+                              shutter_speed = 3800,
+                              exposure_compensation = -1,
                               rotation = 180).start()
         time.sleep(0.2)
 
@@ -274,7 +275,7 @@ class FaceOperation:
             cv2.waitKey(1000)  # this defines how long each frame is shown
 
         person_emo = ["ERROR - 0 %", "_ _ _ _ _",
-                      "Algorithmic", "Emotion", "git.io/JeBaC"]
+                      "ARE YOU ", "A ROBOT", "- ??? -"]
         return person_emo
 
 
