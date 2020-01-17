@@ -30,12 +30,12 @@ send_interval = 0.3
 k = []
 
 while True:
-    print("restarting loop")
+    #print("restarting loop")
     now = time.time()
 
     face_finder.getframe()  # take image with pi camera
     new_time = time.time() -now
-    print("capture time: ", new_time)
+    #print("capture time: ", new_time)
 
     if face_finder.facelocation() == True:
         face_finder.findface()
@@ -54,20 +54,24 @@ while True:
     if (-lookarea_x / 2) <= face_real_location[0] <= (lookarea_x / 2):  #
         pass
     else:
-        print("outside of x-extent")
+        #print("outside of x-extent")
         if face_real_location[0] > (lookarea_x / 2):
             face_real_location[0] = (lookarea_x / 2)
+            print("outside of x-extent, positive")
         else:
             face_real_location[0] = (-lookarea_x / 2)
+            print("outside of x-extent, negative")
 
     if (-lookarea_y / 2) <= face_real_location[1] <= (lookarea_y / 2):
         pass
     else:
-        print("outside of y-extent")
-        if face_real_location[1] > (lookarea_x / 2):  # If
-            face_real_location[1] = (lookarea_x / 2)
+        #print("outside of y-extent")
+        if face_real_location[1] > (lookarea_y / 2):  # If
+            face_real_location[1] = (lookarea_y / 2)
+            print("outside of y-extent, positive")
         else:
-            face_real_location[1] = (-lookarea_x / 2)
+            face_real_location[1] = (-lookarea_y / 2)
+            print("outside of y-extent, negative")
 
 
     #robot.move(face_real_location, thresh=None)
@@ -75,15 +79,15 @@ while True:
     t = robot.robot.csys * m3d.Transform(face_real_location)
     t = t.matrix
     m = kinematics.invKine(t, robot.robot.getj())
-    print(k)
-    print(m)
+    #print(k)
+    #print(m)
     k = m
 
     cur_time = time.time()- now
     if send_interval > cur_time:
         time.sleep(send_interval-cur_time)
     cur_time = time.time()- now
-    print(cur_time)
+    #print(cur_time)
     robot.robot.servoj(m, acc= 0, vel= 0, time= send_interval, looktime=0.2,gain= 300)
     #time.sleep(0.1)
 
