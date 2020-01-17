@@ -83,7 +83,7 @@ class ScreenCoord(Coord):
 
         new_coord = self.newXY()
 
-        # print("new coordinates x+y+z:", new_coord)
+        print("new coordinates x+y+z:", new_coord)
 
         new_coord = self.apply_z_value(new_coord)
         # print("nc: ", new_coord)
@@ -96,6 +96,13 @@ class ScreenCoord(Coord):
         # TODO: add case for center of c_sys!!
         return compound_coord
 
+    def convert_screen_coords_again(self, coordinates):
+        new_coord = coordinates[:2]
+        print(new_coord)
+        new_coord = self.apply_z_value(new_coord)
+        compound_coord = self.apply_rotation(new_coord)
+
+        return compound_coord
 
 class RobotCoord(Coord):
 

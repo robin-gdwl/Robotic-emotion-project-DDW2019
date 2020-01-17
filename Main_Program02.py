@@ -13,8 +13,8 @@ from String_to_Path import ThingToWrite
 Robot = RobotMotion()
 face_finder = FaceOperation()
 
-lookarea_x = 0.4    # overall x- extent of the (rectangular) area in which the robot looks around
-lookarea_y = 0.28    # overall y- extent of the (rectangular) area in which the robot looks around
+lookarea_x = 0.43    # overall x- extent of the (rectangular) area in which the robot looks around
+lookarea_y = 0.3    # overall y- extent of the (rectangular) area in which the robot looks around
 position = 0
 iteration = 0
 draw_origin = [0,0]
@@ -46,7 +46,6 @@ while True:  # This is the actual process: lookaround then face tracking if a fa
     if exhibit_start_hr <= curr_time < exhibit_end_hr:  # disabled because the time on the raspberry pi is not consistent
 
         if out_of_time_bool == True:
-            print("unfolding Robot, stand clear")
             Robot.move_home()
             out_of_time_bool = False
 
@@ -93,17 +92,15 @@ while True:  # This is the actual process: lookaround then face tracking if a fa
                     face_real_location[0] = (lookarea_x / 2)
                 else:
                     face_real_location[0] = (-lookarea_x / 2)
-                #face_real_location = face_screen_location.convert_screen_coords_again(face_real_location)  #ugh this is so ugly
 
             if (-lookarea_y / 2) <= face_real_location[1] <= (lookarea_y / 2):
                 pass
             else:
                 print("outside of y-extent")
-                if face_real_location[1] > (lookarea_y / 2):  # If
-                    face_real_location[1] = (lookarea_y / 2)
+                if face_real_location[1] > (lookarea_x / 2):  # If
+                    face_real_location[1] = (lookarea_x / 2)
                 else:
-                    face_real_location[1] = (-lookarea_y / 2)
-                #face_real_location = face_screen_location.convert_screen_coords_again(face_real_location)  # ugh this is so ugly
+                    face_real_location[1] = (-lookarea_x / 2)
 
             if time.time() < watch_time:  # only start writing after looking at a face for a certain time
                 Robot.move(face_real_location, thresh= 0.1)
@@ -172,12 +169,10 @@ while True:  # This is the actual process: lookaround then face tracking if a fa
                 break
 
     else:  #  stop robot when the exhibition is closed
-        if out_of_time_bool== False:
-            print("outside of exhibition hours - folding Robot")
-            Robot.fold()
         out_of_time_bool = True
         print(datetime.datetime.now())
         print("outside of exhibition hours - Robot stopped")
-        time.sleep(300)
+        Robot.fold()
+        time.sleep(240)
 
 
