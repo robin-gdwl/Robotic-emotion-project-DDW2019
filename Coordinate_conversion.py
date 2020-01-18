@@ -17,7 +17,7 @@ class Coord:
     def apply_rotation(self, new_coordinates):
 
         new_coord = new_coordinates
-        rotation_factor = 0.55
+        rotation_factor = 0*0.55
         rotation_angles = [0, 0, 0]
         # print(x_area/2)
         rotation_angles[0] = new_coord[1] / self.y_area / 2 * pi * -rotation_factor

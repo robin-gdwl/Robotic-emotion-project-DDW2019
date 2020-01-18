@@ -84,13 +84,34 @@ class Toolpath:
 
         return q_sols[diffs.index(min(diffs))]
 
+    def get_absolute_joint(self, joint):
+        abs_joint = abs(joint)
+        result = abs_joint - math.floor(abs_joint / (2*pi)) * (2*pi)
+        if result > pi:
+            result = result - (2*pi)
+        result *= np.sign(joint)
+        return result
+
+    def get_absolute_joints(self, joints, prev_joints):
+
+        closest_joints = []
+
+        for i in range(len(joints)):
+            prev_joint = self.get_absolute_joint(prev_joints[i])
+            joint = self.get_absolute_joint(joints[i])
+            difference = joint - prev_joint
+            abs_difference = abs(difference)
+            if abs_difference > pi:
+                difference = (abs_difference- (pi*2)) * np.sign(difference)
+            closest_joints.append(prev_joints[i] + difference)
+        return closest_joints
 
     def squared_diff(self, a,b):
         difference = abs(a-b)
         if difference > pi:
             difference = pi * 2 -difference
 
-        return difference
+        return difference*difference
 
     def AH(self, n, th, c):
         T_a = self.mat(np.identity(4), copy=False)
@@ -133,14 +154,27 @@ class Toolpath:
         P_05 = (desired_pos * self.mat([0, 0, -self.d6, 1]).T - self.mat([0, 0, 0, 1]).T)
 
         # **** theta1 ****
+        """ from visose robots.gh:
+            https://github.com/visose/Robots/blob/3787a04e41ed60832ccc880ec4ab677b3fe9d9a2/Robots/Kinematics.cs#L310
+        transform= the desired position
+        double A = d[5] * transform[1, 2] - transform[1, 3];
+        double B = d[5] * transform[0, 2] - transform[0, 3];
+        double R = A * A + B * B;
+        double arccos = Acos(d[3] / Sqrt(R));
+        double arctan = Atan2(-B, A);"""
 
-        psi = atan2(P_05[2 - 1, 0], P_05[1 - 1, 0])
+        R = (P_05[2 - 1, 0] * P_05[2 - 1, 0] + P_05[1 - 1, 0] * P_05[1 - 1, 0])
+        psi = atan2(P_05[2 - 1, 0],  P_05[1 - 1, 0])
         phi = acos(self.d4 / sqrt(P_05[2 - 1, 0] * P_05[2 - 1, 0] + P_05[1 - 1, 0] * P_05[1 - 1, 0]))
+
         # The two solutions for theta1 correspond to the shoulder
         # being either left or right
+        # pi / 2 = 90deg
         th[0, 0:4] = pi / 2 + psi + phi
         th[0, 4:8] = pi / 2 + psi - phi
         th = th.real
+        print("th___")
+        print(th)
 
         # **** theta5 ****
 
@@ -208,6 +242,7 @@ class Toolpath:
         best_th = th
         #best_th = self.select(th, start_pos)
         best_th = self.get_closest_solution(th, start_pos)
+        best_th = self.get_absolute_joints(best_th, start_pos)
 
 
         return best_th
