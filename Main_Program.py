@@ -24,7 +24,7 @@ line_spacing = 0.01
 exhibit_start_hr = 9
 exhibit_end_hr = 18
 
-message_after = 24  # number of evaluations after which the proj_message is written
+message_after = 28  # number of evaluations after which the proj_message is written
 proj_message = ["______________________",
                 "HOW DO I SEE TECHNOLOGY",
                 "WHEN I REALISE ",
@@ -36,6 +36,7 @@ proj_message = ["______________________",
                 "Robin Godwyll and Yang N i"]  # This message is written by the robot after a certain amount of evaluations
 
 Robot.move_home()
+out_of_time_bool = False
 
 while True:  # This is the actual process: lookaround then face tracking if a face is found and lastly write and draw
     curr_time = datetime.datetime.now()
@@ -43,6 +44,10 @@ while True:  # This is the actual process: lookaround then face tracking if a fa
     curr_time = curr_time.hour
 
     if exhibit_start_hr <= curr_time < exhibit_end_hr:  # disabled because the time on the raspberry pi is not consistent
+
+        if out_of_time_bool == True:
+            Robot.move_home()
+            out_of_time_bool = False
 
         face_finder.getframe()  # take image with pi camera
         while face_finder.findface() == False and exhibit_start_hr <= curr_time < exhibit_end_hr:
@@ -164,8 +169,10 @@ while True:  # This is the actual process: lookaround then face tracking if a fa
                 break
 
     else:  #  stop robot when the exhibition is closed
+        out_of_time_bool = True
         print(datetime.datetime.now())
         print("outside of exhibition hours - Robot stopped")
         Robot.fold()
-        time.sleep(300)
+        time.sleep(240)
+
 
