@@ -1,7 +1,8 @@
 import time
-from math import pi,sqrt
+from math import pi,sqrt,radians
 import urx
 import math3d as m3d
+
 
 
 # simple class that just slightly extends the urx capabilites
@@ -14,11 +15,11 @@ class RobotMotion:
         #alternate IP: "192.168.178.20"
         # 10.210.155.126
         #self.IP = "172.23.4.26"
-        self.IP = "172.23.4.26"
-        #self.IP = "192.168.178.20"
+        #self.IP = "172.23.4.26"
+        self.IP = "192.168.178.20"
 
-        self.a = 0.39
-        self.v = 0.7
+        self.a = 0.4
+        self.v = 0.6
         #self.csys_look = []  # not yet used anywhere
         #self.csys_write = []  # not yet used anywhere
         self.robot = None
@@ -63,9 +64,16 @@ class RobotMotion:
         #Backwards, towards cable:
         # self.robot.movej((1.7691065073013306, -1.0238812605487269, -2.190423313771383, 0.09588956832885742, 1.3761399984359741, 0.052045244723558426), self.a, self.v)
         #To the right:
-        self.robot.movej((-2.9600074926959437, -1.447723690663473, -1.59929067293276, -0.09472972551454717, 1.5610744953155518, 0.0), self.a, self.v)
+        #self.robot.movej((-2.9600074926959437, -1.447723690663473, -1.59929067293276, -0.09472972551454717, 1.5610744953155518, 0.0), self.a, self.v)
         #self.robot.movej((-2.965367619191305, -1.2486761252032679, -1.7504656950580042, -0.1426027456866663, 1.5664345026016235, -7.788287561538709e-07), self.a, self.v)
         #-2.7305217424975794, -1.4448440710650843, -1.7374909559832972, -0.07689410844911748, 1.5629560947418213, 0.24104845523834229
+        self.robot.movej((radians(-218),
+                          radians(-63),
+                          radians(-93),
+                          radians(-20),
+                          radians(88),
+                          radians(0)), self.a, self.v )
+
 
         print("Robot moved to home position.")
         self.robot.csys = m3d.Transform() # reset csys otherwise weird things happen.
@@ -95,17 +103,27 @@ class RobotMotion:
         #??
         #self.robot.movej((-1.198425594960348, -1.518754784260885, -1.8426645437823694, -0.7939837614642542, 1.5331677198410034, 0.15597468614578247), self.a, self.v)
         #from looking to the right:
-        self.robot.movej((-1.4970853964435022, -1.4696648756610315, -1.6335142294513147, -1.576144043599264, 1.5420225858688354, 0.18122133612632751), self.a, self.v)
-
+        #self.robot.movej((-1.4970853964435022, -1.4696648756610315, -1.6335142294513147, -1.576144043599264, 1.5420225858688354, 0.18122133612632751), self.a, self.v)
+        self.robot.movej((radians(-154),
+                          radians(-50),
+                          radians(-117),
+                          radians(-54),
+                          radians(88),
+                          radians(0)),self.a, self.v)
 
     def move_to_write(self):
 
-        self.move_between()
-        self.robot.movej((-1.198425594960348, -1.518754784260885, -1.8426645437823694, -0.7939837614642542,
-                          1.5331677198410034, 0.15597468614578247), self.a, self.v *0.8)
-
+        #self.move_between()
+        #self.robot.movej((-1.198425594960348, -1.518754784260885, -1.8426645437823694, -0.7939837614642542,1.5331677198410034, 0.15597468614578247), self.a, self.v *0.8)
+        self.robot.movej((radians(-69),
+                          radians(-97),
+                          radians(-108),
+                          radians(-64),
+                          radians(89.5),
+                          radians(0)), self.a, self.v)
         # über dem papier 01 self.robot.movej((-1.186561409627096, -1.9445274511920374, -1.7661479155169886, -1.006078068410055, 1.5503629446029663, 0.3756316900253296), self.a, self.v)
         self.robot.movej((-1.2749927679644983, -1.9379289785968226, -2.09098464647402, -0.6840408484088343, 1.5629680156707764, 0.28495118021965027), self.a, self.v)
+
         # if movel should be used csys has to be reset to base before move
         # #self.robot.movel((0.6000000521429313, 0.15000001308942848, 0.09000014933946439, -2.221440281881211, -2.2214404854075736, -1.74503212199567e-07), self.a, self.v)
 
