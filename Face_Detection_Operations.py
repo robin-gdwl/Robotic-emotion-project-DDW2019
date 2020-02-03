@@ -56,7 +56,7 @@ class FaceOperation:
                               exposure_mode ="auto",
                               shutter_speed = 3800,
                               exposure_compensation = -1,
-                              rotation = 180).start()
+                              rotation = 0).start()
         time.sleep(0.2)
 
     def getframe(self):
