@@ -18,10 +18,6 @@ if sys.platform == "linux":
     RASPBERRY_BOOL = True
 
 
-# TODO: use imutils videostream instead of a single image capture!!!
-    # TODO: camera args as described here: https://github.com/jrosebr1/imutils/blob/master/imutils/video/videostream.py#L6
-# camera stream will work in the bg
-
 # parameters for loading data and images
 detection_model_path = 'haarcascade_files/haarcascade_frontalface_default.xml'
 emotion_model_path = 'models/_mini_XCEPTION.102-0.66.hdf5'
@@ -29,6 +25,7 @@ emotion_model_path = 'models/_mini_XCEPTION.102-0.66.hdf5'
 # hyper-parameters for bounding boxes shape
 # loading models
 face_detection = cv2.CascadeClassifier(detection_model_path)
+print("loading emotion classifier")
 emotion_classifier = load_model(emotion_model_path, compile=False)
 EMOTIONS = ["angry" ,"disgust","scared", "happy", "sad", "surprised",
  "neutral"]

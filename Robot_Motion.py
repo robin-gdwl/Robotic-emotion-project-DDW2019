@@ -14,9 +14,9 @@ class RobotMotion:
     def __init__(self):
         #alternate IP: "192.168.178.20"
         # 10.210.155.126
+        self.IP = "10.211.55.5"
         #self.IP = "172.23.4.26"
-        #self.IP = "172.23.4.26"
-        self.IP = "192.168.178.20"
+        #self.IP = "192.168.178.20"
 
         self.a = 0.4
         self.v = 0.6
