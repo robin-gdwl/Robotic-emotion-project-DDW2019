@@ -283,7 +283,7 @@ class RealTimeClient(object):
                 self.__robotModel.rtcProgramExecutionError = True
                 self.__logger.error('SendProgram: Safety Stop')
             elif self.__robotModel.OutputBitRegister()[0] == False:
-                self.__logger.debug('sendProgram: Program not started')
+                self.__logger.error('sendProgram: Program not started')
                 notrun += 1
                 if notrun > waitForProgramStart:
                     self.__robotModel.rtcProgramRunning = False

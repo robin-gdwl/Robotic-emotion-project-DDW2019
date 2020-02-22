@@ -1,4 +1,7 @@
-
+/ur_log/*
+ur_log/*
+*.log
+/.idea/*
 *.idea
 .idea/workspace.xml
 *.pyc

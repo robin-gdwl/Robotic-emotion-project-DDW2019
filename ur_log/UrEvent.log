@@ -1,1 +1,566 @@
-2020-02-18 13:14:47,887 - URBasic_rtdeEvent - ERROR - Lost some RTDE at 524.472 - 15.99999999996271 milliseconds since last package
+2020-02-22 19:28:06,697 - URBasic_robotModelEvent - INFO - Init done
+2020-02-22 19:28:07,203 - URBasic_dataLogEvent - INFO - DataLog constructor done
+2020-02-22 19:28:07,204 - URBasic_rtdeEvent - INFO - RTDE constructor done
+2020-02-22 19:28:07,710 - URBasic_dashboardEvent - INFO - Connected
+2020-02-22 19:28:07,711 - URBasic_dashboardEvent - INFO - UR Dashboard respond Connected: Universal Robots Dashboard Server
+2020-02-22 19:28:07,711 - URBasic_dashboardEvent - INFO - Dashboard server constructor done
+2020-02-22 19:28:07,711 - URBasic_robotConnectorEvent - INFO - Init done
+2020-02-22 19:28:08,362 - URBasic_rtdeEvent - INFO - Controller version: 3.6.1-0
+2020-02-22 19:28:08,365 - URBasic_rtdeEvent - INFO - RTDE started
+2020-02-22 19:28:08,716 - URBasic_urScriptEvent - INFO - Init done
+2020-02-22 19:28:08,730 - URBasic_urScriptExtEvent - INFO - Init done
+2020-02-22 19:28:17,254 - URBasic_rtdeEvent - INFO - Total packages: 1000
+2020-02-22 19:28:26,043 - URBasic_rtdeEvent - INFO - Total packages: 2000
+2020-02-22 19:28:34,907 - URBasic_rtdeEvent - INFO - Total packages: 3000
+2020-02-22 19:28:43,801 - URBasic_rtdeEvent - INFO - Total packages: 4000
+2020-02-22 19:28:52,688 - URBasic_rtdeEvent - INFO - Total packages: 5000
+2020-02-22 19:29:01,578 - URBasic_rtdeEvent - INFO - Total packages: 6000
+2020-02-22 19:29:10,388 - URBasic_rtdeEvent - INFO - Total packages: 7000
+2020-02-22 19:29:19,213 - URBasic_rtdeEvent - INFO - Total packages: 8000
+2020-02-22 19:29:28,033 - URBasic_rtdeEvent - INFO - Total packages: 9000
+2020-02-22 19:29:33,586 - URBasic_rtdeEvent - ERROR - Lost some RTDE at 4246.888 - 16.000000000531145 milliseconds since last package
+2020-02-22 19:29:35,506 - URBasic_dataLogEvent - INFO - DataLog is stopped
+2020-02-22 19:29:35,514 - URBasic_rtdeEvent - INFO - RTDE interface is stopped
+2020-02-22 19:29:39,083 - URBasic_robotModelEvent - INFO - Init done
+2020-02-22 19:29:39,589 - URBasic_dataLogEvent - INFO - DataLog constructor done
+2020-02-22 19:29:39,590 - URBasic_rtdeEvent - INFO - RTDE constructor done
+2020-02-22 19:29:40,095 - URBasic_dashboardEvent - INFO - Connected
+2020-02-22 19:29:40,095 - URBasic_dashboardEvent - INFO - UR Dashboard respond Connected: Universal Robots Dashboard Server
+2020-02-22 19:29:40,095 - URBasic_dashboardEvent - INFO - Dashboard server constructor done
+2020-02-22 19:29:40,096 - URBasic_robotConnectorEvent - INFO - Init done
+2020-02-22 19:29:40,234 - URBasic_rtdeEvent - INFO - Controller version: 3.6.1-0
+2020-02-22 19:29:40,238 - URBasic_rtdeEvent - INFO - RTDE started
+2020-02-22 19:29:41,100 - URBasic_urScriptEvent - INFO - Init done
+2020-02-22 19:29:41,110 - URBasic_urScriptExtEvent - INFO - Init done
+2020-02-22 19:29:49,064 - URBasic_rtdeEvent - INFO - Total packages: 1000
+2020-02-22 19:29:52,569 - URBasic_rtdeEvent - INFO - RTDE interface is stopped
+2020-02-22 19:29:53,172 - URBasic_dataLogEvent - INFO - DataLog constructor done
+2020-02-22 19:29:53,173 - URBasic_rtdeEvent - INFO - RTDE constructor done
+2020-02-22 19:29:53,678 - URBasic_dashboardEvent - INFO - Connected
+2020-02-22 19:29:53,679 - URBasic_dashboardEvent - INFO - UR Dashboard respond Connected: Universal Robots Dashboard Server
+2020-02-22 19:29:53,679 - URBasic_dashboardEvent - INFO - Dashboard server constructor done
+2020-02-22 19:29:53,680 - URBasic_robotConnectorEvent - INFO - Init done
+2020-02-22 19:29:53,680 - URBasic_urScriptEvent - INFO - Init done
+2020-02-22 19:29:54,009 - URBasic_rtdeEvent - INFO - Controller version: 3.6.1-0
+2020-02-22 19:29:54,012 - URBasic_rtdeEvent - INFO - RTDE started
+2020-02-22 19:29:54,018 - URBasic_rtdeEvent - ERROR - Lost some RTDE at 4264.96 - 1264.0000000001237 milliseconds since last package
+2020-02-22 19:29:54,027 - URBasic_urScriptExtEvent - INFO - Init done
+2020-02-22 19:29:57,158 - URBasic_realTimeClientEvent - ERROR - sendProgram: Program not started
+2020-02-22 19:29:57,214 - URBasic_realTimeClientEvent - ERROR - sendProgram: Program not started
+2020-02-22 19:29:57,215 - URBasic_realTimeClientEvent - ERROR - sendProgram: Program not able to run
+2020-02-22 19:29:57,478 - URBasic_realTimeClientEvent - ERROR - sendProgram: Program not started
+2020-02-22 19:29:57,533 - URBasic_realTimeClientEvent - ERROR - sendProgram: Program not started
+2020-02-22 19:29:57,533 - URBasic_realTimeClientEvent - ERROR - sendProgram: Program not able to run
+2020-02-22 19:30:02,979 - URBasic_rtdeEvent - INFO - Total packages: 1000
+2020-02-22 19:30:11,956 - URBasic_rtdeEvent - INFO - Total packages: 2000
+2020-02-22 19:30:20,835 - URBasic_rtdeEvent - INFO - Total packages: 3000
+2020-02-22 19:30:29,351 - URBasic_dataLogEvent - INFO - DataLog is stopped
+2020-02-22 19:30:29,358 - URBasic_rtdeEvent - INFO - RTDE interface is stopped
+2020-02-22 19:30:29,753 - URBasic_dashboardEvent - INFO - Dashboard server interface is stopped
+2020-02-22 19:31:00,614 - URBasic_robotModelEvent - INFO - Init done
+2020-02-22 19:31:01,120 - URBasic_dataLogEvent - INFO - DataLog constructor done
+2020-02-22 19:31:01,120 - URBasic_rtdeEvent - INFO - RTDE constructor done
+2020-02-22 19:31:01,625 - URBasic_dashboardEvent - INFO - Connected
+2020-02-22 19:31:01,625 - URBasic_dashboardEvent - INFO - UR Dashboard respond Connected: Universal Robots Dashboard Server
+2020-02-22 19:31:01,626 - URBasic_dashboardEvent - INFO - Dashboard server constructor done
+2020-02-22 19:31:01,626 - URBasic_robotConnectorEvent - INFO - Init done
+2020-02-22 19:31:01,934 - URBasic_rtdeEvent - INFO - Controller version: 3.6.1-0
+2020-02-22 19:31:01,937 - URBasic_rtdeEvent - INFO - RTDE started
+2020-02-22 19:31:02,629 - URBasic_urScriptEvent - INFO - Init done
+2020-02-22 19:31:02,642 - URBasic_urScriptExtEvent - INFO - Init done
+2020-02-22 19:31:10,935 - URBasic_rtdeEvent - INFO - Total packages: 1000
+2020-02-22 19:31:15,397 - URBasic_rtdeEvent - INFO - RTDE interface is stopped
+2020-02-22 19:31:16,000 - URBasic_dataLogEvent - INFO - DataLog constructor done
+2020-02-22 19:31:16,000 - URBasic_rtdeEvent - INFO - RTDE constructor done
+2020-02-22 19:31:16,505 - URBasic_dashboardEvent - INFO - Connected
+2020-02-22 19:31:16,506 - URBasic_dashboardEvent - INFO - UR Dashboard respond Connected: Universal Robots Dashboard Server
+2020-02-22 19:31:16,506 - URBasic_dashboardEvent - INFO - Dashboard server constructor done
+2020-02-22 19:31:16,507 - URBasic_robotConnectorEvent - INFO - Init done
+2020-02-22 19:31:16,507 - URBasic_urScriptEvent - INFO - Init done
+2020-02-22 19:31:17,116 - URBasic_rtdeEvent - INFO - Controller version: 3.6.1-0
+2020-02-22 19:31:17,721 - URBasic_rtdeEvent - INFO - Controller version: 3.6.1-0
+2020-02-22 19:31:17,723 - URBasic_rtdeEvent - INFO - RTDE started
+2020-02-22 19:31:17,724 - URBasic_rtdeEvent - ERROR - Lost some RTDE at 4339.824 - 2095.999999999549 milliseconds since last package
+2020-02-22 19:31:17,732 - URBasic_urScriptExtEvent - INFO - Init done
+2020-02-22 19:31:20,861 - URBasic_realTimeClientEvent - ERROR - sendProgram: Program not started
+2020-02-22 19:31:20,917 - URBasic_realTimeClientEvent - ERROR - sendProgram: Program not started
+2020-02-22 19:31:20,917 - URBasic_realTimeClientEvent - ERROR - sendProgram: Program not able to run
+2020-02-22 19:31:21,178 - URBasic_realTimeClientEvent - ERROR - sendProgram: Program not started
+2020-02-22 19:31:21,234 - URBasic_realTimeClientEvent - ERROR - sendProgram: Program not started
+2020-02-22 19:31:21,235 - URBasic_realTimeClientEvent - ERROR - sendProgram: Program not able to run
+2020-02-22 19:31:26,653 - URBasic_rtdeEvent - INFO - Total packages: 1000
+2020-02-22 19:31:35,538 - URBasic_rtdeEvent - INFO - Total packages: 2000
+2020-02-22 19:31:36,358 - URBasic_dataLogEvent - INFO - DataLog is stopped
+2020-02-22 19:31:36,361 - URBasic_rtdeEvent - INFO - RTDE interface is stopped
+2020-02-22 19:31:36,547 - URBasic_dashboardEvent - INFO - Dashboard server interface is stopped
+2020-02-22 19:31:40,104 - URBasic_robotModelEvent - INFO - Init done
+2020-02-22 19:31:40,610 - URBasic_dataLogEvent - INFO - DataLog constructor done
+2020-02-22 19:31:40,610 - URBasic_rtdeEvent - INFO - RTDE constructor done
+2020-02-22 19:31:41,116 - URBasic_dashboardEvent - INFO - Connected
+2020-02-22 19:31:41,117 - URBasic_dashboardEvent - INFO - UR Dashboard respond Connected: Universal Robots Dashboard Server
+2020-02-22 19:31:41,117 - URBasic_dashboardEvent - INFO - Dashboard server constructor done
+2020-02-22 19:31:41,117 - URBasic_robotConnectorEvent - INFO - Init done
+2020-02-22 19:31:41,421 - URBasic_rtdeEvent - INFO - Controller version: 3.6.1-0
+2020-02-22 19:31:41,424 - URBasic_rtdeEvent - INFO - RTDE started
+2020-02-22 19:31:42,122 - URBasic_urScriptEvent - INFO - Init done
+2020-02-22 19:31:42,137 - URBasic_urScriptExtEvent - INFO - Init done
+2020-02-22 19:31:50,495 - URBasic_rtdeEvent - INFO - Total packages: 1000
+2020-02-22 19:31:55,441 - URBasic_rtdeEvent - INFO - RTDE interface is stopped
+2020-02-22 19:31:56,046 - URBasic_dataLogEvent - INFO - DataLog constructor done
+2020-02-22 19:31:56,046 - URBasic_rtdeEvent - INFO - RTDE constructor done
+2020-02-22 19:31:56,551 - URBasic_dashboardEvent - INFO - Connected
+2020-02-22 19:31:56,552 - URBasic_dashboardEvent - INFO - UR Dashboard respond Connected: Universal Robots Dashboard Server
+2020-02-22 19:31:56,552 - URBasic_dashboardEvent - INFO - Dashboard server constructor done
+2020-02-22 19:31:56,552 - URBasic_robotConnectorEvent - INFO - Init done
+2020-02-22 19:31:56,552 - URBasic_urScriptEvent - INFO - Init done
+2020-02-22 19:31:56,661 - URBasic_rtdeEvent - INFO - Controller version: 3.6.1-0
+2020-02-22 19:31:56,663 - URBasic_rtdeEvent - INFO - RTDE started
+2020-02-22 19:31:56,672 - URBasic_rtdeEvent - ERROR - Lost some RTDE at 4374.7119999999995 - 1112.00000000008 milliseconds since last package
+2020-02-22 19:31:56,682 - URBasic_urScriptExtEvent - INFO - Init done
+2020-02-22 19:31:59,807 - URBasic_realTimeClientEvent - ERROR - sendProgram: Program not started
+2020-02-22 19:31:59,863 - URBasic_realTimeClientEvent - ERROR - sendProgram: Program not started
+2020-02-22 19:31:59,863 - URBasic_realTimeClientEvent - ERROR - sendProgram: Program not able to run
+2020-02-22 19:32:00,121 - URBasic_realTimeClientEvent - ERROR - sendProgram: Program not started
+2020-02-22 19:32:00,177 - URBasic_realTimeClientEvent - ERROR - sendProgram: Program not started
+2020-02-22 19:32:00,178 - URBasic_realTimeClientEvent - ERROR - sendProgram: Program not able to run
+2020-02-22 19:32:04,237 - URBasic_dataLogEvent - INFO - DataLog is stopped
+2020-02-22 19:32:04,240 - URBasic_rtdeEvent - INFO - RTDE interface is stopped
+2020-02-22 19:32:04,571 - URBasic_dashboardEvent - INFO - Dashboard server interface is stopped
+2020-02-22 19:32:08,065 - URBasic_robotModelEvent - INFO - Init done
+2020-02-22 19:32:08,572 - URBasic_dataLogEvent - INFO - DataLog constructor done
+2020-02-22 19:32:08,572 - URBasic_rtdeEvent - INFO - RTDE constructor done
+2020-02-22 19:32:09,078 - URBasic_dashboardEvent - INFO - Connected
+2020-02-22 19:32:09,078 - URBasic_dashboardEvent - INFO - UR Dashboard respond Connected: Universal Robots Dashboard Server
+2020-02-22 19:32:09,078 - URBasic_dashboardEvent - INFO - Dashboard server constructor done
+2020-02-22 19:32:09,079 - URBasic_robotConnectorEvent - INFO - Init done
+2020-02-22 19:32:09,482 - URBasic_rtdeEvent - INFO - Controller version: 3.6.1-0
+2020-02-22 19:32:09,484 - URBasic_rtdeEvent - INFO - RTDE started
+2020-02-22 19:32:10,082 - URBasic_urScriptEvent - INFO - Init done
+2020-02-22 19:32:10,096 - URBasic_urScriptExtEvent - INFO - Init done
+2020-02-22 19:32:18,466 - URBasic_rtdeEvent - INFO - Total packages: 1000
+2020-02-22 19:32:24,433 - URBasic_dataLogEvent - INFO - DataLog constructor done
+2020-02-22 19:32:24,433 - URBasic_rtdeEvent - INFO - RTDE constructor done
+2020-02-22 19:32:24,938 - URBasic_dashboardEvent - INFO - Connected
+2020-02-22 19:32:24,939 - URBasic_dashboardEvent - INFO - UR Dashboard respond Connected: Universal Robots Dashboard Server
+2020-02-22 19:32:24,939 - URBasic_dashboardEvent - INFO - Dashboard server constructor done
+2020-02-22 19:32:24,939 - URBasic_robotConnectorEvent - INFO - Init done
+2020-02-22 19:32:24,939 - URBasic_urScriptEvent - INFO - Init done
+2020-02-22 19:32:24,957 - URBasic_urScriptExtEvent - INFO - Init done
+2020-02-22 19:32:25,285 - URBasic_rtdeEvent - INFO - Controller version: 3.6.1-0
+2020-02-22 19:32:27,346 - URBasic_rtdeEvent - INFO - Total packages: 2000
+2020-02-22 19:32:28,083 - URBasic_realTimeClientEvent - ERROR - sendProgram: Program not started
+2020-02-22 19:32:28,139 - URBasic_realTimeClientEvent - ERROR - sendProgram: Program not started
+2020-02-22 19:32:28,140 - URBasic_realTimeClientEvent - ERROR - sendProgram: Program not able to run
+2020-02-22 19:32:28,400 - URBasic_realTimeClientEvent - ERROR - sendProgram: Program not started
+2020-02-22 19:32:28,454 - URBasic_realTimeClientEvent - ERROR - sendProgram: Program not started
+2020-02-22 19:32:28,456 - URBasic_realTimeClientEvent - ERROR - sendProgram: Program not able to run
+2020-02-22 19:32:36,174 - URBasic_rtdeEvent - INFO - Total packages: 3000
+2020-02-22 19:32:44,981 - URBasic_rtdeEvent - INFO - Total packages: 4000
+2020-02-22 19:32:53,827 - URBasic_rtdeEvent - INFO - Total packages: 5000
+2020-02-22 19:33:02,578 - URBasic_rtdeEvent - INFO - Total packages: 6000
+2020-02-22 19:33:11,354 - URBasic_rtdeEvent - INFO - Total packages: 7000
+2020-02-22 19:33:15,691 - URBasic_dataLogEvent - INFO - DataLog is stopped
+2020-02-22 19:33:19,701 - URBasic_robotModelEvent - INFO - Init done
+2020-02-22 19:33:20,207 - URBasic_dataLogEvent - INFO - DataLog constructor done
+2020-02-22 19:33:20,208 - URBasic_rtdeEvent - INFO - RTDE constructor done
+2020-02-22 19:33:20,709 - URBasic_dashboardEvent - INFO - Connected
+2020-02-22 19:33:20,710 - URBasic_dashboardEvent - INFO - UR Dashboard respond Connected: Universal Robots Dashboard Server
+2020-02-22 19:33:20,710 - URBasic_dashboardEvent - INFO - Dashboard server constructor done
+2020-02-22 19:33:20,711 - URBasic_robotConnectorEvent - INFO - Init done
+2020-02-22 19:33:21,167 - URBasic_rtdeEvent - INFO - Controller version: 3.6.1-0
+2020-02-22 19:33:21,169 - URBasic_rtdeEvent - INFO - RTDE started
+2020-02-22 19:33:21,716 - URBasic_urScriptEvent - INFO - Init done
+2020-02-22 19:33:21,730 - URBasic_urScriptExtEvent - INFO - Init done
+2020-02-22 19:33:30,124 - URBasic_rtdeEvent - INFO - Total packages: 1000
+2020-02-22 19:33:37,787 - URBasic_realTimeClientEvent - ERROR - sendProgram: Program not started
+2020-02-22 19:33:37,844 - URBasic_realTimeClientEvent - ERROR - sendProgram: Program not started
+2020-02-22 19:33:37,844 - URBasic_realTimeClientEvent - ERROR - sendProgram: Program not able to run
+2020-02-22 19:33:38,105 - URBasic_realTimeClientEvent - ERROR - sendProgram: Program not started
+2020-02-22 19:33:38,160 - URBasic_realTimeClientEvent - ERROR - sendProgram: Program not started
+2020-02-22 19:33:38,161 - URBasic_realTimeClientEvent - ERROR - sendProgram: Program not able to run
+2020-02-22 19:33:38,951 - URBasic_rtdeEvent - INFO - Total packages: 2000
+2020-02-22 19:33:47,769 - URBasic_rtdeEvent - INFO - Total packages: 3000
+2020-02-22 19:33:56,592 - URBasic_rtdeEvent - INFO - Total packages: 4000
+2020-02-22 19:34:05,327 - URBasic_rtdeEvent - INFO - Total packages: 5000
+2020-02-22 19:34:14,099 - URBasic_rtdeEvent - INFO - Total packages: 6000
+2020-02-22 19:34:22,889 - URBasic_rtdeEvent - INFO - Total packages: 7000
+2020-02-22 19:34:31,654 - URBasic_rtdeEvent - INFO - Total packages: 8000
+2020-02-22 19:34:40,473 - URBasic_rtdeEvent - INFO - Total packages: 9000
+2020-02-22 19:34:49,244 - URBasic_rtdeEvent - INFO - Total packages: 10000
+2020-02-22 19:34:58,060 - URBasic_rtdeEvent - INFO - Total packages: 11000
+2020-02-22 19:35:06,903 - URBasic_rtdeEvent - INFO - Total packages: 12000
+2020-02-22 19:35:15,717 - URBasic_rtdeEvent - INFO - Total packages: 13000
+2020-02-22 19:35:24,547 - URBasic_rtdeEvent - INFO - Total packages: 14000
+2020-02-22 19:35:27,788 - URBasic_dataLogEvent - INFO - DataLog is stopped
+2020-02-22 19:35:27,796 - URBasic_rtdeEvent - INFO - RTDE interface is stopped
+2020-02-22 19:36:10,098 - URBasic_robotModelEvent - INFO - Init done
+2020-02-22 19:36:10,605 - URBasic_dataLogEvent - INFO - DataLog constructor done
+2020-02-22 19:36:10,607 - URBasic_rtdeEvent - INFO - RTDE constructor done
+2020-02-22 19:36:11,114 - URBasic_dashboardEvent - INFO - Connected
+2020-02-22 19:36:11,114 - URBasic_dashboardEvent - INFO - UR Dashboard respond Connected: Universal Robots Dashboard Server
+2020-02-22 19:36:11,115 - URBasic_dashboardEvent - INFO - Dashboard server constructor done
+2020-02-22 19:36:11,116 - URBasic_robotConnectorEvent - INFO - Init done
+2020-02-22 19:36:11,579 - URBasic_rtdeEvent - INFO - Controller version: 3.6.1-0
+2020-02-22 19:36:11,583 - URBasic_rtdeEvent - INFO - RTDE started
+2020-02-22 19:36:12,122 - URBasic_urScriptEvent - INFO - Init done
+2020-02-22 19:36:12,137 - URBasic_urScriptExtEvent - INFO - Init done
+2020-02-22 19:36:20,444 - URBasic_rtdeEvent - INFO - Total packages: 1000
+2020-02-22 19:36:29,235 - URBasic_rtdeEvent - INFO - Total packages: 2000
+2020-02-22 19:36:38,104 - URBasic_rtdeEvent - INFO - Total packages: 3000
+2020-02-22 19:36:47,159 - URBasic_rtdeEvent - INFO - Total packages: 4000
+2020-02-22 19:36:56,008 - URBasic_rtdeEvent - INFO - Total packages: 5000
+2020-02-22 19:37:04,958 - URBasic_rtdeEvent - INFO - Total packages: 6000
+2020-02-22 19:37:13,923 - URBasic_rtdeEvent - INFO - Total packages: 7000
+2020-02-22 19:37:22,898 - URBasic_rtdeEvent - INFO - Total packages: 8000
+2020-02-22 19:37:31,775 - URBasic_rtdeEvent - INFO - Total packages: 9000
+2020-02-22 19:37:40,525 - URBasic_rtdeEvent - INFO - Total packages: 10000
+2020-02-22 19:37:49,327 - URBasic_rtdeEvent - INFO - Total packages: 11000
+2020-02-22 19:37:58,110 - URBasic_rtdeEvent - INFO - Total packages: 12000
+2020-02-22 19:38:06,908 - URBasic_rtdeEvent - INFO - Total packages: 13000
+2020-02-22 19:38:15,697 - URBasic_rtdeEvent - INFO - Total packages: 14000
+2020-02-22 19:38:24,457 - URBasic_rtdeEvent - INFO - Total packages: 15000
+2020-02-22 19:38:33,197 - URBasic_rtdeEvent - INFO - Total packages: 16000
+2020-02-22 19:38:41,967 - URBasic_rtdeEvent - INFO - Total packages: 17000
+2020-02-22 19:38:50,639 - URBasic_rtdeEvent - INFO - Total packages: 18000
+2020-02-22 19:38:59,432 - URBasic_rtdeEvent - INFO - Total packages: 19000
+2020-02-22 19:39:08,319 - URBasic_rtdeEvent - INFO - Total packages: 20000
+2020-02-22 19:39:17,209 - URBasic_rtdeEvent - INFO - Total packages: 21000
+2020-02-22 19:39:26,069 - URBasic_rtdeEvent - INFO - Total packages: 22000
+2020-02-22 19:39:34,994 - URBasic_rtdeEvent - INFO - Total packages: 23000
+2020-02-22 19:39:43,895 - URBasic_rtdeEvent - INFO - Total packages: 24000
+2020-02-22 19:39:52,675 - URBasic_rtdeEvent - INFO - Total packages: 25000
+2020-02-22 19:40:01,540 - URBasic_rtdeEvent - INFO - Total packages: 26000
+2020-02-22 19:40:10,437 - URBasic_rtdeEvent - INFO - Total packages: 27000
+2020-02-22 19:40:19,303 - URBasic_rtdeEvent - INFO - Total packages: 28000
+2020-02-22 19:40:28,355 - URBasic_rtdeEvent - INFO - Total packages: 29000
+2020-02-22 19:40:37,207 - URBasic_rtdeEvent - INFO - Total packages: 30000
+2020-02-22 19:40:46,067 - URBasic_rtdeEvent - INFO - Total packages: 31000
+2020-02-22 19:40:54,968 - URBasic_rtdeEvent - INFO - Total packages: 32000
+2020-02-22 19:41:03,893 - URBasic_rtdeEvent - INFO - Total packages: 33000
+2020-02-22 19:41:12,827 - URBasic_rtdeEvent - INFO - Total packages: 34000
+2020-02-22 19:41:21,769 - URBasic_rtdeEvent - INFO - Total packages: 35000
+2020-02-22 19:41:30,762 - URBasic_rtdeEvent - INFO - Total packages: 36000
+2020-02-22 19:41:39,746 - URBasic_rtdeEvent - INFO - Total packages: 37000
+2020-02-22 19:41:48,688 - URBasic_rtdeEvent - INFO - Total packages: 38000
+2020-02-22 19:41:57,617 - URBasic_rtdeEvent - INFO - Total packages: 39000
+2020-02-22 19:42:06,564 - URBasic_rtdeEvent - INFO - Total packages: 40000
+2020-02-22 19:42:15,513 - URBasic_rtdeEvent - INFO - Total packages: 41000
+2020-02-22 19:42:24,530 - URBasic_rtdeEvent - INFO - Total packages: 42000
+2020-02-22 19:42:33,488 - URBasic_rtdeEvent - INFO - Total packages: 43000
+2020-02-22 19:42:42,455 - URBasic_rtdeEvent - INFO - Total packages: 44000
+2020-02-22 19:42:51,350 - URBasic_rtdeEvent - INFO - Total packages: 45000
+2020-02-22 19:43:00,206 - URBasic_rtdeEvent - INFO - Total packages: 46000
+2020-02-22 19:43:09,148 - URBasic_rtdeEvent - INFO - Total packages: 47000
+2020-02-22 19:43:18,026 - URBasic_rtdeEvent - INFO - Total packages: 48000
+2020-02-22 19:43:26,898 - URBasic_rtdeEvent - INFO - Total packages: 49000
+2020-02-22 19:43:35,790 - URBasic_rtdeEvent - INFO - Total packages: 50000
+2020-02-22 19:43:44,747 - URBasic_rtdeEvent - INFO - Total packages: 51000
+2020-02-22 19:43:53,703 - URBasic_rtdeEvent - INFO - Total packages: 52000
+2020-02-22 19:44:02,574 - URBasic_rtdeEvent - INFO - Total packages: 53000
+2020-02-22 19:44:11,481 - URBasic_rtdeEvent - INFO - Total packages: 54000
+2020-02-22 19:44:20,328 - URBasic_rtdeEvent - INFO - Total packages: 55000
+2020-02-22 19:44:29,152 - URBasic_rtdeEvent - INFO - Total packages: 56000
+2020-02-22 19:44:38,001 - URBasic_rtdeEvent - INFO - Total packages: 57000
+2020-02-22 19:44:46,839 - URBasic_rtdeEvent - INFO - Total packages: 58000
+2020-02-22 19:44:55,728 - URBasic_rtdeEvent - INFO - Total packages: 59000
+2020-02-22 19:45:04,531 - URBasic_rtdeEvent - INFO - Total packages: 60000
+2020-02-22 19:45:13,272 - URBasic_rtdeEvent - INFO - Total packages: 61000
+2020-02-22 19:45:22,268 - URBasic_rtdeEvent - INFO - Total packages: 62000
+2020-02-22 19:45:31,180 - URBasic_rtdeEvent - INFO - Total packages: 63000
+2020-02-22 19:45:40,013 - URBasic_rtdeEvent - INFO - Total packages: 64000
+2020-02-22 19:45:48,840 - URBasic_rtdeEvent - INFO - Total packages: 65000
+2020-02-22 19:45:57,708 - URBasic_rtdeEvent - INFO - Total packages: 66000
+2020-02-22 19:46:06,517 - URBasic_rtdeEvent - INFO - Total packages: 67000
+2020-02-22 19:46:15,464 - URBasic_rtdeEvent - INFO - Total packages: 68000
+2020-02-22 19:46:24,369 - URBasic_rtdeEvent - INFO - Total packages: 69000
+2020-02-22 19:46:33,382 - URBasic_rtdeEvent - INFO - Total packages: 70000
+2020-02-22 19:46:42,388 - URBasic_rtdeEvent - INFO - Total packages: 71000
+2020-02-22 19:46:51,352 - URBasic_rtdeEvent - INFO - Total packages: 72000
+2020-02-22 19:47:00,147 - URBasic_rtdeEvent - INFO - Total packages: 73000
+2020-02-22 19:47:08,947 - URBasic_rtdeEvent - INFO - Total packages: 74000
+2020-02-22 19:47:18,199 - URBasic_rtdeEvent - INFO - Total packages: 75000
+2020-02-22 19:47:27,005 - URBasic_rtdeEvent - INFO - Total packages: 76000
+2020-02-22 19:47:35,834 - URBasic_rtdeEvent - INFO - Total packages: 77000
+2020-02-22 19:47:44,683 - URBasic_rtdeEvent - INFO - Total packages: 78000
+2020-02-22 19:47:53,493 - URBasic_rtdeEvent - INFO - Total packages: 79000
+2020-02-22 19:48:02,350 - URBasic_rtdeEvent - INFO - Total packages: 80000
+2020-02-22 19:48:11,158 - URBasic_rtdeEvent - INFO - Total packages: 81000
+2020-02-22 19:48:19,958 - URBasic_rtdeEvent - INFO - Total packages: 82000
+2020-02-22 19:48:28,793 - URBasic_rtdeEvent - INFO - Total packages: 83000
+2020-02-22 19:48:37,718 - URBasic_rtdeEvent - INFO - Total packages: 84000
+2020-02-22 19:48:46,634 - URBasic_rtdeEvent - INFO - Total packages: 85000
+2020-02-22 19:48:55,457 - URBasic_rtdeEvent - INFO - Total packages: 86000
+2020-02-22 19:49:04,281 - URBasic_rtdeEvent - INFO - Total packages: 87000
+2020-02-22 19:49:13,033 - URBasic_rtdeEvent - INFO - Total packages: 88000
+2020-02-22 19:49:21,836 - URBasic_rtdeEvent - INFO - Total packages: 89000
+2020-02-22 19:49:30,576 - URBasic_rtdeEvent - INFO - Total packages: 90000
+2020-02-22 19:49:39,392 - URBasic_rtdeEvent - INFO - Total packages: 91000
+2020-02-22 19:49:48,155 - URBasic_rtdeEvent - INFO - Total packages: 92000
+2020-02-22 19:49:57,011 - URBasic_rtdeEvent - INFO - Total packages: 93000
+2020-02-22 19:50:05,884 - URBasic_rtdeEvent - INFO - Total packages: 94000
+2020-02-22 19:50:14,814 - URBasic_rtdeEvent - INFO - Total packages: 95000
+2020-02-22 19:50:23,672 - URBasic_rtdeEvent - INFO - Total packages: 96000
+2020-02-22 19:50:32,498 - URBasic_rtdeEvent - INFO - Total packages: 97000
+2020-02-22 19:50:41,308 - URBasic_rtdeEvent - INFO - Total packages: 98000
+2020-02-22 19:50:50,051 - URBasic_rtdeEvent - INFO - Total packages: 99000
+2020-02-22 19:50:58,905 - URBasic_rtdeEvent - INFO - Total packages: 100000
+2020-02-22 19:51:07,715 - URBasic_rtdeEvent - INFO - Total packages: 101000
+2020-02-22 19:51:16,577 - URBasic_rtdeEvent - INFO - Total packages: 102000
+2020-02-22 19:51:25,352 - URBasic_rtdeEvent - INFO - Total packages: 103000
+2020-02-22 19:51:34,113 - URBasic_rtdeEvent - INFO - Total packages: 104000
+2020-02-22 19:51:42,892 - URBasic_rtdeEvent - INFO - Total packages: 105000
+2020-02-22 19:51:51,633 - URBasic_rtdeEvent - INFO - Total packages: 106000
+2020-02-22 19:52:00,379 - URBasic_rtdeEvent - INFO - Total packages: 107000
+2020-02-22 19:52:09,180 - URBasic_rtdeEvent - INFO - Total packages: 108000
+2020-02-22 19:52:17,963 - URBasic_rtdeEvent - INFO - Total packages: 109000
+2020-02-22 19:52:26,783 - URBasic_rtdeEvent - INFO - Total packages: 110000
+2020-02-22 19:52:35,611 - URBasic_rtdeEvent - INFO - Total packages: 111000
+2020-02-22 19:52:44,373 - URBasic_rtdeEvent - INFO - Total packages: 112000
+2020-02-22 19:52:53,179 - URBasic_rtdeEvent - INFO - Total packages: 113000
+2020-02-22 19:53:02,009 - URBasic_rtdeEvent - INFO - Total packages: 114000
+2020-02-22 19:53:10,855 - URBasic_rtdeEvent - INFO - Total packages: 115000
+2020-02-22 19:53:19,665 - URBasic_rtdeEvent - INFO - Total packages: 116000
+2020-02-22 19:53:28,495 - URBasic_rtdeEvent - INFO - Total packages: 117000
+2020-02-22 19:53:37,307 - URBasic_rtdeEvent - INFO - Total packages: 118000
+2020-02-22 19:53:46,083 - URBasic_rtdeEvent - INFO - Total packages: 119000
+2020-02-22 19:53:54,847 - URBasic_rtdeEvent - INFO - Total packages: 120000
+2020-02-22 19:54:03,664 - URBasic_rtdeEvent - INFO - Total packages: 121000
+2020-02-22 19:54:12,444 - URBasic_rtdeEvent - INFO - Total packages: 122000
+2020-02-22 19:54:21,267 - URBasic_rtdeEvent - INFO - Total packages: 123000
+2020-02-22 19:54:30,067 - URBasic_rtdeEvent - INFO - Total packages: 124000
+2020-02-22 19:54:38,989 - URBasic_rtdeEvent - INFO - Total packages: 125000
+2020-02-22 19:54:47,739 - URBasic_rtdeEvent - INFO - Total packages: 126000
+2020-02-22 19:54:56,585 - URBasic_rtdeEvent - INFO - Total packages: 127000
+2020-02-22 19:55:05,355 - URBasic_rtdeEvent - INFO - Total packages: 128000
+2020-02-22 19:55:14,166 - URBasic_rtdeEvent - INFO - Total packages: 129000
+2020-02-22 19:55:23,003 - URBasic_rtdeEvent - INFO - Total packages: 130000
+2020-02-22 19:55:31,863 - URBasic_rtdeEvent - INFO - Total packages: 131000
+2020-02-22 19:55:40,617 - URBasic_rtdeEvent - INFO - Total packages: 132000
+2020-02-22 19:55:49,470 - URBasic_rtdeEvent - INFO - Total packages: 133000
+2020-02-22 19:55:58,204 - URBasic_rtdeEvent - INFO - Total packages: 134000
+2020-02-22 19:56:07,019 - URBasic_rtdeEvent - INFO - Total packages: 135000
+2020-02-22 19:56:15,896 - URBasic_rtdeEvent - INFO - Total packages: 136000
+2020-02-22 19:56:24,752 - URBasic_rtdeEvent - INFO - Total packages: 137000
+2020-02-22 19:56:33,681 - URBasic_rtdeEvent - INFO - Total packages: 138000
+2020-02-22 19:56:42,589 - URBasic_rtdeEvent - INFO - Total packages: 139000
+2020-02-22 19:56:51,496 - URBasic_rtdeEvent - INFO - Total packages: 140000
+2020-02-22 19:57:00,429 - URBasic_rtdeEvent - INFO - Total packages: 141000
+2020-02-22 19:57:09,333 - URBasic_rtdeEvent - INFO - Total packages: 142000
+2020-02-22 19:57:18,105 - URBasic_rtdeEvent - INFO - Total packages: 143000
+2020-02-22 19:57:26,907 - URBasic_rtdeEvent - INFO - Total packages: 144000
+2020-02-22 19:57:35,673 - URBasic_rtdeEvent - INFO - Total packages: 145000
+2020-02-22 19:57:44,422 - URBasic_rtdeEvent - INFO - Total packages: 146000
+2020-02-22 19:57:53,184 - URBasic_rtdeEvent - INFO - Total packages: 147000
+2020-02-22 19:58:01,969 - URBasic_rtdeEvent - INFO - Total packages: 148000
+2020-02-22 19:58:10,747 - URBasic_rtdeEvent - INFO - Total packages: 149000
+2020-02-22 19:58:19,464 - URBasic_rtdeEvent - INFO - Total packages: 150000
+2020-02-22 19:58:28,198 - URBasic_rtdeEvent - INFO - Total packages: 151000
+2020-02-22 19:58:36,988 - URBasic_rtdeEvent - INFO - Total packages: 152000
+2020-02-22 19:58:45,711 - URBasic_rtdeEvent - INFO - Total packages: 153000
+2020-02-22 19:58:54,469 - URBasic_rtdeEvent - INFO - Total packages: 154000
+2020-02-22 19:59:03,259 - URBasic_rtdeEvent - INFO - Total packages: 155000
+2020-02-22 19:59:12,050 - URBasic_rtdeEvent - INFO - Total packages: 156000
+2020-02-22 19:59:20,823 - URBasic_rtdeEvent - INFO - Total packages: 157000
+2020-02-22 19:59:29,639 - URBasic_rtdeEvent - INFO - Total packages: 158000
+2020-02-22 19:59:38,510 - URBasic_rtdeEvent - INFO - Total packages: 159000
+2020-02-22 19:59:47,337 - URBasic_rtdeEvent - INFO - Total packages: 160000
+2020-02-22 19:59:56,151 - URBasic_rtdeEvent - INFO - Total packages: 161000
+2020-02-22 20:00:04,901 - URBasic_rtdeEvent - INFO - Total packages: 162000
+2020-02-22 20:00:13,701 - URBasic_rtdeEvent - INFO - Total packages: 163000
+2020-02-22 20:00:22,489 - URBasic_rtdeEvent - INFO - Total packages: 164000
+2020-02-22 20:00:31,299 - URBasic_rtdeEvent - INFO - Total packages: 165000
+2020-02-22 20:00:40,051 - URBasic_rtdeEvent - INFO - Total packages: 166000
+2020-02-22 20:00:48,876 - URBasic_rtdeEvent - INFO - Total packages: 167000
+2020-02-22 20:00:57,651 - URBasic_rtdeEvent - INFO - Total packages: 168000
+2020-02-22 20:01:06,481 - URBasic_rtdeEvent - INFO - Total packages: 169000
+2020-02-22 20:01:15,323 - URBasic_rtdeEvent - INFO - Total packages: 170000
+2020-02-22 20:01:24,117 - URBasic_rtdeEvent - INFO - Total packages: 171000
+2020-02-22 20:01:32,946 - URBasic_rtdeEvent - INFO - Total packages: 172000
+2020-02-22 20:01:41,737 - URBasic_rtdeEvent - INFO - Total packages: 173000
+2020-02-22 20:01:50,493 - URBasic_rtdeEvent - INFO - Total packages: 174000
+2020-02-22 20:01:59,275 - URBasic_rtdeEvent - INFO - Total packages: 175000
+2020-02-22 20:02:08,099 - URBasic_rtdeEvent - INFO - Total packages: 176000
+2020-02-22 20:02:16,942 - URBasic_rtdeEvent - INFO - Total packages: 177000
+2020-02-22 20:02:25,709 - URBasic_rtdeEvent - INFO - Total packages: 178000
+2020-02-22 20:02:34,518 - URBasic_rtdeEvent - INFO - Total packages: 179000
+2020-02-22 20:02:43,394 - URBasic_rtdeEvent - INFO - Total packages: 180000
+2020-02-22 20:02:52,217 - URBasic_rtdeEvent - INFO - Total packages: 181000
+2020-02-22 20:03:01,111 - URBasic_rtdeEvent - INFO - Total packages: 182000
+2020-02-22 20:03:09,900 - URBasic_rtdeEvent - INFO - Total packages: 183000
+2020-02-22 20:03:18,658 - URBasic_rtdeEvent - INFO - Total packages: 184000
+2020-02-22 20:03:27,472 - URBasic_rtdeEvent - INFO - Total packages: 185000
+2020-02-22 20:03:36,271 - URBasic_rtdeEvent - INFO - Total packages: 186000
+2020-02-22 20:03:45,044 - URBasic_rtdeEvent - INFO - Total packages: 187000
+2020-02-22 20:03:53,864 - URBasic_rtdeEvent - INFO - Total packages: 188000
+2020-02-22 20:04:02,641 - URBasic_rtdeEvent - INFO - Total packages: 189000
+2020-02-22 20:04:11,555 - URBasic_rtdeEvent - INFO - Total packages: 190000
+2020-02-22 20:04:20,474 - URBasic_rtdeEvent - INFO - Total packages: 191000
+2020-02-22 20:04:29,414 - URBasic_rtdeEvent - INFO - Total packages: 192000
+2020-02-22 20:04:38,320 - URBasic_rtdeEvent - INFO - Total packages: 193000
+2020-02-22 20:04:47,202 - URBasic_rtdeEvent - INFO - Total packages: 194000
+2020-02-22 20:04:56,110 - URBasic_rtdeEvent - INFO - Total packages: 195000
+2020-02-22 20:05:04,951 - URBasic_rtdeEvent - INFO - Total packages: 196000
+2020-02-22 20:05:13,740 - URBasic_rtdeEvent - INFO - Total packages: 197000
+2020-02-22 20:05:22,652 - URBasic_rtdeEvent - INFO - Total packages: 198000
+2020-02-22 20:05:31,607 - URBasic_rtdeEvent - INFO - Total packages: 199000
+2020-02-22 20:05:40,502 - URBasic_rtdeEvent - INFO - Total packages: 200000
+2020-02-22 20:05:49,414 - URBasic_rtdeEvent - INFO - Total packages: 201000
+2020-02-22 20:05:58,345 - URBasic_rtdeEvent - INFO - Total packages: 202000
+2020-02-22 20:06:07,260 - URBasic_rtdeEvent - INFO - Total packages: 203000
+2020-02-22 20:06:16,186 - URBasic_rtdeEvent - INFO - Total packages: 204000
+2020-02-22 20:06:25,085 - URBasic_rtdeEvent - INFO - Total packages: 205000
+2020-02-22 20:06:33,985 - URBasic_rtdeEvent - INFO - Total packages: 206000
+2020-02-22 20:06:43,028 - URBasic_rtdeEvent - INFO - Total packages: 207000
+2020-02-22 20:06:51,899 - URBasic_rtdeEvent - INFO - Total packages: 208000
+2020-02-22 20:07:00,849 - URBasic_rtdeEvent - INFO - Total packages: 209000
+2020-02-22 20:07:09,755 - URBasic_rtdeEvent - INFO - Total packages: 210000
+2020-02-22 20:07:18,698 - URBasic_rtdeEvent - INFO - Total packages: 211000
+2020-02-22 20:07:27,690 - URBasic_rtdeEvent - INFO - Total packages: 212000
+2020-02-22 20:07:36,602 - URBasic_rtdeEvent - INFO - Total packages: 213000
+2020-02-22 20:07:45,540 - URBasic_rtdeEvent - INFO - Total packages: 214000
+2020-02-22 20:07:54,431 - URBasic_rtdeEvent - INFO - Total packages: 215000
+2020-02-22 20:08:03,356 - URBasic_rtdeEvent - INFO - Total packages: 216000
+2020-02-22 20:08:12,191 - URBasic_rtdeEvent - INFO - Total packages: 217000
+2020-02-22 20:08:21,080 - URBasic_rtdeEvent - INFO - Total packages: 218000
+2020-02-22 20:08:30,020 - URBasic_rtdeEvent - INFO - Total packages: 219000
+2020-02-22 20:08:38,961 - URBasic_rtdeEvent - INFO - Total packages: 220000
+2020-02-22 20:08:47,847 - URBasic_rtdeEvent - INFO - Total packages: 221000
+2020-02-22 20:08:56,812 - URBasic_rtdeEvent - INFO - Total packages: 222000
+2020-02-22 20:09:05,731 - URBasic_rtdeEvent - INFO - Total packages: 223000
+2020-02-22 20:09:14,628 - URBasic_rtdeEvent - INFO - Total packages: 224000
+2020-02-22 20:09:23,500 - URBasic_rtdeEvent - INFO - Total packages: 225000
+2020-02-22 20:09:32,409 - URBasic_rtdeEvent - INFO - Total packages: 226000
+2020-02-22 20:09:41,251 - URBasic_rtdeEvent - INFO - Total packages: 227000
+2020-02-22 20:09:50,115 - URBasic_rtdeEvent - INFO - Total packages: 228000
+2020-02-22 20:09:59,058 - URBasic_rtdeEvent - INFO - Total packages: 229000
+2020-02-22 20:10:07,977 - URBasic_rtdeEvent - INFO - Total packages: 230000
+2020-02-22 20:10:16,791 - URBasic_rtdeEvent - INFO - Total packages: 231000
+2020-02-22 20:10:25,700 - URBasic_rtdeEvent - INFO - Total packages: 232000
+2020-02-22 20:10:34,530 - URBasic_rtdeEvent - INFO - Total packages: 233000
+2020-02-22 20:10:43,316 - URBasic_rtdeEvent - INFO - Total packages: 234000
+2020-02-22 20:10:52,069 - URBasic_rtdeEvent - INFO - Total packages: 235000
+2020-02-22 20:11:00,889 - URBasic_rtdeEvent - INFO - Total packages: 236000
+2020-02-22 20:11:09,751 - URBasic_rtdeEvent - INFO - Total packages: 237000
+2020-02-22 20:11:18,532 - URBasic_rtdeEvent - INFO - Total packages: 238000
+2020-02-22 20:11:27,407 - URBasic_rtdeEvent - INFO - Total packages: 239000
+2020-02-22 20:11:36,296 - URBasic_rtdeEvent - INFO - Total packages: 240000
+2020-02-22 20:11:45,227 - URBasic_rtdeEvent - INFO - Total packages: 241000
+2020-02-22 20:11:54,084 - URBasic_rtdeEvent - INFO - Total packages: 242000
+2020-02-22 20:12:02,883 - URBasic_rtdeEvent - INFO - Total packages: 243000
+2020-02-22 20:12:11,709 - URBasic_rtdeEvent - INFO - Total packages: 244000
+2020-02-22 20:12:20,534 - URBasic_rtdeEvent - INFO - Total packages: 245000
+2020-02-22 20:12:29,324 - URBasic_rtdeEvent - INFO - Total packages: 246000
+2020-02-22 20:12:38,162 - URBasic_rtdeEvent - INFO - Total packages: 247000
+2020-02-22 20:12:46,943 - URBasic_rtdeEvent - INFO - Total packages: 248000
+2020-02-22 20:12:55,747 - URBasic_rtdeEvent - INFO - Total packages: 249000
+2020-02-22 20:13:04,509 - URBasic_rtdeEvent - INFO - Total packages: 250000
+2020-02-22 20:13:13,274 - URBasic_rtdeEvent - INFO - Total packages: 251000
+2020-02-22 20:13:22,155 - URBasic_rtdeEvent - INFO - Total packages: 252000
+2020-02-22 20:13:30,882 - URBasic_rtdeEvent - INFO - Total packages: 253000
+2020-02-22 20:13:39,704 - URBasic_rtdeEvent - INFO - Total packages: 254000
+2020-02-22 20:13:48,455 - URBasic_rtdeEvent - INFO - Total packages: 255000
+2020-02-22 20:13:57,286 - URBasic_rtdeEvent - INFO - Total packages: 256000
+2020-02-22 20:14:06,045 - URBasic_rtdeEvent - INFO - Total packages: 257000
+2020-02-22 20:14:14,880 - URBasic_rtdeEvent - INFO - Total packages: 258000
+2020-02-22 20:14:23,715 - URBasic_rtdeEvent - INFO - Total packages: 259000
+2020-02-22 20:14:32,514 - URBasic_rtdeEvent - INFO - Total packages: 260000
+2020-02-22 20:14:41,331 - URBasic_rtdeEvent - INFO - Total packages: 261000
+2020-02-22 20:14:50,146 - URBasic_rtdeEvent - INFO - Total packages: 262000
+2020-02-22 20:14:58,927 - URBasic_rtdeEvent - INFO - Total packages: 263000
+2020-02-22 20:15:07,641 - URBasic_rtdeEvent - INFO - Total packages: 264000
+2020-02-22 20:15:16,456 - URBasic_rtdeEvent - INFO - Total packages: 265000
+2020-02-22 20:15:25,365 - URBasic_rtdeEvent - INFO - Total packages: 266000
+2020-02-22 20:15:34,217 - URBasic_rtdeEvent - INFO - Total packages: 267000
+2020-02-22 20:15:43,107 - URBasic_rtdeEvent - INFO - Total packages: 268000
+2020-02-22 20:15:52,005 - URBasic_rtdeEvent - INFO - Total packages: 269000
+2020-02-22 20:16:00,915 - URBasic_rtdeEvent - INFO - Total packages: 270000
+2020-02-22 20:16:09,783 - URBasic_rtdeEvent - INFO - Total packages: 271000
+2020-02-22 20:16:18,627 - URBasic_rtdeEvent - INFO - Total packages: 272000
+2020-02-22 20:16:27,527 - URBasic_rtdeEvent - INFO - Total packages: 273000
+2020-02-22 20:16:36,407 - URBasic_rtdeEvent - INFO - Total packages: 274000
+2020-02-22 20:16:45,387 - URBasic_rtdeEvent - INFO - Total packages: 275000
+2020-02-22 20:16:54,369 - URBasic_rtdeEvent - INFO - Total packages: 276000
+2020-02-22 20:17:03,284 - URBasic_rtdeEvent - INFO - Total packages: 277000
+2020-02-22 20:17:12,098 - URBasic_rtdeEvent - INFO - Total packages: 278000
+2020-02-22 20:17:20,919 - URBasic_rtdeEvent - INFO - Total packages: 279000
+2020-02-22 20:17:29,759 - URBasic_rtdeEvent - INFO - Total packages: 280000
+2020-02-22 20:17:38,686 - URBasic_rtdeEvent - INFO - Total packages: 281000
+2020-02-22 20:17:47,602 - URBasic_rtdeEvent - INFO - Total packages: 282000
+2020-02-22 20:17:56,503 - URBasic_rtdeEvent - INFO - Total packages: 283000
+2020-02-22 20:18:05,377 - URBasic_rtdeEvent - INFO - Total packages: 284000
+2020-02-22 20:18:14,270 - URBasic_rtdeEvent - INFO - Total packages: 285000
+2020-02-22 20:18:23,195 - URBasic_rtdeEvent - INFO - Total packages: 286000
+2020-02-22 20:18:32,081 - URBasic_rtdeEvent - INFO - Total packages: 287000
+2020-02-22 20:18:40,938 - URBasic_rtdeEvent - INFO - Total packages: 288000
+2020-02-22 20:18:49,852 - URBasic_rtdeEvent - INFO - Total packages: 289000
+2020-02-22 20:18:58,801 - URBasic_rtdeEvent - INFO - Total packages: 290000
+2020-02-22 20:19:07,702 - URBasic_rtdeEvent - INFO - Total packages: 291000
+2020-02-22 20:19:16,664 - URBasic_rtdeEvent - INFO - Total packages: 292000
+2020-02-22 20:19:25,554 - URBasic_rtdeEvent - INFO - Total packages: 293000
+2020-02-22 20:19:34,307 - URBasic_rtdeEvent - INFO - Total packages: 294000
+2020-02-22 20:19:43,102 - URBasic_rtdeEvent - INFO - Total packages: 295000
+2020-02-22 20:19:51,921 - URBasic_rtdeEvent - INFO - Total packages: 296000
+2020-02-22 20:20:00,679 - URBasic_rtdeEvent - INFO - Total packages: 297000
+2020-02-22 20:20:08,938 - URBasic_rtdeEvent - ERROR - Lost some RTDE at 6989.768 - 32.000000000152795 milliseconds since last package
+2020-02-22 20:20:08,941 - URBasic_rtdeEvent - ERROR - Lost some RTDE at 6989.784 - 15.99999999962165 milliseconds since last package
+2020-02-22 20:20:09,595 - URBasic_rtdeEvent - INFO - Total packages: 298000
+2020-02-22 20:20:18,535 - URBasic_rtdeEvent - INFO - Total packages: 299000
+2020-02-22 20:20:27,446 - URBasic_rtdeEvent - INFO - Total packages: 300000
+2020-02-22 20:20:36,182 - URBasic_rtdeEvent - INFO - Total packages: 301000
+2020-02-22 20:20:44,976 - URBasic_rtdeEvent - INFO - Total packages: 302000
+2020-02-22 20:20:53,843 - URBasic_rtdeEvent - INFO - Total packages: 303000
+2020-02-22 20:21:02,650 - URBasic_rtdeEvent - INFO - Total packages: 304000
+2020-02-22 20:21:11,481 - URBasic_rtdeEvent - INFO - Total packages: 305000
+2020-02-22 20:21:20,456 - URBasic_rtdeEvent - INFO - Total packages: 306000
+2020-02-22 20:21:29,237 - URBasic_rtdeEvent - INFO - Total packages: 307000
+2020-02-22 20:21:37,986 - URBasic_rtdeEvent - INFO - Total packages: 308000
+2020-02-22 20:21:46,819 - URBasic_rtdeEvent - INFO - Total packages: 309000
+2020-02-22 20:21:55,571 - URBasic_rtdeEvent - INFO - Total packages: 310000
+2020-02-22 20:22:04,333 - URBasic_rtdeEvent - INFO - Total packages: 311000
+2020-02-22 20:22:13,004 - URBasic_rtdeEvent - INFO - Total packages: 312000
+2020-02-22 20:22:21,761 - URBasic_rtdeEvent - INFO - Total packages: 313000
+2020-02-22 20:22:30,703 - URBasic_rtdeEvent - INFO - Total packages: 314000
+2020-02-22 20:22:39,661 - URBasic_rtdeEvent - INFO - Total packages: 315000
+2020-02-22 20:22:48,568 - URBasic_rtdeEvent - INFO - Total packages: 316000
+2020-02-22 20:22:57,444 - URBasic_rtdeEvent - INFO - Total packages: 317000
+2020-02-22 20:23:06,215 - URBasic_rtdeEvent - INFO - Total packages: 318000
+2020-02-22 20:23:15,059 - URBasic_rtdeEvent - INFO - Total packages: 319000
+2020-02-22 20:23:23,802 - URBasic_rtdeEvent - INFO - Total packages: 320000
+2020-02-22 20:23:32,599 - URBasic_rtdeEvent - INFO - Total packages: 321000
+2020-02-22 20:23:41,424 - URBasic_rtdeEvent - INFO - Total packages: 322000
+2020-02-22 20:23:50,285 - URBasic_rtdeEvent - INFO - Total packages: 323000
+2020-02-22 20:23:59,165 - URBasic_rtdeEvent - INFO - Total packages: 324000
+2020-02-22 20:24:07,941 - URBasic_rtdeEvent - INFO - Total packages: 325000
+2020-02-22 20:24:16,644 - URBasic_rtdeEvent - INFO - Total packages: 326000
+2020-02-22 20:24:25,299 - URBasic_rtdeEvent - INFO - Total packages: 327000
+2020-02-22 20:24:33,948 - URBasic_rtdeEvent - INFO - Total packages: 328000
+2020-02-22 20:24:42,598 - URBasic_rtdeEvent - INFO - Total packages: 329000
+2020-02-22 20:24:51,237 - URBasic_rtdeEvent - INFO - Total packages: 330000
+2020-02-22 20:25:00,128 - URBasic_rtdeEvent - INFO - Total packages: 331000
+2020-02-22 20:25:08,960 - URBasic_rtdeEvent - INFO - Total packages: 332000
+2020-02-22 20:25:17,869 - URBasic_rtdeEvent - INFO - Total packages: 333000
+2020-02-22 20:25:26,806 - URBasic_rtdeEvent - INFO - Total packages: 334000
+2020-02-22 20:25:35,683 - URBasic_rtdeEvent - INFO - Total packages: 335000
+2020-02-22 20:25:44,513 - URBasic_rtdeEvent - INFO - Total packages: 336000
+2020-02-22 20:25:53,411 - URBasic_rtdeEvent - INFO - Total packages: 337000
+2020-02-22 20:26:02,427 - URBasic_rtdeEvent - INFO - Total packages: 338000
+2020-02-22 20:26:11,368 - URBasic_rtdeEvent - INFO - Total packages: 339000
+2020-02-22 20:26:20,332 - URBasic_rtdeEvent - INFO - Total packages: 340000
+2020-02-22 20:26:29,289 - URBasic_rtdeEvent - INFO - Total packages: 341000
+2020-02-22 20:26:38,260 - URBasic_rtdeEvent - INFO - Total packages: 342000
+2020-02-22 20:26:47,143 - URBasic_rtdeEvent - INFO - Total packages: 343000
+2020-02-22 20:26:55,972 - URBasic_rtdeEvent - INFO - Total packages: 344000
+2020-02-22 20:27:04,811 - URBasic_rtdeEvent - INFO - Total packages: 345000
+2020-02-22 20:27:13,693 - URBasic_rtdeEvent - INFO - Total packages: 346000
+2020-02-22 20:27:22,567 - URBasic_rtdeEvent - INFO - Total packages: 347000
+2020-02-22 20:27:31,407 - URBasic_rtdeEvent - INFO - Total packages: 348000
+2020-02-22 20:27:40,359 - URBasic_rtdeEvent - INFO - Total packages: 349000
+2020-02-22 20:27:49,304 - URBasic_rtdeEvent - INFO - Total packages: 350000
+2020-02-22 20:27:58,260 - URBasic_rtdeEvent - INFO - Total packages: 351000
+2020-02-22 20:28:07,146 - URBasic_rtdeEvent - INFO - Total packages: 352000
+2020-02-22 20:28:16,099 - URBasic_rtdeEvent - INFO - Total packages: 353000
+2020-02-22 20:28:25,032 - URBasic_rtdeEvent - INFO - Total packages: 354000
+2020-02-22 20:28:30,161 - URBasic_dataLogEvent - INFO - DataLog is stopped
+2020-02-22 20:28:30,167 - URBasic_rtdeEvent - INFO - RTDE interface is stopped
+2020-02-22 20:28:30,218 - URBasic_realTimeClientEvent - WARNING - Could not send program!
+2020-02-22 20:28:31,954 - URBasic_dashboardEvent - INFO - Dashboard server interface is stopped

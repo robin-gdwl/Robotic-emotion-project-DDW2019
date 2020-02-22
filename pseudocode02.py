@@ -12,16 +12,15 @@ from imutils.video import VideoStream
 import math3d as m3d
 import math
 
-os.environ['TF_CPP_MIN_LOG_LEVEL'] = '4'
 
-from keras.preprocessing.image import img_to_array
-from keras.models import load_model
+#from keras.preprocessing.image import img_to_array
+#from keras.models import load_model
 
 predictor = dlib.shape_predictor("shape_predictor_68_face_landmarks.dat")
 emotion_model_path = 'models/_mini_XCEPTION.102-0.66.hdf5'
 detection_model_path = 'haarcascade_files/haarcascade_frontalface_default.xml'
 
-emotion_classifier = load_model(emotion_model_path, compile=False)
+#emotion_classifier = load_model(emotion_model_path, compile=False)
 face_detection = cv2.CascadeClassifier(detection_model_path)
 EMOTIONS = ["angry", "disgust", "scared", "happy", "sad", "surprised",
             "neutral"]
@@ -189,6 +188,7 @@ class Robot:
         self.text_hor_offset = 0.03
         self.z_hop = -0.03
         self.current_row = 0
+        self.max_rows = 4
         self.robotURModel = URBasic.robotModel.RobotModel()
         self.max_x = 0.2
         self.max_y = 0.2
@@ -197,10 +197,11 @@ class Robot:
         self.accel = 0.9
         self.vel = 0.5
         self.curr_origin = m3d.Transform()
-        self.follow_time = 5 
+        self.follow_time = 5
 
     def initialise_robot(self):
         self.robotUR = URBasic.urScriptExt.UrScriptExt(host=self.ip, robotModel=self.robotURModel)
+        self.robotUR.reset_error()
         pass
 
     def start_rtde(self):
@@ -229,6 +230,12 @@ class Robot:
                         self.position = self.move_to_face(face_positions, self.position)
                     else:
                         print("time up returning frame")
+                        print(close)
+                        if close:
+                            print("stopping realtime control")
+                            self.robotUR.stop_realtime_control()
+                            print("stopped realtime control")
+                            
                         return frame          
                 else:
                     break
@@ -245,9 +252,26 @@ class Robot:
         except:
             print("error during facetracking")
             self.robotUR.close()
+        
 
     def move_to_write(self, row):
-        pass
+        print("moving to write ")
+        self.robotUR.movej(q=(math.radians(-69),
+                          math.radians(-97),
+                          math.radians(-108),
+                          math.radians(-64),
+                          math.radians(89.5),
+                          math.radians(0)), a=self.accel, v=self.vel)
+        # über dem papier 01 self.robot.movej((-1.186561409627096, -1.9445274511920374, -1.7661479155169886, -1.006078068410055, 1.5503629446029663, 0.3756316900253296), self.a, self.v)
+        self.robotUR.movej(q=(-1.2749927679644983, 
+                              -1.9379289785968226, 
+                              -2.09098464647402, 
+                              -0.6840408484088343,
+                              1.5629680156707764, 
+                              0.28495118021965027), a=self.accel, v=self.vel)
+        self.set_origin()
+        print("moved")
+        return True
 
     def move_home(self):
         self.robotUR.movej(q=(math.radians(-218),
@@ -260,7 +284,9 @@ class Robot:
         self.position = [0, 0]
         self.origin = self.set_lookorigin()
 
-    def create_coordinates(self, face):
+    def create_coordinates(self, face): 
+        print("creating coordinates")
+        return None
         pass
 
     def write_emotions(self, position, Face):
@@ -328,7 +354,6 @@ class Robot:
         print("lines with added rotation vector: ", lines_with_rotvec)
 
         return lines_with_rotvec
-    
     
     def _string_to_coords(self):
         pass
@@ -400,6 +425,11 @@ class Robot:
         cv2.imshow('img', frame)
         k = cv2.waitKey(6) & 0xff
 
+    def send_interrupting_prg(self):
+        """sends a simple program to stop the one currently running"""
+        self.robotUR.robotConnector.RealTimeClient.SendProgram(prg="set_digital_out(0, True)")
+        pass
+    
     """def convert_rpy(angles):
 
         # This is very stupid:
@@ -528,12 +558,16 @@ class Robot:
         Return Value:
             orig: math3D Transform Object
                 characterises location and rotation of the new coordinate system in reference to the base coordinate system
-
         """
+        orig = self.set_origin()
+        return orig
+    
+    def set_origin(self):
         position = self.robotUR.get_actual_tcp_pose()
         orig = m3d.Transform(position)
+        print("origin set")
         return orig
-
+        
     def move_to_face(self,list_of_facepos, robot_pos):
         """
         Function that moves the robot to the position of the face
@@ -596,29 +630,41 @@ robot.move_home()
 robot.current_row = 0
 robot.start_rtde()
 time.sleep(5)
-while True:
-    robot.wander()
-    face = robot.follow_face(close=True)
+
+try: 
+    while True:
+        robot.wander()
+        face = robot.follow_face(close=False)
+        print("face follow done")
+        robot.robotUR.stopj(robot.accel, wait=True)
+        time.sleep(3)
+        landmark_queue = mp.Queue()
+        emotion_queue = mp.Queue()
     
-    #print("face", face)
-    landmark_queue = mp.Queue()
-    emotion_queue = mp.Queue()
-
-    coordinates = mp.Process(target=robot.create_coordinates, args=(face,))  # evaluates emotion, creates landmarks returns coordinate list of face drawing and emotion text
-    movement = mp.Process(target=robot.move_to_write, args=(robot.current_row,))
-
-    coordinates.start()
-    movement.start()
-
-    coordinates.join()
-    movement.join()
-
-    landmarks = landmark_queue.get()
-    emotions = emotion_queue.get()
-    robot.draw_face(landmarks)
-    robot.write_emotions(emotions)
-
-    robot.check_paper(robot.current_row)
-
-    robot.current_row += 1
-    robot.move_home()
+        robot.move_to_write(robot.current_row)
+        """
+        #this didnt work for various reasons....
+        coordinates = mp.Process(target=robot.create_coordinates, args=(face,))  # evaluates emotion, creates landmarks returns coordinate list of face drawing and emotion text
+        movement = mp.Process(target=robot.move_to_write, args=(robot.current_row,))
+    
+        coordinates.start()
+        movement.start()
+    
+        coordinates.join()
+        movement.join()"""
+        
+        robot.create_coordinates(face)
+        
+        print("drawing?")
+        landmarks = landmark_queue.get()
+        emotions = emotion_queue.get()
+        robot.draw_face(landmarks)
+        robot.write_emotions(emotions)
+    
+        robot.check_paper(robot.current_row)
+    
+        robot.current_row += 1
+        robot.move_home()
+except:
+    print("closing robot conn")
+    robot.robotUR.close()
