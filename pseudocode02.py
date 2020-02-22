@@ -13,14 +13,15 @@ import math3d as m3d
 import math
 
 
-#from keras.preprocessing.image import img_to_array
-#from keras.models import load_model
+from keras.preprocessing.image import img_to_array
+from keras.models import load_model
 
+detector = dlib.get_frontal_face_detector()
 predictor = dlib.shape_predictor("shape_predictor_68_face_landmarks.dat")
 emotion_model_path = 'models/_mini_XCEPTION.102-0.66.hdf5'
 detection_model_path = 'haarcascade_files/haarcascade_frontalface_default.xml'
 
-#emotion_classifier = load_model(emotion_model_path, compile=False)
+emotion_classifier = load_model(emotion_model_path, compile=False)
 face_detection = cv2.CascadeClassifier(detection_model_path)
 EMOTIONS = ["angry", "disgust", "scared", "happy", "sad", "surprised",
             "neutral"]
@@ -59,9 +60,11 @@ class Face:
     def __init__(self, image):
 
         self.face_image = image
+        self.annotated_image = image
         self.emotions = {}
         self.landmarks = []
-        self.face_target_size = 0.1
+        self.face_target_size = 140
+        print("creating gray")
         self.gray = cv2.cvtColor(self.face_image, cv2.COLOR_BGR2GRAY)
 
     def evaluate(self):
@@ -117,16 +120,19 @@ class Face:
 
         person_emo = ["ERROR - 0 %", "_ _ _ _ _",
                       "ARE YOU ", "A ROBOT", "- ??? -"]
+        
+        self.emotions = person_emo
         return person_emo
-        return emos
+        
 
     def get_landmarks(self):
         lndmks = []
 
-        faces = self.detector(self.gray)
+        faces = detector(self.gray)
         face = faces[0]
         lndmks = predictor(self.gray, face)
-
+        
+        
         # scale the face coordinates and move them to the upper left corner:
         face_width = face.right() - face.left()
         face_height = face.bottom() - face.top()
@@ -136,10 +142,16 @@ class Face:
         face_scale = self.face_target_size / face_average
 
         lndmk_points = []
+        frame = self.annotated_image
         for n in range(0, 68):
+            # print(lndmks.part(n))
+            x = int((lndmks.part(n).x - face.left()) * face_scale)
+            y = int((lndmks.part(n).y - face.top()) * face_scale)
+            cv2.circle(frame, (x, y), 3, (100, 100, 255), -1)
+            
             # apply face_scale and overall scale, move to upper left corner and offset by the origin
-            x = (landmarks.part(n).x - face.left()) * face_scale
-            y = (landmarks.part(n).y - face.top()) * face_scale
+            x = (lndmks.part(n).x - face.left()) * face_scale
+            y = (lndmks.part(n).y - face.top()) * face_scale
 
             lndmk_points.append([x, y])
 
@@ -172,9 +184,11 @@ class Face:
                          lips_inner,
                          lips_outer]
         # feature_lines is now a list of all lines to be drawn each list consisting of a list of coordinates
-
+        self.annotated_image = frame
+        cv2.imshow("annotated image", frame)
+        cv2.waitKey(1000)  # this defines how long each frame is shown
         self.landmarks = feature_lines
-
+        print(self.landmarks)
         return feature_lines
 
 
@@ -194,8 +208,8 @@ class Robot:
         self.max_y = 0.2
         self.hor_rot_max = math.radians(50)
         self.vert_rot_max = math.radians(25)
-        self.accel = 0.9
-        self.vel = 0.5
+        self.accel = 10
+        self.vel = 10
         self.curr_origin = m3d.Transform()
         self.follow_time = 5
 
@@ -240,7 +254,7 @@ class Robot:
                 else:
                     break
                 #print("end of loop")
-            print("exiting loopwithout face ")
+            print("exiting loop without face ")
             return False
         
         except KeyboardInterrupt:
@@ -284,10 +298,13 @@ class Robot:
         self.position = [0, 0]
         self.origin = self.set_lookorigin()
 
-    def create_coordinates(self, face): 
+    def create_coordinates(self, image_with_face): 
         print("creating coordinates")
+        Face_object = Face(image_with_face)
+        Face_object.evaluate()
+        
         return None
-        pass
+        
 
     def write_emotions(self, position, Face):
         if len(Face.emotions) == 0:
@@ -633,27 +650,26 @@ time.sleep(5)
 
 try: 
     while True:
+        landmark_queue = mp.Queue()
+        emotion_queue = mp.Queue()
+        
         robot.wander()
         face = robot.follow_face(close=False)
+        cv2.imwrite("testface.png", face)
         print("face follow done")
+        #coordinates = mp.Process(target=robot.create_coordinates, args=(face,))  
+                        # evaluates emotion, creates landmarks returns coordinate list of face drawing and emotion text
+        #coordinates.start()
         robot.robotUR.stopj(robot.accel, wait=True)
         time.sleep(3)
         landmark_queue = mp.Queue()
         emotion_queue = mp.Queue()
     
         robot.move_to_write(robot.current_row)
-        """
-        #this didnt work for various reasons....
-        coordinates = mp.Process(target=robot.create_coordinates, args=(face,))  # evaluates emotion, creates landmarks returns coordinate list of face drawing and emotion text
-        movement = mp.Process(target=robot.move_to_write, args=(robot.current_row,))
-    
-        coordinates.start()
-        movement.start()
-    
-        coordinates.join()
-        movement.join()"""
-        
         robot.create_coordinates(face)
+        #coordinates.join()
+        
+        #robot.create_coordinates(face)
         
         print("drawing?")
         landmarks = landmark_queue.get()
@@ -665,6 +681,8 @@ try:
     
         robot.current_row += 1
         robot.move_home()
-except:
+        
+except Exception as e:
+    print("ERROR: ", e)
     print("closing robot conn")
     robot.robotUR.close()
