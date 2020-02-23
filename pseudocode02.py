@@ -66,7 +66,7 @@ class Face:
         self.emotions = {}
         self.landmarks = []
         self.face_target_size = 140
-        self.scale = 1 /1000
+        self.scale = 1 /3000
         print("creating gray")
         self.gray = cv2.cvtColor(self.face_image, cv2.COLOR_BGR2GRAY)
 
@@ -81,7 +81,7 @@ class Face:
         frame = imutils.resize(frame, width=300)
         faces = face_detection.detectMultiScale(self.gray, scaleFactor=1.1, minNeighbors=5, minSize=(30, 30),
                                                 flags=cv2.CASCADE_SCALE_IMAGE)
-        print("initialised in:", time.time() - timer)
+        print("initialised in:  ", time.time() - timer)
 
         time.sleep(0.1)
         i = 0
@@ -112,18 +112,20 @@ class Face:
                     text = "{}-{:.0f}%".format(emotion, prob)
                     # print(text)
                     emotion_results.append(text)
-                print(emotion_results)
+                print("emotion_results. ", emotion_results)
 
-                return emotion_results
+                self.emotions = emotion_results
+                print("emotions detected in:  ", time.time() - timer)
+                return emotion_results  # TODO: put this to the end 
 
             else:
                 i += 1
             cv2.imshow("Frame", frame)
-            cv2.waitKey(1000)  # this defines how long each frame is shown
+            cv2.waitKey(10)  # this defines how long each frame is shown
 
         person_emo = ["ERROR - 0 %", "_ _ _ _ _",
                       "ARE YOU ", "A ROBOT", "- ??? -"]
-        
+        print("Error: no emotions detected in:  ", time.time() - timer)
         self.emotions = person_emo
         return person_emo
         
@@ -189,7 +191,7 @@ class Face:
         # feature_lines is now a list of all lines to be drawn each list consisting of a list of coordinates
         self.annotated_image = frame
         cv2.imshow("annotated image", frame)
-        cv2.waitKey(1000)  # this defines how long each frame is shown
+        cv2.waitKey(10)  # this defines how long each frame is shown
         self.landmarks = feature_lines
         print(self.landmarks)
         return feature_lines
@@ -197,7 +199,8 @@ class Face:
 
 class Robot:
     # TODO : scale face test 
-    # TODO : 
+    # TODO : test paper advance
+    
     
     def __init__(self, ip):
         self.ip = ip
@@ -209,9 +212,9 @@ class Robot:
         self.z_hop = -0.03
         self.drawing_zval = 0.01
         self.current_row = 0
-        self.max_rows = 4
+        self.max_rows = 1
         self.line_spacing = 0.01
-        self.blend_radius = 0.0005
+        self.blend_radius = 0.0001
         self.robotURModel = URBasic.robotModel.RobotModel()
         self.max_x = 0.2
         self.max_y = 0.2
@@ -221,6 +224,11 @@ class Robot:
         self.vel = 10
         self.origin = m3d.Transform()
         self.follow_time = 2
+        
+        # paper advancing
+        self.drag_dist = 0.10  # 10 cm
+        self.plunge_dist = 0.1273
+        self.paperslot_start = [0.02, -0.548, 0.1980, 0.0, -3.14, 0]
 
     def initialise_robot(self):
         self.robotUR = URBasic.urScriptExt.UrScriptExt(host=self.ip, robotModel=self.robotURModel)
@@ -318,7 +326,6 @@ class Robot:
         return None
         
     def orient_list_of_lines(self,listoflines):
-        # TODO this is very important 
         
         oriented_list = []
         for line in listoflines:
@@ -331,19 +338,22 @@ class Robot:
                 oriented_line.append(vec_coord)
             oriented_list.append(oriented_line)
         
-        print("oriented lines:  ", oriented_list)
+        #print("oriented lines:  ", oriented_list)
         return oriented_list
         
     
     def write_emotions(self, Face_obj):
-        if len(Face_obj.emotions) == 0:
+        emos = Face_obj.emotions
+        print(emos)
+        if len(emos) == 0:
             print("no emotions to write")
             return False
         else:
             origin = self.calculate_origin(text=True)
             i = 0
-            for emotion in Face_obj.emotions:
-                emotion_coords = ThingToWrite(emotion).string_to_coordinates(origin)
+            for emotion in emos:
+                emotion_coords = [ThingToWrite(emotion).string_to_coordinates(origin)]
+                print("emotion_coords", emotion_coords)
                 self._draw_curves(emotion_coords, origin)
                 origin[1] += self.line_spacing
                
@@ -375,7 +385,7 @@ class Robot:
                             "r": self.blend_radius}
                             
                 list_mapped_wpts.append(wpt_dict)
-            print(list_mapped_wpts)    
+            #print(list_mapped_wpts)    
             self.robotUR.movel_waypoints(list_mapped_wpts)
             
         
@@ -708,6 +718,50 @@ class Robot:
 
         return prev_robot_pos
     
+    def check_paper(self):
+        if self.current_row == self.max_rows:
+            self.advance_paper()
+            self.current_row = 0 
+            
+    def advance_paper(self):
+
+        x = self.paperslot_start[0]
+        y = self.paperslot_start[1]
+        z = self.paperslot_start[2]
+
+        print("moving paper")
+
+        #self.robotUR.set_csys(m3d.Transform())  # reset csys otherwise weird things happen...
+        self.robotUR.movel(self.paperslot_start, self.accel, self.vel)  # move above the slot start point
+        self.robotUR.movel((x,
+                            y,
+                            z - self.plunge_dist,
+                            0, -math.pi, 0), self.accel, self.vel)  # plunge into the slot
+        self.robotUR.movel((x - self.drag_dist,
+                            y,
+                            z - self.plunge_dist,
+                            0, -math.pi, 0), self.accel, self.vel)  # drag the desired drag distance
+        time.sleep(2)
+        self.robotUR.movel((x - self.drag_dist,
+                            y,
+                            z ,
+                            0, -math.pi, 0), self.accel, self.vel)  # raise up to initial z height
+        self.robotUR.movel((x - self.drag_dist,
+                            y,
+                            z - self.plunge_dist/3  ,
+                            0, -math.pi, 0), self.accel * 2.5, self.vel * 2.6)  # plunge down by half z
+        self.robotUR.movel((x - self.drag_dist,
+                            y,
+                            z + self.plunge_dist ,
+                            0, -math.pi, 0), self.accel * 2.7, self.vel * 2.7)  # raise by plunge dist  
+        
+        time.sleep(2)
+
+        print("paper moved")
+
+        return True
+        pass
+    
 def check_exhibit_time():
     pass
 
@@ -723,16 +777,12 @@ time.sleep(0.5)
 
 try: 
     while True:
-        landmark_queue = mp.Queue()
-        emotion_queue = mp.Queue()
-        
+    
         robot.wander()
         face = robot.follow_face(close=False)
         cv2.imwrite("testface.png", face)
         print("face follow done")
-        #coordinates = mp.Process(target=robot.create_coordinates, args=(face,))  
-                        # evaluates emotion, creates landmarks returns coordinate list of face drawing and emotion text
-        #coordinates.start()
+        
         robot.robotUR.stopj(robot.accel, wait=True)
         time.sleep(0.1)
         landmark_queue = mp.Queue()
@@ -740,19 +790,10 @@ try:
     
         robot.move_to_write(robot.current_row)
         robot.create_coordinates(face)
-        #coordinates.join()
         
-        #robot.create_coordinates(face)
-        
-        print("drawing?")
-        landmarks = landmark_queue.get()
-        emotions = emotion_queue.get()
-        robot.draw_face(landmarks)
-        robot.write_emotions(emotions)
-    
-        robot.check_paper(robot.current_row)
-    
         robot.current_row += 1
+        robot.check_paper()
+    
         robot.move_home()
         
 except Exception as e:
