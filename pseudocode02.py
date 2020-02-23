@@ -66,7 +66,7 @@ class Face:
         self.emotions = {}
         self.landmarks = []
         self.face_target_size = 140
-        self.scale = 1 /3000
+        self.scale = 1 /1000
         print("creating gray")
         self.gray = cv2.cvtColor(self.face_image, cv2.COLOR_BGR2GRAY)
 
@@ -219,7 +219,7 @@ class Robot:
         self.vert_rot_max = math.radians(25)
         self.accel = 10
         self.vel = 10
-        self.curr_origin = m3d.Transform()
+        self.origin = m3d.Transform()
         self.follow_time = 2
 
     def initialise_robot(self):
@@ -317,9 +317,22 @@ class Robot:
         
         return None
         
-    def orient_list_of_coords(self,listofcoords):
+    def orient_list_of_lines(self,listoflines):
         # TODO this is very important 
-        pass
+        
+        oriented_list = []
+        for line in listoflines:
+            oriented_line = []
+            for coord in line:
+                #print(coord)
+                trans_coord = m3d.Transform(coord)
+                trans_coord = self.origin * trans_coord
+                vec_coord = trans_coord.get_pose_vector()
+                oriented_line.append(vec_coord)
+            oriented_list.append(oriented_line)
+        
+        print("oriented lines:  ", oriented_list)
+        return oriented_list
         
     
     def write_emotions(self, Face_obj):
@@ -351,7 +364,8 @@ class Robot:
         polylines_zvalue = self._add_zvalue(polylines)
         polylines_with_zhop = self._add_zhop(polylines_zvalue)
         polylines_rotvec = self._add_rotvec(polylines_with_zhop)
-        for line in polylines_rotvec:
+        polylines_oriented = self.orient_list_of_lines(polylines_rotvec)
+        for line in polylines_oriented:
             list_mapped_wpts = []
             for pose6d in line:
                 # it is necessary to convert the list of poses to a dict with values for acceleration and velocity
@@ -361,6 +375,7 @@ class Robot:
                             "r": self.blend_radius}
                             
                 list_mapped_wpts.append(wpt_dict)
+            print(list_mapped_wpts)    
             self.robotUR.movel_waypoints(list_mapped_wpts)
             
         

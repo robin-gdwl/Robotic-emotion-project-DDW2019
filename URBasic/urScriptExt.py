@@ -626,13 +626,13 @@ end
         waypoints: List waypoint dictionaries {pose: [6d], a, v, t, r}
         '''
 
-        prg = '''def move_waypoints():
+        prg = '''def move_joint_waypoints():
 {exec_str}
 end
 '''
         exec_str = ""
         for waypoint in waypoints:
-            movestr = self._move(movetype='l', **waypoint)
+            movestr = self._move(movetype='j', **waypoint)
             exec_str += movestr + "\n"
 
         programString = prg.format(**locals())
@@ -649,15 +649,16 @@ end
         waypoints: List waypoint dictionaries {pose: [6d], a, v, t, r}
         '''
 
-        prg = '''def move_waypoints():
+        prg = '''def move_linear_waypoints():
 {exec_str}
 end
 '''
         exec_str = ""
         for waypoint in waypoints:
+            print(waypoint)
             movestr = self._move(movetype='l', **waypoint)
             exec_str += movestr + "\n"
-
+        #print(exec_str)
         programString = prg.format(**locals())
 
         self.robotConnector.RealTimeClient.SendProgram(programString)
