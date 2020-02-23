@@ -6,6 +6,8 @@ import time
 import numpy as np
 import os
 import sys
+import traceback 
+
 from String_to_Path import ThingToWrite
 import URBasic
 from imutils.video import VideoStream
@@ -64,6 +66,7 @@ class Face:
         self.emotions = {}
         self.landmarks = []
         self.face_target_size = 140
+        self.scale = 1 /3000
         print("creating gray")
         self.gray = cv2.cvtColor(self.face_image, cv2.COLOR_BGR2GRAY)
 
@@ -150,8 +153,8 @@ class Face:
             cv2.circle(frame, (x, y), 3, (100, 100, 255), -1)
             
             # apply face_scale and overall scale, move to upper left corner and offset by the origin
-            x = (lndmks.part(n).x - face.left()) * face_scale
-            y = (lndmks.part(n).y - face.top()) * face_scale
+            x = (lndmks.part(n).x - face.left()) * face_scale * self.scale
+            y = (lndmks.part(n).y - face.top()) * face_scale * self.scale
 
             lndmk_points.append([x, y])
 
@@ -193,6 +196,9 @@ class Face:
 
 
 class Robot:
+    # TODO : scale face test 
+    # TODO : 
+    
     def __init__(self, ip):
         self.ip = ip
         self.robotUR = None
@@ -201,8 +207,11 @@ class Robot:
         self.face_row_offset = [0, 0.04]
         self.text_hor_offset = 0.03
         self.z_hop = -0.03
+        self.drawing_zval = 0.01
         self.current_row = 0
         self.max_rows = 4
+        self.line_spacing = 0.01
+        self.blend_radius = 0.0005
         self.robotURModel = URBasic.robotModel.RobotModel()
         self.max_x = 0.2
         self.max_y = 0.2
@@ -211,7 +220,7 @@ class Robot:
         self.accel = 10
         self.vel = 10
         self.curr_origin = m3d.Transform()
-        self.follow_time = 5
+        self.follow_time = 2
 
     def initialise_robot(self):
         self.robotUR = URBasic.urScriptExt.UrScriptExt(host=self.ip, robotModel=self.robotURModel)
@@ -283,7 +292,7 @@ class Robot:
                               -0.6840408484088343,
                               1.5629680156707764, 
                               0.28495118021965027), a=self.accel, v=self.vel)
-        self.set_origin()
+        self.origin = self.get_origin()
         print("moved")
         return True
 
@@ -302,37 +311,57 @@ class Robot:
         print("creating coordinates")
         Face_object = Face(image_with_face)
         Face_object.evaluate()
+        self.draw_face(Face_object)
+        self.write_emotions(Face_object)
+        
         
         return None
         
-
-    def write_emotions(self, position, Face):
-        if len(Face.emotions) == 0:
+    def orient_list_of_coords(self,listofcoords):
+        # TODO this is very important 
+        pass
+        
+    
+    def write_emotions(self, Face_obj):
+        if len(Face_obj.emotions) == 0:
             print("no emotions to write")
             return False
         else:
-            for emotion in Face.emotions:
-                emotion_coords = ThingToWrite(emotion).string_to_coordinates()  # add origin here
-                # set origin 
-            origin = self.calculate_origin(text = True)
-            self._draw_curves(emotion_coords, origin)
+            origin = self.calculate_origin(text=True)
+            i = 0
+            for emotion in Face_obj.emotions:
+                emotion_coords = ThingToWrite(emotion).string_to_coordinates(origin)
+                self._draw_curves(emotion_coords, origin)
+                origin[1] += self.line_spacing
+               
             return True
-
-    def draw_face(self, position, Face):
-        if len(Face.landmarks) == 0:
+    
+    
+    def draw_face(self, Face_obj):
+        if len(Face_obj.landmarks) == 0:
             print("no landmarks to draw")
             return False
         else:
             origin = self.calculate_origin()
-            self._draw_curves(Face.landmarks, origin)
+            self._draw_curves(Face_obj.landmarks, origin)
             return True
 
     def _draw_curves(self, polylines, origin_point):
+        print("polylines", polylines)
         polylines_zvalue = self._add_zvalue(polylines)
         polylines_with_zhop = self._add_zhop(polylines_zvalue)
         polylines_rotvec = self._add_rotvec(polylines_with_zhop)
         for line in polylines_rotvec:
-            self.robotUR.movel_waypoints(line)
+            list_mapped_wpts = []
+            for pose6d in line:
+                # it is necessary to convert the list of poses to a dict with values for acceleration and velocity
+                wpt_dict = {"pose": pose6d,
+                            "a": self.accel,
+                            "v": self.vel,
+                            "r": self.blend_radius}
+                            
+                list_mapped_wpts.append(wpt_dict)
+            self.robotUR.movel_waypoints(list_mapped_wpts)
             
         
         pass
@@ -350,27 +379,56 @@ class Robot:
     
     def _add_zvalue(self, list):
         
-        lines_with_z = [coord.append(0) for line in list for coord in line]
-        print("lines with added z: ", lines_with_z)
+        #lines_with_z = [coord.append(0) for line in list for coord in line]  # doesnt work as .append returns None in this way
+        list_with_z = []
+        for line in list:
+            lines_with_z = []
+            for coord in line:
+                coord.append(self.drawing_zval)
+                lines_with_z.append(coord)
+            list_with_z.append(lines_with_z)
+            
+        
+        print("list of lines  with added z: ", list_with_z)
                  
-        return lines_with_z
+        return list_with_z
         
     def _add_zhop(self, list):
+        list_w_hop = []
         for line in list:
+            line_w_hop = []
+            
             for coord in line:
                 if len(coord)!= 3:
                     print("coordinate is missing a third value")
-            line.insert(0, line[0].copy())
-            line.append(line[-1].copy())
-            line[0][2] = self.z_hop
-            line[-1][2] = self.z_hop
-        return list
+            
+            line_w_hop.append(line[0].copy())
+            line_w_hop.extend(line)
+            line_w_hop.append(line[-1].copy())
+
+            line_w_hop[0][2] = self.z_hop
+            line_w_hop[-1][2] = self.z_hop
+            list_w_hop.append(line_w_hop)
+            
+        print("list of lines  with zhop:    ", list_w_hop)
+        return list_w_hop
     
     def _add_rotvec(self, list):
-        lines_with_rotvec = [coord.append(0,0,0) for line in list for coord in line]
-        print("lines with added rotation vector: ", lines_with_rotvec)
+        #lines_with_rotvec = [coord.append(0,0,0) for line in list for coord in line]
+        
+        list_with_rotvec = []
+        for line in list:
+            line_with_rotvec = []
+            for coord in line:
+                new_coord = coord
+                new_coord.extend([0,0,0])
+                line_with_rotvec.append(new_coord)
+                
+            list_with_rotvec.append(line_with_rotvec)
+            
+        print("lines with rotation vector:   ", list_with_rotvec)
 
-        return lines_with_rotvec
+        return list_with_rotvec 
     
     def _string_to_coords(self):
         pass
@@ -576,10 +634,10 @@ class Robot:
             orig: math3D Transform Object
                 characterises location and rotation of the new coordinate system in reference to the base coordinate system
         """
-        orig = self.set_origin()
+        orig = self.get_origin()
         return orig
     
-    def set_origin(self):
+    def get_origin(self):
         position = self.robotUR.get_actual_tcp_pose()
         orig = m3d.Transform(position)
         print("origin set")
@@ -630,7 +688,7 @@ class Robot:
         coordinates = oriented_xyz_coord
 
         #qnear = self.robotUR.get_actual_joint_positions()
-        next_pose = coordinates
+        next_pose = coordinates # TODO: why do I rename this variable 3 times ?? 
         self.robotUR.set_realtime_pose(next_pose)
 
         return prev_robot_pos
@@ -646,7 +704,7 @@ robot.move_home()
 
 robot.current_row = 0
 robot.start_rtde()
-time.sleep(5)
+time.sleep(0.5)
 
 try: 
     while True:
@@ -661,7 +719,7 @@ try:
                         # evaluates emotion, creates landmarks returns coordinate list of face drawing and emotion text
         #coordinates.start()
         robot.robotUR.stopj(robot.accel, wait=True)
-        time.sleep(3)
+        time.sleep(0.1)
         landmark_queue = mp.Queue()
         emotion_queue = mp.Queue()
     
@@ -684,5 +742,6 @@ try:
         
 except Exception as e:
     print("ERROR: ", e)
+    traceback.print_exc()
     print("closing robot conn")
     robot.robotUR.close()

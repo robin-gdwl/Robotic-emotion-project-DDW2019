@@ -632,7 +632,7 @@ end
 '''
         exec_str = ""
         for waypoint in waypoints:
-            movestr = self._move(movetype='j', **waypoint)
+            movestr = self._move(movetype='l', **waypoint)
             exec_str += movestr + "\n"
 
         programString = prg.format(**locals())
