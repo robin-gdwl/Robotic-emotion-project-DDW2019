@@ -144,7 +144,7 @@ class ThingToWrite:
         motion_path = []
         offset_amount = offset
         text = self.string.split() # splits the string at each space
-        print("text: ", text)
+        #print("text: ", text)
         # print(origin)
         x_offset = origin[0]
         y_offset = origin[1]

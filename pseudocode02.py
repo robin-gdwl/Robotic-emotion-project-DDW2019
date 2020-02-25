@@ -59,20 +59,26 @@ vs = VideoStream(src= 0 ,
                  exposure_compensation = 2,
                  rotation = 0).start()
 
+first_frame = vs.read()
+cv2.imshow('current', first_frame)
+cv2.waitKey(100)
+
 # PROGRAMSTATE: 0 = running , 1 = pause, 2 = error
 PROGRAMSTATE = 0
 ROBOT_ACTION = 0
 
 class Face:
-    def __init__(self, image):
+    def __init__(self, image, roi_boxes):
 
         self.face_image = image
         self.annotated_image = image
+        self.rois = roi_boxes
         self.emotions = {}
         self.landmarks = []
         self.face_target_size = 140
         self.scale = 1 /3000
         print("creating gray")
+        #print(self.face_image.shape)
         self.gray = cv2.cvtColor(self.face_image, cv2.COLOR_BGR2GRAY)
 
     def evaluate(self):
@@ -86,7 +92,7 @@ class Face:
         frame = imutils.resize(frame, width=300)
         faces = face_detection.detectMultiScale(self.gray, scaleFactor=1.1, minNeighbors=5, minSize=(30, 30),
                                                 flags=cv2.CASCADE_SCALE_IMAGE)
-        print("initialised in:  ", time.time() - timer)
+        #print("initialised in:  ", time.time() - timer)
 
         time.sleep(0.1)
         i = 0
@@ -125,7 +131,7 @@ class Face:
 
             else:
                 i += 1
-            cv2.imshow("Frame", frame)
+            cv2.imshow("current", frame)
             cv2.waitKey(10)  # this defines how long each frame is shown
 
         person_emo = ["ERROR - 0 %", "_ _ _ _ _",
@@ -133,79 +139,92 @@ class Face:
         print("Error: no emotions detected in:  ", time.time() - timer)
         self.emotions = person_emo
         return person_emo
-        
 
     def get_landmarks(self):
         lndmks = []
 
-        faces = detector(self.gray)
-        face = faces[0]
-        lndmks = predictor(self.gray, face)
+        dlib_faces = detector(self.gray)
+        faces = dlib.rectangles()
+        for face_box in self.rois:
+            f = dlib.rectangle(face_box[0],face_box[1],face_box[2],face_box[3])
+            faces.append(f)
         
+        print("__"*20)
+        print(faces)
+        print(dlib_faces)
+        print("__" * 20)
         
-        # scale the face coordinates and move them to the upper left corner:
-        face_width = face.right() - face.left()
-        face_height = face.bottom() - face.top()
-        face_average = (face_width + face_height) / 2
-        print("face width and height: ", face_width, " , ", face_height)
-        # print("face average size: ", face_average)
-        face_scale = self.face_target_size / face_average
-
-        lndmk_points = []
-        frame = self.annotated_image
-        for n in range(0, 68):
-            # print(lndmks.part(n))
-            x = int((lndmks.part(n).x - face.left()) * face_scale)
-            y = int((lndmks.part(n).y - face.top()) * face_scale)
-            cv2.circle(frame, (x, y), 3, (100, 100, 255), -1)
+        if len(faces)>0: 
+            face = faces[0]
+            lndmks = predictor(self.gray, face)
             
-            # apply face_scale and overall scale, move to upper left corner and offset by the origin
-            x = (lndmks.part(n).x - face.left()) * face_scale * self.scale
-            y = (lndmks.part(n).y - face.top()) * face_scale * self.scale
-
-            lndmk_points.append([x, y])
-
-        # individual features, each of these will be one continuous line to be drawn
-        jawline = lndmk_points[:17]
-        left_brow = lndmk_points[17:22]
-        right_brow = lndmk_points[22:27]
-        nose_ridge = lndmk_points[27:31]
-        nose_tip = lndmk_points[31:36]
-
-        left_eye = lndmk_points[36:42]
-        left_eye.append(left_eye[0].copy())  # add the first point to get a closed curve
-
-        right_eye = lndmk_points[42:48]
-        right_eye.append(right_eye[0].copy())  # add the first point to get a closed curve
-
-        lips_outer = lndmk_points[48:60]
-        lips_outer.append(lips_outer[0].copy())  # add the first point to get a closed curve
-
-        lips_inner = lndmk_points[60:68]
-        lips_inner.append(lips_inner[0].copy())  # add the first point to get a closed curve
-
-        feature_lines = [jawline,
-                         left_brow,
-                         right_brow,
-                         nose_ridge,
-                         nose_tip,
-                         left_eye,
-                         right_eye,
-                         lips_inner,
-                         lips_outer]
-        # feature_lines is now a list of all lines to be drawn each list consisting of a list of coordinates
-        self.annotated_image = frame
-        cv2.imshow("annotated image", frame)
-        cv2.waitKey(10)  # this defines how long each frame is shown
-        self.landmarks = feature_lines
-        print(self.landmarks)
-        return feature_lines
+            
+            # scale the face coordinates and move them to the upper left corner:
+            face_width = face.right() - face.left()
+            face_height = face.bottom() - face.top()
+            face_average = (face_width + face_height) / 2
+            print("face width and height: ", face_width, " , ", face_height)
+            # print("face average size: ", face_average)
+            face_scale = self.face_target_size / face_average
+    
+            lndmk_points = []
+            frame = self.annotated_image
+            for n in range(0, 68):
+                # print(lndmks.part(n))
+                x = int((lndmks.part(n).x - face.left()) * face_scale)
+                y = int((lndmks.part(n).y - face.top()) * face_scale)
+                cv2.circle(frame, (x, y), 3, (100, 100, 255), -1)
+                
+                # apply face_scale and overall scale, move to upper left corner and offset by the origin
+                x = (lndmks.part(n).x - face.left()) * face_scale * self.scale
+                y = (lndmks.part(n).y - face.top()) * face_scale * self.scale
+    
+                lndmk_points.append([x, y])
+    
+            # individual features, each of these will be one continuous line to be drawn
+            jawline = lndmk_points[:17]
+            left_brow = lndmk_points[17:22]
+            right_brow = lndmk_points[22:27]
+            nose_ridge = lndmk_points[27:31]
+            nose_tip = lndmk_points[31:36]
+    
+            left_eye = lndmk_points[36:42]
+            left_eye.append(left_eye[0].copy())  # add the first point to get a closed curve
+    
+            right_eye = lndmk_points[42:48]
+            right_eye.append(right_eye[0].copy())  # add the first point to get a closed curve
+    
+            lips_outer = lndmk_points[48:60]
+            lips_outer.append(lips_outer[0].copy())  # add the first point to get a closed curve
+    
+            lips_inner = lndmk_points[60:68]
+            lips_inner.append(lips_inner[0].copy())  # add the first point to get a closed curve
+    
+            feature_lines = [jawline,
+                             left_brow,
+                             right_brow,
+                             nose_ridge,
+                             nose_tip,
+                             left_eye,
+                             right_eye,
+                             lips_inner,
+                             lips_outer]
+            # feature_lines is now a list of all lines to be drawn each list consisting of a list of coordinates
+            self.annotated_image = frame
+            cv2.imshow("current", frame)
+            cv2.waitKey(10)  # this defines how long each frame is shown
+            self.landmarks = feature_lines
+            #print(self.landmarks)
+            return feature_lines
+        
+        else: 
+            print("landmarks not detected")
+            return [[[0,0]]]
 
 
 class Robot:
     # TODO : scale face test 
     # TODO : test paper advance
-    
     
     def __init__(self, ip):
         self.ip = ip
@@ -228,10 +247,13 @@ class Robot:
         self.accel = 10
         self.vel = 10
         self.origin = m3d.Transform()
-        self.follow_time = 2
-        self.wander_dist = 0.09
+        self.follow_time = 20
+        self.wander_dist = 0.01
         self.w_anglechange = 5.0
-        self.escape_anglechange = 30
+        self.escape_anglechange = 45
+        
+        # reporting
+        self.print_coordinates = False
         
         # paper advancing
         self.drag_dist = 0.10  # 10 cm
@@ -261,21 +283,24 @@ class Robot:
         while PROGRAMSTATE == 0:
             # wander around
             frame = vs.read()
-            face_positions, new_frame = self.find_faces_dnn(frame)
+            face_positions, _, new_frame = self.find_faces_dnn(frame)
             
             if len(face_positions) > 0:
-                cv2.imshow('img', new_frame)
-                cv2.waitkey(100)
-                time.sleep(10)
+                cv2.imshow('current', new_frame)
+                cv2.waitKey(1)
+                #time.sleep(10)
                 break
             else:
+                cv2.imshow('current', new_frame)
+                cv2.waitKey(1)
+                
                 if exceeds != 0:
                     anglechange = random.uniform(-self.escape_anglechange, self.escape_anglechange)
                     #anglechange = 45
                 else:
                     anglechange = random.uniform(-self.w_anglechange, self.w_anglechange)
                 angle_a = angle_a + anglechange
-                print(angle_a)
+                #print(angle_a)
                 rad_angle_a = math.radians(angle_a)
                 x = self.wander_dist * math.cos(rad_angle_a)
                 y = self.wander_dist * math.sin(rad_angle_a)
@@ -283,11 +308,11 @@ class Robot:
                 
                 next_position = [self.position[0] + x,
                                  self.position[1] + y]
-                print(next_position)
+                #print(next_position)
                 next_position, exceeds = self.move_to_position(next_position)
-                print(next_position)
+                #print(next_position)
         print("exiting wander function")
-        print(PROGRAMSTATE)
+        print("PROGRAMSTATE:  ", PROGRAMSTATE)
 
     def follow_face(self, close = True):
         # either breaks or returns a face object if run for enough time
@@ -300,7 +325,7 @@ class Robot:
             while PROGRAMSTATE == 0:
 
                 frame = vs.read()
-                face_positions, new_frame = self.find_faces_dnn(frame)
+                face_positions, face_boxes, new_frame = self.find_faces_dnn(frame)
                 self.show_frame(new_frame)
                 if len(face_positions) > 0:
                     if time.time() -timer < self.follow_time:
@@ -313,13 +338,13 @@ class Robot:
                             self.robotUR.stop_realtime_control()
                             print("stopped realtime control")
                             
-                        return frame          
+                        return new_frame, face_boxes,face_positions        
                 else:
                     break
                     
                 #print("end of loop")
             print("exiting loop without face ")
-            return False
+            return frame, False, False
         
         except KeyboardInterrupt:
             print("face tracking interrupted by user")
@@ -366,6 +391,7 @@ class Robot:
         global ROBOT_ACTION
         if PROGRAMSTATE == 0:
             ROBOT_ACTION = 1  # sets ROBOT_ACTION to "move home"
+            print("moving Home. ROBOT_ACTION:  ", ROBOT_ACTION)
             
             self.robotUR.movej(q=(math.radians(-218),
                            math.radians(-63),
@@ -381,9 +407,9 @@ class Robot:
             print("program paused or stopped: ", PROGRAMSTATE)
             return False
             
-    def create_coordinates(self, image_with_face): 
+    def create_coordinates(self, image_with_face, box): 
         print("creating coordinates")
-        Face_object = Face(image_with_face)
+        Face_object = Face(image_with_face, box)
         Face_object.evaluate()
         self.draw_face(Face_object)
         self.write_emotions(Face_object)
@@ -403,8 +429,9 @@ class Robot:
                 vec_coord = trans_coord.get_pose_vector()
                 oriented_line.append(vec_coord)
             oriented_list.append(oriented_line)
-        
-        #print("oriented lines:  ", oriented_list)
+
+        if self.print_coordinates:
+            print("oriented lines:  ", oriented_list)
         return oriented_list
         
     
@@ -426,7 +453,8 @@ class Robot:
                 i = 0
                 for emotion in emos:
                     emotion_coords = [ThingToWrite(emotion).string_to_coordinates(origin)]
-                    print("emotion_coords", emotion_coords)
+                    if self.print_coordinates:
+                        print("emotion_coords", emotion_coords)
                     self._draw_curves(emotion_coords, origin)
                     origin[1] += self.line_spacing
                    
@@ -454,7 +482,8 @@ class Robot:
     
 
     def _draw_curves(self, polylines, origin_point):
-        print("polylines", polylines)
+        print("polylines to be drawn: ", polylines)
+        
         polylines_zvalue = self._add_zvalue(polylines)
         polylines_with_zhop = self._add_zhop(polylines_zvalue)
         polylines_rotvec = self._add_rotvec(polylines_with_zhop)
@@ -498,7 +527,8 @@ class Robot:
             list_with_z.append(lines_with_z)
             
         
-        print("list of lines  with added z: ", list_with_z)
+        if self.print_coordinates:
+            print("list of lines  with added z: ", list_with_z)
                  
         return list_with_z
         
@@ -518,8 +548,9 @@ class Robot:
             line_w_hop[0][2] = self.z_hop
             line_w_hop[-1][2] = self.z_hop
             list_w_hop.append(line_w_hop)
-            
-        print("list of lines  with zhop:    ", list_w_hop)
+
+        if self.print_coordinates:
+            print("list of lines  with zhop:    ", list_w_hop)
         return list_w_hop
     
     def _add_rotvec(self, list):
@@ -534,8 +565,9 @@ class Robot:
                 line_with_rotvec.append(new_coord)
                 
             list_with_rotvec.append(line_with_rotvec)
-            
-        print("lines with rotation vector:   ", list_with_rotvec)
+
+            if self.print_coordinates:
+                print("lines with rotation vector:   ", list_with_rotvec)
 
         return list_with_rotvec 
     
@@ -573,6 +605,7 @@ class Robot:
         # TODO: find a quicker face detection model
         detections = pretrained_model.forward()
         face_centers = []
+        rectangles = []
         # loop over the detections
         for i in range(0, detections.shape[2]):
             # extract the confidence (i.e., probability) associated with the prediction
@@ -602,11 +635,14 @@ class Robot:
             # cv2.putText(frame, str(position_from_center), face_center, 0, 1, (0, 200, 0))
             cv2.line(frame, video_midpoint, face_center, (0, 200, 0), 5)
             cv2.circle(frame, face_center, 4, (0, 200, 0), 3)
+            
+            rectangle = [startX,startY,endX,endY]
+            rectangles.append(rectangle)
 
-        return face_centers, frame
+        return face_centers, rectangles, frame
 
     def show_frame(self,frame):
-        cv2.imshow('img', frame)
+        cv2.imshow('current', frame)
         k = cv2.waitKey(6) & 0xff
 
     def send_interrupting_prg(self):
@@ -707,7 +743,7 @@ class Robot:
         """
         max_flag = 0  # 0 = inside maximum, 1= exceeds x max , 2= exceeds y-max, 3= exceeds both max
         x_y = [0, 0]
-        print("xy before conversion: ", xy_coord)
+        #print("xy before conversion: ", xy_coord)
         max_x = self.max_x
         max_y = self.max_y
         if -max_x <= xy_coord[0] <= max_x:
@@ -741,7 +777,7 @@ class Robot:
                 max_flag = 3
         else:
             raise Exception(" y is wrong somehow", xy_coord[1], max_y)
-        print("xy after conversion:   ", x_y)
+        #print("xy after conversion:   ", x_y)
 
         return x_y, max_flag
 
@@ -941,17 +977,20 @@ def main():
             if PROGRAMSTATE == 0:
                 
                 robot.wander()
-                face = robot.follow_face(close=False)
-                cv2.imwrite("testface.png", face)
+                face_img, face_box, face_pos  = robot.follow_face(close=False)
+                cv2.imwrite("testface.png", face_img)
                 print("face follow done")
                 
+                if not face_pos:
+                    continue
+                
                 robot.robotUR.stopj(robot.accel, wait=True)
-                time.sleep(0.1)
+                #time.sleep(0.1)
                 landmark_queue = mp.Queue()
                 emotion_queue = mp.Queue()
             
                 robot.move_to_write(robot.current_row)
-                robot.create_coordinates(face)
+                robot.create_coordinates(face_img, face_box)
                 
                 robot.current_row += 1
                 robot.check_paper()
@@ -963,7 +1002,7 @@ def main():
     except Exception as e:
         print("ERROR: ", e)
         traceback.print_exc()
-        print("closing robot conn")
+        print("closing robot connection")
         robot.robotUR.close()
         
 if __name__ == '__main__':
