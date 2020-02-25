@@ -7,6 +7,7 @@ import numpy as np
 import os
 import sys
 import traceback 
+import random
 
 from String_to_Path import ThingToWrite
 import URBasic
@@ -40,11 +41,12 @@ video_viewangle_hor = math.radians(25)  # Camera FOV (field of fiew) angle in ra
 m_per_pixel = 00.00009  # Variable which scales the robot movement from pixels to meters.
 
 RASPBERRY_BOOL = False
-# If this is run on a linux system, a picamera will be used.
+# If this is run on a linux system, it is assumed it runs on a raspberry pi and a picamera will be used.
 # If you are using a linux system, with a webcam instead of a raspberry pi delete the following if-statement
 if sys.platform == "linux":
     import picamera
     from picamera.array import PiRGBArray
+    import RPi.GPIO as GPIO
     RASPBERRY_BOOL = True
 
 vs = VideoStream(src= 0 ,
@@ -57,6 +59,9 @@ vs = VideoStream(src= 0 ,
                  exposure_compensation = 2,
                  rotation = 0).start()
 
+# PROGRAMSTATE: 0 = running , 1 = pause, 2 = error
+PROGRAMSTATE = 0
+ROBOT_ACTION = 0
 
 class Face:
     def __init__(self, image):
@@ -224,6 +229,9 @@ class Robot:
         self.vel = 10
         self.origin = m3d.Transform()
         self.follow_time = 2
+        self.wander_dist = 0.09
+        self.w_anglechange = 5.0
+        self.escape_anglechange = 30
         
         # paper advancing
         self.drag_dist = 0.10  # 10 cm
@@ -237,21 +245,59 @@ class Robot:
 
     def start_rtde(self):
         self.robotUR.init_realtime_control()  # starts the realtime control loop on the Universal-Robot Controller
-        time.sleep(1)  # just a short wait to make sure everything is initialised
+        time.sleep(0.5)  # just a short wait to make sure everything is initialised
         print("rtde started")
         pass
 
     def wander(self):
         print("wander function")
+        global PROGRAMSTATE
+        global ROBOT_ACTION
+        ROBOT_ACTION = 3
         # use self.position to go to a close position and search for faces
-        pass
+        angle_a = random.uniform(-360.0, 360.0)
+        exceeds = 0 
+        
+        while PROGRAMSTATE == 0:
+            # wander around
+            frame = vs.read()
+            face_positions, new_frame = self.find_faces_dnn(frame)
+            
+            if len(face_positions) > 0:
+                cv2.imshow('img', new_frame)
+                cv2.waitkey(100)
+                time.sleep(10)
+                break
+            else:
+                if exceeds != 0:
+                    anglechange = random.uniform(-self.escape_anglechange, self.escape_anglechange)
+                    #anglechange = 45
+                else:
+                    anglechange = random.uniform(-self.w_anglechange, self.w_anglechange)
+                angle_a = angle_a + anglechange
+                print(angle_a)
+                rad_angle_a = math.radians(angle_a)
+                x = self.wander_dist * math.cos(rad_angle_a)
+                y = self.wander_dist * math.sin(rad_angle_a)
+                
+                
+                next_position = [self.position[0] + x,
+                                 self.position[1] + y]
+                print(next_position)
+                next_position, exceeds = self.move_to_position(next_position)
+                print(next_position)
+        print("exiting wander function")
+        print(PROGRAMSTATE)
 
     def follow_face(self, close = True):
         # either breaks or returns a face object if run for enough time
+        global PROGRAMSTATE
+        global ROBOT_ACTION
+        ROBOT_ACTION = 4
         try:
             print("starting loop")
             timer = time.time()
-            while True:
+            while PROGRAMSTATE == 0:
 
                 frame = vs.read()
                 face_positions, new_frame = self.find_faces_dnn(frame)
@@ -270,6 +316,7 @@ class Robot:
                         return frame          
                 else:
                     break
+                    
                 #print("end of loop")
             print("exiting loop without face ")
             return False
@@ -286,35 +333,54 @@ class Robot:
         
 
     def move_to_write(self, row):
-        print("moving to write ")
-        self.robotUR.movej(q=(math.radians(-69),
-                          math.radians(-97),
-                          math.radians(-108),
-                          math.radians(-64),
-                          math.radians(89.5),
-                          math.radians(0)), a=self.accel, v=self.vel)
-        # über dem papier 01 self.robot.movej((-1.186561409627096, -1.9445274511920374, -1.7661479155169886, -1.006078068410055, 1.5503629446029663, 0.3756316900253296), self.a, self.v)
-        self.robotUR.movej(q=(-1.2749927679644983, 
-                              -1.9379289785968226, 
-                              -2.09098464647402, 
-                              -0.6840408484088343,
-                              1.5629680156707764, 
-                              0.28495118021965027), a=self.accel, v=self.vel)
-        self.origin = self.get_origin()
-        print("moved")
-        return True
+
+        global PROGRAMSTATE
+        global ROBOT_ACTION
+        if PROGRAMSTATE == 0:
+            ROBOT_ACTION = 5  # sets ROBOT_ACTION to "move to write"
+            
+            print("moving to write ")
+            self.robotUR.movej(q=(math.radians(-69),
+                              math.radians(-97),
+                              math.radians(-108),
+                              math.radians(-64),
+                              math.radians(89.5),
+                              math.radians(0)), a=self.accel, v=self.vel)
+            # über dem papier 01 self.robot.movej((-1.186561409627096, -1.9445274511920374, -1.7661479155169886, -1.006078068410055, 1.5503629446029663, 0.3756316900253296), self.a, self.v)
+            self.robotUR.movej(q=(-1.2749927679644983, 
+                                  -1.9379289785968226, 
+                                  -2.09098464647402, 
+                                  -0.6840408484088343,
+                                  1.5629680156707764, 
+                                  0.28495118021965027), a=self.accel, v=self.vel)
+            self.origin = self.get_origin()
+            print("moved")
+            ROBOT_ACTION = 6  # sets ROBOT_ACTION to "at write"
+            return True
+        else:
+            print("program paused or stopped: ", PROGRAMSTATE)
+            return False
 
     def move_home(self):
-        self.robotUR.movej(q=(math.radians(-218),
-                       math.radians(-63),
-                       math.radians(-93),
-                       math.radians(-20),
-                       math.radians(88),
-                       math.radians(0)), a=self.accel, v=self.vel)
-
-        self.position = [0, 0]
-        self.origin = self.set_lookorigin()
-
+        global PROGRAMSTATE
+        global ROBOT_ACTION
+        if PROGRAMSTATE == 0:
+            ROBOT_ACTION = 1  # sets ROBOT_ACTION to "move home"
+            
+            self.robotUR.movej(q=(math.radians(-218),
+                           math.radians(-63),
+                           math.radians(-93),
+                           math.radians(-20),
+                           math.radians(88),
+                           math.radians(0)), a=self.accel, v=self.vel)
+    
+            self.position = [0, 0]
+            self.origin = self.set_lookorigin()
+            return True
+        else:
+            print("program paused or stopped: ", PROGRAMSTATE)
+            return False
+            
     def create_coordinates(self, image_with_face): 
         print("creating coordinates")
         Face_object = Face(image_with_face)
@@ -343,31 +409,49 @@ class Robot:
         
     
     def write_emotions(self, Face_obj):
-        emos = Face_obj.emotions
-        print(emos)
-        if len(emos) == 0:
-            print("no emotions to write")
-            return False
+
+        global PROGRAMSTATE
+        global ROBOT_ACTION
+        if PROGRAMSTATE == 0:
+            
+            emos = Face_obj.emotions
+            print(emos)
+            if len(emos) == 0:
+                print("no emotions to write")
+                return False
+            else:
+                ROBOT_ACTION = 8  # sets ROBOT_ACTION to "writing"
+                
+                origin = self.calculate_origin(text=True)
+                i = 0
+                for emotion in emos:
+                    emotion_coords = [ThingToWrite(emotion).string_to_coordinates(origin)]
+                    print("emotion_coords", emotion_coords)
+                    self._draw_curves(emotion_coords, origin)
+                    origin[1] += self.line_spacing
+                   
+                return True
         else:
-            origin = self.calculate_origin(text=True)
-            i = 0
-            for emotion in emos:
-                emotion_coords = [ThingToWrite(emotion).string_to_coordinates(origin)]
-                print("emotion_coords", emotion_coords)
-                self._draw_curves(emotion_coords, origin)
-                origin[1] += self.line_spacing
-               
-            return True
-    
+            print("program paused or stopped: ", PROGRAMSTATE)
+            return False
     
     def draw_face(self, Face_obj):
-        if len(Face_obj.landmarks) == 0:
-            print("no landmarks to draw")
-            return False
+        global PROGRAMSTATE
+        global ROBOT_ACTION
+        if PROGRAMSTATE == 0:
+        
+            if len(Face_obj.landmarks) == 0:
+                print("no landmarks to draw")
+                return False
+            else:
+                ROBOT_ACTION = 7  # sets ROBOT_ACTION to "drawing"
+                origin = self.calculate_origin()
+                self._draw_curves(Face_obj.landmarks, origin)
+                return True
         else:
-            origin = self.calculate_origin()
-            self._draw_curves(Face_obj.landmarks, origin)
-            return True
+            print("program paused or stopped: ", PROGRAMSTATE)
+            return False
+    
 
     def _draw_curves(self, polylines, origin_point):
         print("polylines", polylines)
@@ -496,7 +580,7 @@ class Robot:
 
             # filter out weak detections by ensuring the `confidence` is
             # greater than the minimum confidence
-            if confidence < 0.4:
+            if confidence < 0.7:
                 continue
 
             # compute the (x, y)-coordinates of the bounding box for the object
@@ -621,9 +705,9 @@ class Robot:
                 if the values were within the maximum values (max_x and max_y) these are the same as the input.
                 if one or both of the input values were over the maximum, the maximum will be returned instead
         """
-
+        max_flag = 0  # 0 = inside maximum, 1= exceeds x max , 2= exceeds y-max, 3= exceeds both max
         x_y = [0, 0]
-        # print("xy before conversion: ", xy_coord)
+        print("xy before conversion: ", xy_coord)
         max_x = self.max_x
         max_y = self.max_y
         if -max_x <= xy_coord[0] <= max_x:
@@ -631,8 +715,10 @@ class Robot:
             x_y[0] = xy_coord[0]
         elif -max_x > xy_coord[0]:
             x_y[0] = -max_x
+            max_flag = 1
         elif max_x < xy_coord[0]:
             x_y[0] = max_x
+            max_flag = 1
         else:
             raise Exception(" x is wrong somehow:", xy_coord[0], -max_x, max_x)
 
@@ -641,13 +727,23 @@ class Robot:
             x_y[1] = xy_coord[1]
         elif -max_y > xy_coord[1]:
             x_y[1] = -max_y
+            
+            if max_flag == 0:
+                max_flag = 2
+            else:
+                max_flag = 3
         elif max_y < xy_coord[1]:
             x_y[1] = max_y
+            
+            if max_flag == 0:
+                max_flag = 2
+            else:
+                max_flag = 3
         else:
             raise Exception(" y is wrong somehow", xy_coord[1], max_y)
-        # print("xy after conversion: ", x_y)
+        print("xy after conversion:   ", x_y)
 
-        return x_y
+        return x_y, max_flag
 
     def set_lookorigin(self):
         """
@@ -682,17 +778,25 @@ class Robot:
 
         face_from_center = list(list_of_facepos[0])  # TODO: find way of making the selected face persistent
 
-        prev_robot_pos = robot_pos
+        prev_robot_pos = self.position
         scaled_face_pos = [c * m_per_pixel for c in face_from_center]
 
         robot_target_xy = [a + b for a, b in zip(prev_robot_pos, scaled_face_pos)]
         # print("..", robot_target_xy)
 
-        robot_target_xy = self.check_max_xy(robot_target_xy)
-        prev_robot_pos = robot_target_xy
+        
+        next_robot_pos, _ = self.move_to_position(robot_target_xy)
 
-        x = robot_target_xy[0]
-        y = robot_target_xy[1]
+        return next_robot_pos
+    
+    def move_to_position(self, target):
+        """ moves robot to target inside of the lookarea"""
+
+        target, exceeds = self.check_max_xy(target)
+        # TODO: make sure the target actually is the real position otherwise it is possible the robot might drift outside of the area or the area gets smaller and smaller
+
+        x = target[0]
+        y = target[1]
         z = 0
         xyz_coords = m3d.Vector(x, y, z)
 
@@ -712,11 +816,13 @@ class Robot:
 
         coordinates = oriented_xyz_coord
 
-        #qnear = self.robotUR.get_actual_joint_positions()
-        next_pose = coordinates # TODO: why do I rename this variable 3 times ?? 
+        # qnear = self.robotUR.get_actual_joint_positions()
+        next_pose = coordinates  # TODO: why do I rename this variable 3 times ?? 
         self.robotUR.set_realtime_pose(next_pose)
-
-        return prev_robot_pos
+        self.position = target
+        
+        return target, exceeds
+        
     
     def check_paper(self):
         if self.current_row == self.max_rows:
@@ -724,47 +830,99 @@ class Robot:
             self.current_row = 0 
             
     def advance_paper(self):
-
-        x = self.paperslot_start[0]
-        y = self.paperslot_start[1]
-        z = self.paperslot_start[2]
-
-        print("moving paper")
-
-        #self.robotUR.set_csys(m3d.Transform())  # reset csys otherwise weird things happen...
-        self.robotUR.movel(self.paperslot_start, self.accel, self.vel)  # move above the slot start point
-        self.robotUR.movel((x,
-                            y,
-                            z - self.plunge_dist,
-                            0, -math.pi, 0), self.accel, self.vel)  # plunge into the slot
-        self.robotUR.movel((x - self.drag_dist,
-                            y,
-                            z - self.plunge_dist,
-                            0, -math.pi, 0), self.accel, self.vel)  # drag the desired drag distance
-        time.sleep(2)
-        self.robotUR.movel((x - self.drag_dist,
-                            y,
-                            z ,
-                            0, -math.pi, 0), self.accel, self.vel)  # raise up to initial z height
-        self.robotUR.movel((x - self.drag_dist,
-                            y,
-                            z - self.plunge_dist/3  ,
-                            0, -math.pi, 0), self.accel * 2.5, self.vel * 2.6)  # plunge down by half z
-        self.robotUR.movel((x - self.drag_dist,
-                            y,
-                            z + self.plunge_dist ,
-                            0, -math.pi, 0), self.accel * 2.7, self.vel * 2.7)  # raise by plunge dist  
-        
-        time.sleep(2)
-
-        print("paper moved")
-
-        return True
+        global PROGRAMSTATE
+        global ROBOT_ACTION
+        if PROGRAMSTATE == 0:     
+            ROBOT_ACTION = 9  # sets current ROBOT_ACTION to "moving paper" 
+            
+            x = self.paperslot_start[0]
+            y = self.paperslot_start[1]
+            z = self.paperslot_start[2]
+    
+            print("moving paper")
+    
+            #self.robotUR.set_csys(m3d.Transform())  # reset csys otherwise weird things happen...
+            self.robotUR.movel(self.paperslot_start, self.accel, self.vel)  # move above the slot start point
+            self.robotUR.movel((x,
+                                y,
+                                z - self.plunge_dist,
+                                0, -math.pi, 0), self.accel, self.vel)  # plunge into the slot
+            self.robotUR.movel((x - self.drag_dist,
+                                y,
+                                z - self.plunge_dist,
+                                0, -math.pi, 0), self.accel, self.vel)  # drag the desired drag distance
+            time.sleep(2)
+            self.robotUR.movel((x - self.drag_dist,
+                                y,
+                                z ,
+                                0, -math.pi, 0), self.accel, self.vel)  # raise up to initial z height
+            self.robotUR.movel((x - self.drag_dist,
+                                y,
+                                z - self.plunge_dist/3  ,
+                                0, -math.pi, 0), self.accel * 2.5, self.vel * 2.6)  # plunge down by half z
+            self.robotUR.movel((x - self.drag_dist,
+                                y,
+                                z + self.plunge_dist ,
+                                0, -math.pi, 0), self.accel * 2.7, self.vel * 2.7)  # raise by plunge dist  
+            
+            time.sleep(2)
+    
+            print("paper moved")
+    
+            return True
+        else:
+            print("program paused or stopped: ", PROGRAMSTATE)
+            return False
+    
+    def move_safe(self, curr_action):
         pass
     
 def check_exhibit_time():
     pass
 
+PAUSE_PIN = 1 
+RESET_PIN = 2 
+
+def interrupt(channel):
+    global PROGRAMSTATE
+    global ROBOT_ACTION
+    global RASPBERRY_BOOL
+    global PLAY_PIN
+    global RESET_PIN
+    global PAUSE_PIN
+    
+    if channel == PAUSE_PIN:
+            pause()
+    elif channel == RESET_PIN: 
+        reset()
+    else: 
+        print("interrupt but unknown button")
+        
+def pause():
+    global PROGRAMSTATE
+    global ROBOT_ACTION
+    global RASPBERRY_BOOL
+    global PLAY_PIN
+    global RESET_PIN 
+    
+    PROGRAMSTATE = 1
+    
+    robot.robotUR.stopj()
+    robot.move_safe(ROBOT_ACTION)
+    robot.move_home()
+    
+    if RASPBERRY_BOOL:
+        GPIO.wait_for_edge(PLAY_PIN, GPIO.Falling)
+        PROGRAMSTATE = 0
+    else:  # what to do if this runs on a mac and there is no button 
+        time.sleep(10)
+        PROGRAMSTATE = 0
+        
+    
+    pass
+
+def reset():
+    pass
 
 robot_ip = "10.211.55.5"
 robot = Robot(robot_ip)
@@ -775,29 +933,39 @@ robot.current_row = 0
 robot.start_rtde()
 time.sleep(0.5)
 
-try: 
-    while True:
-    
-        robot.wander()
-        face = robot.follow_face(close=False)
-        cv2.imwrite("testface.png", face)
-        print("face follow done")
+def main():    
+    PROGRAMSTATE = 0
+    try: 
+        while True :
+            
+            if PROGRAMSTATE == 0:
+                
+                robot.wander()
+                face = robot.follow_face(close=False)
+                cv2.imwrite("testface.png", face)
+                print("face follow done")
+                
+                robot.robotUR.stopj(robot.accel, wait=True)
+                time.sleep(0.1)
+                landmark_queue = mp.Queue()
+                emotion_queue = mp.Queue()
+            
+                robot.move_to_write(robot.current_row)
+                robot.create_coordinates(face)
+                
+                robot.current_row += 1
+                robot.check_paper()
+            
+                robot.move_home()
+            else: 
+                continue
+            
+    except Exception as e:
+        print("ERROR: ", e)
+        traceback.print_exc()
+        print("closing robot conn")
+        robot.robotUR.close()
         
-        robot.robotUR.stopj(robot.accel, wait=True)
-        time.sleep(0.1)
-        landmark_queue = mp.Queue()
-        emotion_queue = mp.Queue()
+if __name__ == '__main__':
+    main()
     
-        robot.move_to_write(robot.current_row)
-        robot.create_coordinates(face)
-        
-        robot.current_row += 1
-        robot.check_paper()
-    
-        robot.move_home()
-        
-except Exception as e:
-    print("ERROR: ", e)
-    traceback.print_exc()
-    print("closing robot conn")
-    robot.robotUR.close()
