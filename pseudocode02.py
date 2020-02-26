@@ -244,10 +244,10 @@ class Robot:
         self.max_y = 0.2
         self.hor_rot_max = math.radians(50)
         self.vert_rot_max = math.radians(25)
-        self.accel = 10
-        self.vel = 10
+        self.accel = 0.1
+        self.vel = 0.1
         self.origin = m3d.Transform()
-        self.follow_time = 20
+        self.follow_time = 5
         self.wander_dist = 0.01
         self.w_anglechange = 5.0
         self.escape_anglechange = 45
@@ -960,14 +960,16 @@ def pause():
 def reset():
     pass
 
-robot_ip = "10.211.55.5"
+#robot_ip = "10.211.55.5"
+robot_ip = "192.168.178.20"
+
 robot = Robot(robot_ip)
 robot.initialise_robot()
 robot.move_home()
 
 robot.current_row = 0
 robot.start_rtde()
-time.sleep(0.5)
+time.sleep(20.5)
 
 def main():    
     PROGRAMSTATE = 0
@@ -996,6 +998,7 @@ def main():
                 robot.check_paper()
             
                 robot.move_home()
+                #robot.start_rtde()
             else: 
                 continue
             
