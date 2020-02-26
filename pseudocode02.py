@@ -30,7 +30,7 @@ EMOTIONS = ["angry", "disgust", "scared", "happy", "sad", "surprised",
             "neutral"]
 
 # Path to the face-detection model:
-pretrained_model = cv2.dnn.readNetFromCaffe("MODELS/deploy.prototxt.txt", "MODELS/res10_300x300_ssd_iter_140000.caffemodel")
+pretrained_model = cv2.dnn.readNetFromCaffe("models/deploy.prototxt.txt", "models/res10_300x300_ssd_iter_140000.caffemodel")
 
 video_resolution = (700, 400)  # resolution the video capture will be resized to, smaller sizes can speed up detection
 video_midpoint = (int(video_resolution[0]/2),
