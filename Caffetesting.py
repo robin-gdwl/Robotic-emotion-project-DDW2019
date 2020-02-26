@@ -58,7 +58,8 @@ vs = VideoStream(src= 0 ,
                  shutter_speed = 8900,
                  exposure_compensation = 2,
                  rotation = 0).start()
-
+print("wait ")
+time.sleep(5)
 i=0
 while i< 3000:
     timer = time.time()
