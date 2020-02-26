@@ -591,7 +591,10 @@ class Robot:
 
         frame = image
         frame = imutils.resize(frame, width=video_resolution[0])
-        frame = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
+        #frame = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
+        face_detect = dlib.get_frontal_face_detector()
+        rects = face_detect(frame, 1)
+        
 
         # grab the frame dimensions and convert it to a blob
         (h, w) = frame.shape[:2]
@@ -971,6 +974,8 @@ robot.move_home()
 robot.current_row = 0
 robot.start_rtde()
 time.sleep(1)
+
+print("____"*400)
 
 def main():    
     PROGRAMSTATE = 0
