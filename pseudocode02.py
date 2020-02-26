@@ -255,7 +255,7 @@ class Robot:
         # reporting
         self.print_coordinates = False
         
-        self.face_detect = dlib.get_frontal_face_detector()
+        #self.face_detect = dlib.get_frontal_face_detector()
         
         # paper advancing
         self.drag_dist = 0.10  # 10 cm
@@ -594,7 +594,7 @@ class Robot:
         frame = image
         frame = imutils.resize(frame, width=video_resolution[0])
         #frame = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
-        rects = self.face_detect(frame, 1)
+        #rects = self.face_detect(frame, 1)
         
 
         # grab the frame dimensions and convert it to a blob
