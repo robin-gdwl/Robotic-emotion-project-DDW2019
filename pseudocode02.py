@@ -291,8 +291,8 @@ class Robot:
                 #time.sleep(10)
                 break
             else:
-                cv2.imshow('current', new_frame)
-                cv2.waitKey(1)
+                """cv2.imshow('current', new_frame)
+                cv2.waitKey(1)"""
                 
                 if exceeds != 0:
                     anglechange = random.uniform(-self.escape_anglechange, self.escape_anglechange)
