@@ -256,7 +256,7 @@ class Robot:
         self.print_coordinates = False
         
         #self.face_detect = dlib.get_frontal_face_detector()
-        
+        self.dnnFaceDetector = dlib.cnn_face_detection_model_v1("models/mmod_human_face_detector.dat")
         # paper advancing
         self.drag_dist = 0.10  # 10 cm
         self.plunge_dist = 0.1273
@@ -595,6 +595,8 @@ class Robot:
         frame = imutils.resize(frame, width=video_resolution[0])
         #frame = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
         #rects = self.face_detect(frame, 1)
+        gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
+        rects = self.dnnFaceDetector(gray, 1)
         
 
         # grab the frame dimensions and convert it to a blob
