@@ -31,6 +31,7 @@ EMOTIONS = ["angry", "disgust", "scared", "happy", "sad", "surprised",
 
 # Path to the face-detection model:
 pretrained_model = cv2.dnn.readNetFromCaffe("models/deploy.prototxt.txt", "models/res10_300x300_ssd_iter_140000.caffemodel")
+pretrained_model2 = cv2.dnn.readNetFromCaffe("models/RFB-320.prototxt", "models/RFB-320.caffemodel")
 
 video_resolution = (700, 400)  # resolution the video capture will be resized to, smaller sizes can speed up detection
 video_midpoint = (int(video_resolution[0]/2),
@@ -595,8 +596,8 @@ class Robot:
         frame = imutils.resize(frame, width=video_resolution[0])
         #frame = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
         #rects = self.face_detect(frame, 1)
-        gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
-        rects = self.dnnFaceDetector(gray, 1)
+        #gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
+        #rects = self.dnnFaceDetector(gray, 1)
         
 
         # grab the frame dimensions and convert it to a blob
@@ -606,11 +607,19 @@ class Robot:
 
         # pass the blob through the network and obtain the detections and predictions
         pretrained_model.setInput(blob)
-
+        pretrained_model2.setInput(blob)
+        
         # the following line handles the actual face detection
         # it is the most computationally intensive part of the entire program
         # TODO: find a quicker face detection model
         detections = pretrained_model.forward()
+        print(detections.shape)
+        print(detections)
+
+        detections2 = pretrained_model2.forward()
+        print(detections2.shape)
+        print(detections2)
+        
         face_centers = []
         rectangles = []
         # loop over the detections
