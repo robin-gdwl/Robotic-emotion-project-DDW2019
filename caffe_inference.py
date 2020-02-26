@@ -1,27 +1,22 @@
-# coding=utf-8
 import argparse
 import os
 import time
 from math import ceil
 
-#import caffe
 import cv2
 import numpy as np
+from cv2 import dnn
 
 parser = argparse.ArgumentParser()
 parser.add_argument('--caffe_prototxt_path', default="model/RFB-320/RFB-320.prototxt", type=str, help='caffe_prototxt_path')
 parser.add_argument('--caffe_model_path', default="model/RFB-320/RFB-320.caffemodel", type=str, help='caffe_model_path')
+parser.add_argument('--onnx_path', default="../models/onnx/version-RFB-320_simplified.onnx", type=str, help='onnx version')
 parser.add_argument('--input_size', default="320,240", type=str, help='define network input size,format: width,height')
 parser.add_argument('--threshold', default=0.7, type=float, help='score threshold')
 parser.add_argument('--imgs_path', default="../MNN/imgs", type=str, help='imgs dir')
 parser.add_argument('--results_path', default="results", type=str, help='results dir')
-parser.add_argument('--mode', default="cpu", type=str, help='cpu or gpu')
 args = parser.parse_args()
 
-"""if args.mode == "cpu":
-    caffe.set_mode_cpu()
-elif args.mode == "gpu":
-    caffe.set_mode_gpu()"""
 image_mean = np.array([127, 127, 127])
 image_std = 128.0
 iou_threshold = 0.3
@@ -30,7 +25,6 @@ size_variance = 0.2
 min_boxes = [[10.0, 16.0, 24.0], [32.0, 48.0], [64.0, 96.0], [128.0, 192.0, 256.0]]
 strides = [8.0, 16.0, 32.0, 64.0]
 
-net = cv2.dnn.readNetFromCaffe("models/RFB-320.prototxt", "models/RFB-320.caffemodel")
 
 def define_img_size(image_size):
     shrinkage_list = []
@@ -150,25 +144,22 @@ def center_form_to_corner_form(locations):
 
 
 def inference(frame):
-    #net = caffe.Net(args.caffe_prototxt_path, args.caffe_model_path, caffe.TEST)
-    
+    #net = dnn.readNetFromONNX(args.onnx_path)  # onnx version
+    net = dnn.readNetFromCaffe("models/RFB-320.prototxt", "models/RFB-320.caffemodel")  # caffe model converted from onnx
     input_size = [int(v.strip()) for v in args.input_size.split(",")]
     witdh = input_size[0]
     height = input_size[1]
     priors = define_img_size(input_size)
-    net.blobs['input'].reshape(1, 3, height, witdh)
     
-    if True:   
+    
+    if True:
+        #img_path = os.path.join(imgs_path, file_path)
         img_ori = frame
-        tmp_batch = np.zeros([1, 3, height, witdh], dtype=np.float32)
         rect = cv2.resize(img_ori, (witdh, height))
         rect = cv2.cvtColor(rect, cv2.COLOR_BGR2RGB)
-        image = (rect - image_mean) / image_std
-        tmp_batch[0, :, :, :] = image.transpose(2, 0, 1)
-        net.blobs['input'].data[...] = tmp_batch
+        net.setInput(dnn.blobFromImage(rect, 1 / image_std, (witdh, height), 127))
         time_time = time.time()
-        scores = net.forward()['scores'][0]
-        boxes = net.forward()['boxes'][0]
+        boxes, scores = net.forward(["boxes", "scores"])
         print("inference time: {} s".format(round(time.time() - time_time, 4)))
         boxes = np.expand_dims(np.reshape(boxes, (-1, 4)), axis=0)
         scores = np.expand_dims(np.reshape(scores, (-1, 2)), axis=0)
@@ -178,8 +169,10 @@ def inference(frame):
         for i in range(boxes.shape[0]):
             box = boxes[i, :]
             cv2.rectangle(img_ori, (box[0], box[1]), (box[2], box[3]), (0, 255, 0), 2)
-        cv2.imshow("ultraFace_caffe_py", img_ori)
-        cv2.waitKey(10)
+        
+        #cv2.imshow("ultra_face_ace_opencvdnn_py", img_ori)
+        #cv2.waitKey(1)
+    
 
 
 if __name__ == '__main__':

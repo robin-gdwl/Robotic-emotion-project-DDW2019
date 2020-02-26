@@ -63,7 +63,7 @@ vs = VideoStream(src= 0 ,
 print("wait ")
 time.sleep(5)
 i=0
-while i< 3000:
+while i< 300:
     timer = time.time()
     frame = vs.read()
     """(h, w) = frame.shape[:2]
