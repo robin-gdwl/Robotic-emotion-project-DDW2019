@@ -244,11 +244,11 @@ class Robot:
         self.max_y = 0.2
         self.hor_rot_max = math.radians(50)
         self.vert_rot_max = math.radians(25)
-        self.accel = 0.1
-        self.vel = 0.1
+        self.accel = 0.5
+        self.vel = 0.5
         self.origin = m3d.Transform()
         self.follow_time = 5
-        self.wander_dist = 0.01
+        self.wander_dist = 0.005
         self.w_anglechange = 5.0
         self.escape_anglechange = 45
         
@@ -591,6 +591,7 @@ class Robot:
 
         frame = image
         frame = imutils.resize(frame, width=video_resolution[0])
+        frame = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
 
         # grab the frame dimensions and convert it to a blob
         (h, w) = frame.shape[:2]
@@ -986,7 +987,7 @@ def main():
                 if not face_pos:
                     continue
                 
-                robot.robotUR.stopj(robot.accel, wait=True)
+                robot.robotUR.stopj(robot.accel/5, wait=True)
                 #time.sleep(0.1)
                 landmark_queue = mp.Queue()
                 emotion_queue = mp.Queue()
