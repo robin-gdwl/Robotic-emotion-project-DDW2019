@@ -59,10 +59,10 @@ vs = VideoStream(src= 0 ,
                  exposure_compensation = 2,
                  rotation = 0).start()
 
-first_frame = vs.read()
+"""first_frame = vs.read()
 cv2.imshow('current', first_frame)
 cv2.waitKey(100)
-
+"""
 # PROGRAMSTATE: 0 = running , 1 = pause, 2 = error
 PROGRAMSTATE = 0
 ROBOT_ACTION = 0
@@ -969,7 +969,7 @@ robot.move_home()
 
 robot.current_row = 0
 robot.start_rtde()
-time.sleep(20.5)
+time.sleep(1)
 
 def main():    
     PROGRAMSTATE = 0
