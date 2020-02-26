@@ -9,6 +9,8 @@ import sys
 import traceback 
 import random
 
+import caffe_inference
+
 from String_to_Path import ThingToWrite
 import URBasic
 from imutils.video import VideoStream
@@ -64,13 +66,15 @@ i=0
 while i< 3000:
     timer = time.time()
     frame = vs.read()
-    (h, w) = frame.shape[:2]
+    """(h, w) = frame.shape[:2]
     blob = cv2.dnn.blobFromImage(cv2.resize(frame, (300, 300)), 1.0,
                                  (300, 300), (104.0, 177.0, 123.0))
 
     pretrained_model.setInput(blob)
     detections = pretrained_model.forward()
     print(detections.shape)
+    """
+    caffe_inference.inference(frame)
     print(time.time()-timer, "seconds")
     print("____"*20)
     i+=1

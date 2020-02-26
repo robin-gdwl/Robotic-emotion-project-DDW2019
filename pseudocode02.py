@@ -14,6 +14,7 @@ import URBasic
 from imutils.video import VideoStream
 import math3d as m3d
 import math
+from caffe_inference import *
 
 
 from keras.preprocessing.image import img_to_array
@@ -657,6 +658,10 @@ class Robot:
 
         return face_centers, rectangles, frame
 
+    def find_face_fast(self,image):
+        
+        pass
+    
     def show_frame(self,frame):
         cv2.imshow('current', frame)
         k = cv2.waitKey(6) & 0xff
