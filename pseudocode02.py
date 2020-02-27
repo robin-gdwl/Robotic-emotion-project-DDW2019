@@ -76,8 +76,8 @@ if sys.platform == "linux":
     GPIO.setup(PAUSE_PIN, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
     GPIO.setup(RESET_PIN, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
     GPIO.setup(PLAY_PIN, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
-    GPIO.add_event_detect(PAUSE_PIN, GPIO.RISING, callback=interrupt, bouncetime = 1000)
-    GPIO.add_event_detect(RESET_PIN, GPIO.RISING, callback=interrupt, bouncetime = 1000)
+    GPIO.add_event_detect(PAUSE_PIN, GPIO.RISING, callback=interrupt, bouncetime = 500)
+    GPIO.add_event_detect(RESET_PIN, GPIO.RISING, callback=interrupt, bouncetime = 500)
 
 vs = VideoStream(src= 0 ,
                  usePiCamera= RASPBERRY_BOOL,
@@ -983,21 +983,6 @@ class Robot:
 def check_exhibit_time():
     pass
 
-
-def interrupt(channel):
-    global PROGRAMSTATE
-    global ROBOT_ACTION
-    global RASPBERRY_BOOL
-    global PLAY_PIN
-    global RESET_PIN
-    global PAUSE_PIN
-    
-    if channel == PAUSE_PIN:
-            pause()
-    elif channel == RESET_PIN: 
-        reset()
-    else: 
-        print("interrupt but unknown button")
         
 def pause():
     global PROGRAMSTATE
