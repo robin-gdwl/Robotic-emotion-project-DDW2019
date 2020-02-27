@@ -962,6 +962,7 @@ class Robot:
             return False
     
     def move_safe(self, curr_action):
+        print("safety-move")
         pass
     
 def check_exhibit_time():
@@ -992,7 +993,7 @@ def pause():
     
     PROGRAMSTATE = 1
     print("pause")
-    robot.robotUR.stopj()
+    robot.robotUR.stopj(robot.accel)
     robot.move_safe(ROBOT_ACTION)
     robot.move_home()
     
