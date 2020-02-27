@@ -355,6 +355,7 @@ class Robot:
         try:
             print("starting follow_face loop. ROBOT_ACTION:", ROBOT_ACTION)
             timer = time.time()
+            frame = []
             while PROGRAMSTATE == 0:
 
                 frame = vs.read()
@@ -1033,7 +1034,7 @@ def main():
                 
                 robot.wander()
                 face_img, face_box, face_pos  = robot.follow_face(close=False)
-                cv2.imwrite("testface.png", face_img)
+                #cv2.imwrite("testface.png", face_img)
                 print("face follow done")
                 
                 if not face_pos:
