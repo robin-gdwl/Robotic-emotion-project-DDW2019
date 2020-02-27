@@ -52,7 +52,9 @@ def interrupt(channel):
     global PLAY_PIN
     global RESET_PIN
     global PAUSE_PIN
-
+    
+    print("INTERRUPT!  ROBOTACTION: ", ROBOT_ACTION)
+    print("PROGRAMSTATE: ", PROGRAMSTATE)
     if channel == PAUSE_PIN:
         pause()
     elif channel == RESET_PIN:
@@ -68,7 +70,8 @@ if sys.platform == "linux":
     import RPi.GPIO as GPIO
 
     PAUSE_PIN = 8
-    RESET_PIN = 9
+    RESET_PIN = 10
+    PLAY_PIN = 12
     GPIO.setmode(GPIO.BOARD)
     GPIO.setup(PAUSE_PIN, GPIO.IN, pull_up_down=GPIO.PUD_UP)
     GPIO.setup(RESET_PIN, GPIO.IN, pull_up_down=GPIO.PUD_UP)
@@ -988,7 +991,7 @@ def pause():
     global RESET_PIN 
     
     PROGRAMSTATE = 1
-    
+    print("pause")
     robot.robotUR.stopj()
     robot.move_safe(ROBOT_ACTION)
     robot.move_home()
