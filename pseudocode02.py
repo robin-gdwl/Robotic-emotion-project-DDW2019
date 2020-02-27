@@ -76,8 +76,8 @@ if sys.platform == "linux":
     GPIO.setup(PAUSE_PIN, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
     GPIO.setup(RESET_PIN, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
     GPIO.setup(PLAY_PIN, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
-    GPIO.add_event_detect(PAUSE_PIN, GPIO.BOTH, callback=interrupt)
-    GPIO.add_event_detect(RESET_PIN, GPIO.BOTH, callback=interrupt)
+    GPIO.add_event_detect(PAUSE_PIN, GPIO.RISING, callback=interrupt)
+    GPIO.add_event_detect(RESET_PIN, GPIO.RISING, callback=interrupt)
 
 vs = VideoStream(src= 0 ,
                  usePiCamera= RASPBERRY_BOOL,
@@ -1008,16 +1008,18 @@ def pause():
     
     PROGRAMSTATE = 1
     print("pause")
-    robot.robotUR.stopj(robot.accel)
+    robot.robotUR.stopj(robot.accel/5)
+    time.sleep(1)
     robot.move_safe(ROBOT_ACTION)
     robot.move_home()
     
-    #if RASPBERRY_BOOL:
-    if False:
-        GPIO.wait_for_edge(PLAY_PIN, GPIO.FALLING)
+    if RASPBERRY_BOOL:
+    #if False:
+        GPIO.wait_for_edge(PLAY_PIN, GPIO.BOTH)
         PROGRAMSTATE = 0
     else:  # what to do if this runs on a mac and there is no button 
-        print("waiting to continuw")
+        print("waiting to continue")
+        print("----"*5)
         time.sleep(10)
         PROGRAMSTATE = 0
         
@@ -1050,12 +1052,11 @@ def main():
                 robot.wander()
                 face_img, face_box, face_pos  = robot.follow_face(close=False)
                 #cv2.imwrite("testface.png", face_img)
-                print("face follow done")
+                
                 
                 if not face_pos:
                     continue
-                
-                robot.robotUR.stopj(robot.accel/5, wait=True)
+                print("face follow done")
                 #time.sleep(0.1)
                 landmark_queue = mp.Queue()
                 emotion_queue = mp.Queue()
