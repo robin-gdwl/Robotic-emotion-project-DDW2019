@@ -73,11 +73,11 @@ if sys.platform == "linux":
     RESET_PIN = 10
     PLAY_PIN = 12
     GPIO.setmode(GPIO.BOARD)
-    GPIO.setup(PAUSE_PIN, GPIO.IN, pull_up_down=GPIO.PUD_UP)
-    GPIO.setup(RESET_PIN, GPIO.IN, pull_up_down=GPIO.PUD_UP)
-    GPIO.setup(PLAY_PIN, GPIO.IN, pull_up_down=GPIO.PUD_UP)
-    GPIO.add_event_detect(PAUSE_PIN, GPIO.FALLING, callback=interrupt)
-    GPIO.add_event_detect(RESET_PIN, GPIO.FALLING, callback=interrupt)
+    GPIO.setup(PAUSE_PIN, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
+    GPIO.setup(RESET_PIN, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
+    GPIO.setup(PLAY_PIN, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
+    GPIO.add_event_detect(PAUSE_PIN, GPIO.RISING, callback=interrupt)
+    GPIO.add_event_detect(RESET_PIN, GPIO.RISING, callback=interrupt)
 
 vs = VideoStream(src= 0 ,
                  usePiCamera= RASPBERRY_BOOL,
@@ -304,93 +304,103 @@ class Robot:
         pass
 
     def wander(self):
-        print("wander function")
-        global PROGRAMSTATE
-        global ROBOT_ACTION
-        ROBOT_ACTION = 3
-        # use self.position to go to a close position and search for faces
-        angle_a = random.uniform(-360.0, 360.0)
-        exceeds = 0
-        print("starting wander loop. ROBOT_ACTION: ", ROBOT_ACTION)
-        while PROGRAMSTATE == 0:
-            # wander around
-            frame = vs.read()
-            #face_positions, _, new_frame = self.find_faces_dnn(frame)
-            face_positions, _, new_frame = self.find_face_fast(frame)
-            
-            if len(face_positions) > 0:
-                #cv2.imshow('current', new_frame)
-                #cv2.waitKey(1)
-                #time.sleep(10)
-                break
-            else:
-                """cv2.imshow('current', new_frame)
-                cv2.waitKey(1)"""
+        if PROGRAMSTATE ==0:
+            print("wander function")
+            global PROGRAMSTATE
+            global ROBOT_ACTION
+            ROBOT_ACTION = 3
+            # use self.position to go to a close position and search for faces
+            angle_a = random.uniform(-360.0, 360.0)
+            exceeds = 0
+            print("starting wander loop. ROBOT_ACTION: ", ROBOT_ACTION)
+            while PROGRAMSTATE == 0:
+                # wander around
+                frame = vs.read()
+                #face_positions, _, new_frame = self.find_faces_dnn(frame)
+                face_positions, _, new_frame = self.find_face_fast(frame)
                 
-                if exceeds != 0:
-                    anglechange = random.uniform(-self.escape_anglechange, self.escape_anglechange)
-                    #anglechange = 45
+                if len(face_positions) > 0:
+                    #cv2.imshow('current', new_frame)
+                    #cv2.waitKey(1)
+                    #time.sleep(10)
+                    break
                 else:
-                    anglechange = random.uniform(-self.w_anglechange, self.w_anglechange)
-                angle_a = angle_a + anglechange
-                #print(angle_a)
-                rad_angle_a = math.radians(angle_a)
-                x = self.wander_dist * math.cos(rad_angle_a)
-                y = self.wander_dist * math.sin(rad_angle_a)
-                
-                
-                next_position = [self.position[0] + x,
-                                 self.position[1] + y]
-                #print(next_position)
-                next_position, exceeds = self.move_to_position(next_position)
-                #print(next_position)
-        print("exiting wander function")
-        print("PROGRAMSTATE:  ", PROGRAMSTATE)
+                    """cv2.imshow('current', new_frame)
+                    cv2.waitKey(1)"""
+                    
+                    if exceeds != 0:
+                        anglechange = random.uniform(-self.escape_anglechange, self.escape_anglechange)
+                        #anglechange = 45
+                    else:
+                        anglechange = random.uniform(-self.w_anglechange, self.w_anglechange)
+                    angle_a = angle_a + anglechange
+                    #print(angle_a)
+                    rad_angle_a = math.radians(angle_a)
+                    x = self.wander_dist * math.cos(rad_angle_a)
+                    y = self.wander_dist * math.sin(rad_angle_a)
+                    
+                    
+                    next_position = [self.position[0] + x,
+                                     self.position[1] + y]
+                    #print(next_position)
+                    next_position, exceeds = self.move_to_position(next_position)
+                    #print(next_position)
+            print("exiting wander function")
+            print("PROGRAMSTATE:  ", PROGRAMSTATE)
+        
+        else:
+            pass
 
     def follow_face(self, close = True):
         # either breaks or returns a face object if run for enough time
+        
         global PROGRAMSTATE
         global ROBOT_ACTION
-        ROBOT_ACTION = 4
-        try:
-            print("starting follow_face loop. ROBOT_ACTION:", ROBOT_ACTION)
-            timer = time.time()
-            frame = []
-            while PROGRAMSTATE == 0:
-
-                frame = vs.read()
-                #face_positions, face_boxes, new_frame = self.find_faces_dnn(frame)
-                face_positions, face_boxes, new_frame = self.find_face_fast(frame)
-                #self.show_frame(new_frame)
-                if len(face_positions) > 0:
-                    if time.time() -timer < self.follow_time:
-                        self.position = self.move_to_face(face_positions, self.position)
+        
+        if PROGRAMSTATE ==0:
+            
+            ROBOT_ACTION = 4
+            try:
+                print("starting follow_face loop. ROBOT_ACTION:", ROBOT_ACTION)
+                timer = time.time()
+                frame = []
+                while PROGRAMSTATE == 0:
+    
+                    frame = vs.read()
+                    #face_positions, face_boxes, new_frame = self.find_faces_dnn(frame)
+                    face_positions, face_boxes, new_frame = self.find_face_fast(frame)
+                    #self.show_frame(new_frame)
+                    if len(face_positions) > 0:
+                        if time.time() -timer < self.follow_time:
+                            self.position = self.move_to_face(face_positions, self.position)
+                        else:
+                            print("time up returning frame")
+                            print(close)
+                            if close:
+                                print("stopping realtime control")
+                                self.robotUR.stop_realtime_control()
+                                print("stopped realtime control")
+                                
+                            return new_frame, face_boxes,face_positions        
                     else:
-                        print("time up returning frame")
-                        print(close)
-                        if close:
-                            print("stopping realtime control")
-                            self.robotUR.stop_realtime_control()
-                            print("stopped realtime control")
-                            
-                        return new_frame, face_boxes,face_positions        
-                else:
-                    break
-                    
-                #print("end of loop")
-            print("exiting loop without face ")
-            return frame, False, False
+                        break
+                        
+                    #print("end of loop")
+                print("exiting loop without face ")
+                return frame, False, False
+            
+            except KeyboardInterrupt:
+                print("face tracking interrupted by user")
+                print("closing robot connection")
+                # Remember to always close the robot connection, otherwise it is not possible to reconnect
+                self.robotUR.close()
+    
+            except:
+                print("error during facetracking")
+                self.robotUR.close()
         
-        except KeyboardInterrupt:
-            print("face tracking interrupted by user")
-            print("closing robot connection")
-            # Remember to always close the robot connection, otherwise it is not possible to reconnect
-            self.robotUR.close()
-
-        except:
-            print("error during facetracking")
-            self.robotUR.close()
-        
+        else:
+            pass
 
     def move_to_write(self, row):
 
@@ -999,10 +1009,12 @@ def pause():
     robot.move_safe(ROBOT_ACTION)
     robot.move_home()
     
-    if RASPBERRY_BOOL:
+    #if RASPBERRY_BOOL:
+    if False
         GPIO.wait_for_edge(PLAY_PIN, GPIO.FALLING)
         PROGRAMSTATE = 0
     else:  # what to do if this runs on a mac and there is no button 
+        print("waiting to continuw")
         time.sleep(10)
         PROGRAMSTATE = 0
         
