@@ -12,7 +12,7 @@ parser.add_argument('--caffe_prototxt_path', default="model/RFB-320/RFB-320.prot
 parser.add_argument('--caffe_model_path', default="model/RFB-320/RFB-320.caffemodel", type=str, help='caffe_model_path')
 parser.add_argument('--onnx_path', default="../models/onnx/version-RFB-320_simplified.onnx", type=str, help='onnx version')
 parser.add_argument('--input_size', default="320,240", type=str, help='define network input size,format: width,height')
-parser.add_argument('--threshold', default=0.7, type=float, help='score threshold')
+parser.add_argument('--threshold', default=0.5, type=float, help='score threshold')
 parser.add_argument('--imgs_path', default="../MNN/imgs", type=str, help='imgs dir')
 parser.add_argument('--results_path', default="results", type=str, help='results dir')
 args = parser.parse_args()
@@ -58,7 +58,7 @@ def generate_priors(feature_map_list, shrinkage_list, image_size, min_boxes):
                         w,
                         h
                     ])
-    print("priors nums:{}".format(len(priors)))
+    #print("priors nums:{}".format(len(priors)))
     return np.clip(priors, 0.0, 1.0)
 
 
@@ -143,35 +143,59 @@ def center_form_to_corner_form(locations):
                            locations[..., :2] + locations[..., 2:] / 2], len(locations.shape) - 1)
 
 
-def inference(frame):
+def inference(frame, show=False):
     #net = dnn.readNetFromONNX(args.onnx_path)  # onnx version
     net = dnn.readNetFromCaffe("models/RFB-320.prototxt", "models/RFB-320.caffemodel")  # caffe model converted from onnx
     input_size = [int(v.strip()) for v in args.input_size.split(",")]
     witdh = input_size[0]
     height = input_size[1]
     priors = define_img_size(input_size)
+    #video_midpoint = (int(input_size[0] / 2),int(input_size[1] / 2))
     
+    #img_path = os.path.join(imgs_path, file_path)
+    img_ori = frame
+    ori_size = img_ori.shape
+    video_midpoint = (int(ori_size[1] / 2),
+                      int(ori_size[0] / 2))
+    print(ori_size, "   ori size")
+    cv2.circle(img_ori, video_midpoint, 4, (250, 200, 0), 6)
+    rect = cv2.resize(img_ori, (witdh, height))
+    cv2.circle(img_ori, video_midpoint, 4, (250, 200, 0), 6)
+    rect = cv2.cvtColor(rect, cv2.COLOR_BGR2RGB)
+    #img_ori = rect
+    net.setInput(dnn.blobFromImage(rect, 1 / image_std, (witdh, height), 127))
+    time_time = time.time()
+    boxes, scores = net.forward(["boxes", "scores"])
+    print("inference time: {} s".format(round(time.time() - time_time, 4)))
+    boxes = np.expand_dims(np.reshape(boxes, (-1, 4)), axis=0)
+    scores = np.expand_dims(np.reshape(scores, (-1, 2)), axis=0)
+    boxes = convert_locations_to_boxes(boxes, priors, center_variance, size_variance)
+    boxes = center_form_to_corner_form(boxes)
+    boxes, labels, probs = predict(img_ori.shape[1], img_ori.shape[0], scores, boxes, args.threshold)
     
-    if True:
-        #img_path = os.path.join(imgs_path, file_path)
-        img_ori = frame
-        rect = cv2.resize(img_ori, (witdh, height))
-        rect = cv2.cvtColor(rect, cv2.COLOR_BGR2RGB)
-        net.setInput(dnn.blobFromImage(rect, 1 / image_std, (witdh, height), 127))
-        time_time = time.time()
-        boxes, scores = net.forward(["boxes", "scores"])
-        print("inference time: {} s".format(round(time.time() - time_time, 4)))
-        boxes = np.expand_dims(np.reshape(boxes, (-1, 4)), axis=0)
-        scores = np.expand_dims(np.reshape(scores, (-1, 2)), axis=0)
-        boxes = convert_locations_to_boxes(boxes, priors, center_variance, size_variance)
-        boxes = center_form_to_corner_form(boxes)
-        boxes, labels, probs = predict(img_ori.shape[1], img_ori.shape[0], scores, boxes, args.threshold)
-        for i in range(boxes.shape[0]):
-            box = boxes[i, :]
-            cv2.rectangle(img_ori, (box[0], box[1]), (box[2], box[3]), (0, 255, 0), 2)
+    rectangles = []
+    locations = []
+    for i in range(boxes.shape[0]):
         
-        #cv2.imshow("ultra_face_ace_opencvdnn_py", img_ori)
-        #cv2.waitKey(1)
+        box = boxes[i, :]
+        cv2.rectangle(img_ori, (box[0], box[1]), (box[2], box[3]), (0, 255, 0), 2)
+        rectangle = [box[0], box[1], box[2], box[3]]
+        loc = (int(box[0] + (box[2]-box[0]) / 2), 
+               int(box[1] + (box[3]-box[1]) / 2))
+        loc_from_center = (loc[0] - video_midpoint[0], loc[1] - video_midpoint[1])
+        
+        cv2.line(img_ori, video_midpoint, loc, (0, 200, 0), 5)
+        cv2.circle(img_ori, loc, 4, (0, 200, 200), 3)
+        rectangles.append(rectangle)
+        locations.append(loc_from_center)
+    if show:
+        cv2.imshow("ultra_face_ace_opencvdnn_py", img_ori)
+        cv2.waitKey(1)
+        
+    print(locations)
+    print(rectangles)
+    #print(img_ori)
+    return locations, rectangles , img_ori
     
 
 

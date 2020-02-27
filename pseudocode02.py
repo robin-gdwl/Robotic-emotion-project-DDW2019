@@ -14,7 +14,7 @@ import URBasic
 from imutils.video import VideoStream
 import math3d as m3d
 import math
-from caffe_inference import *
+import caffe_inference as cf
 
 
 from keras.preprocessing.image import img_to_array
@@ -249,7 +249,7 @@ class Robot:
         self.accel = 0.5
         self.vel = 0.5
         self.origin = m3d.Transform()
-        self.follow_time = 5
+        self.follow_time = 50
         self.wander_dist = 0.005
         self.w_anglechange = 5.0
         self.escape_anglechange = 45
@@ -287,11 +287,12 @@ class Robot:
         while PROGRAMSTATE == 0:
             # wander around
             frame = vs.read()
-            face_positions, _, new_frame = self.find_faces_dnn(frame)
+            #face_positions, _, new_frame = self.find_faces_dnn(frame)
+            face_positions, _, new_frame = self.find_face_fast(frame)
             
             if len(face_positions) > 0:
-                cv2.imshow('current', new_frame)
-                cv2.waitKey(1)
+                #cv2.imshow('current', new_frame)
+                #cv2.waitKey(1)
                 #time.sleep(10)
                 break
             else:
@@ -329,8 +330,9 @@ class Robot:
             while PROGRAMSTATE == 0:
 
                 frame = vs.read()
-                face_positions, face_boxes, new_frame = self.find_faces_dnn(frame)
-                self.show_frame(new_frame)
+                #face_positions, face_boxes, new_frame = self.find_faces_dnn(frame)
+                face_positions, face_boxes, new_frame = self.find_face_fast(frame)
+                #self.show_frame(new_frame)
                 if len(face_positions) > 0:
                     if time.time() -timer < self.follow_time:
                         self.position = self.move_to_face(face_positions, self.position)
@@ -659,8 +661,9 @@ class Robot:
         return face_centers, rectangles, frame
 
     def find_face_fast(self,image):
+        face_centers, rectangles, new_frame = cf.inference(image)
+        return face_centers, rectangles, new_frame
         
-        pass
     
     def show_frame(self,frame):
         cv2.imshow('current', frame)
@@ -981,8 +984,8 @@ def pause():
 def reset():
     pass
 
-#robot_ip = "10.211.55.5"
-robot_ip = "192.168.178.20"
+robot_ip = "10.211.55.5"
+#robot_ip = "192.168.178.20"
 
 robot = Robot(robot_ip)
 robot.initialise_robot()
@@ -1021,8 +1024,9 @@ def main():
                 robot.check_paper()
             
                 robot.move_home()
-                #robot.start_rtde()
-            else: 
+                robot.start_rtde()
+            else:
+                time.sleep(1)
                 continue
             
     except Exception as e:
