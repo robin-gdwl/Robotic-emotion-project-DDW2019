@@ -76,8 +76,8 @@ if sys.platform == "linux":
     GPIO.setup(PAUSE_PIN, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
     GPIO.setup(RESET_PIN, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
     GPIO.setup(PLAY_PIN, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
-    GPIO.add_event_detect(PAUSE_PIN, GPIO.RISING, callback=interrupt)
-    GPIO.add_event_detect(RESET_PIN, GPIO.RISING, callback=interrupt)
+    GPIO.add_event_detect(PAUSE_PIN, GPIO.BOTH, callback=interrupt)
+    GPIO.add_event_detect(RESET_PIN, GPIO.BOTH, callback=interrupt)
 
 vs = VideoStream(src= 0 ,
                  usePiCamera= RASPBERRY_BOOL,
