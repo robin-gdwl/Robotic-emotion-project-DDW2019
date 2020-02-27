@@ -1015,8 +1015,15 @@ def pause():
     
     if RASPBERRY_BOOL:
     #if False:
+        print("waiting to continue")
+        print("----" * 5)
         GPIO.wait_for_edge(PLAY_PIN, GPIO.BOTH)
         PROGRAMSTATE = 0
+        
+        print("continuing")
+        robot.start_rtde()
+        time.sleep(1)
+        
     else:  # what to do if this runs on a mac and there is no button 
         print("waiting to continue")
         print("----"*5)
