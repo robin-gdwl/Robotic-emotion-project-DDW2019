@@ -355,6 +355,8 @@ class Robot:
         # either breaks or returns a face object if run for enough time 
         global PROGRAMSTATE
         global ROBOT_ACTION
+
+        new_frame, face_boxes, face_positions = None, None, None
         if PROGRAMSTATE ==0:
             
             ROBOT_ACTION = 4
@@ -362,6 +364,7 @@ class Robot:
                 print("starting follow_face loop. ROBOT_ACTION:", ROBOT_ACTION)
                 timer = time.time()
                 frame = []
+                
                 while PROGRAMSTATE == 0:
     
                     frame = vs.read()
@@ -381,6 +384,7 @@ class Robot:
                                 
                             return new_frame, face_boxes,face_positions        
                     else:
+                        return new_frame, face_boxes, face_positions
                         break
                         
                     #print("end of loop")
@@ -398,6 +402,7 @@ class Robot:
                 self.robotUR.close()
         
         else:
+            return new_frame, face_boxes, face_positions
             pass
 
     def move_to_write(self, row):
