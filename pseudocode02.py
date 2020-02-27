@@ -984,8 +984,8 @@ def pause():
 def reset():
     pass
 
-robot_ip = "10.211.55.5"
-#robot_ip = "192.168.178.20"
+#robot_ip = "10.211.55.5"
+robot_ip = "192.168.178.20"
 
 robot = Robot(robot_ip)
 robot.initialise_robot()
