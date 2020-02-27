@@ -25,6 +25,8 @@ size_variance = 0.2
 min_boxes = [[10.0, 16.0, 24.0], [32.0, 48.0], [64.0, 96.0], [128.0, 192.0, 256.0]]
 strides = [8.0, 16.0, 32.0, 64.0]
 
+net = dnn.readNetFromCaffe("models/RFB-320.prototxt", "models/RFB-320.caffemodel")  # caffe model converted from onnx
+
 
 def define_img_size(image_size):
     shrinkage_list = []
@@ -145,7 +147,6 @@ def center_form_to_corner_form(locations):
 
 def inference(frame, show=False):
     #net = dnn.readNetFromONNX(args.onnx_path)  # onnx version
-    net = dnn.readNetFromCaffe("models/RFB-320.prototxt", "models/RFB-320.caffemodel")  # caffe model converted from onnx
     input_size = [int(v.strip()) for v in args.input_size.split(",")]
     witdh = input_size[0]
     height = input_size[1]
