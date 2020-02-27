@@ -1013,8 +1013,8 @@ def pause():
     robot.move_safe(ROBOT_ACTION)
     robot.move_home()
     
-    if RASPBERRY_BOOL:
-    #if False:
+    #if RASPBERRY_BOOL:
+    if False:
         print("waiting to continue")
         print("----" * 5)
         GPIO.wait_for_edge(PLAY_PIN, GPIO.BOTH)
@@ -1025,13 +1025,14 @@ def pause():
         time.sleep(1)
         
     else:  # what to do if this runs on a mac and there is no button 
-        print("waiting to continue")
+        print("waiting 10s to continue")
         print("----"*5)
         time.sleep(10)
         PROGRAMSTATE = 0
-        
-    
-    pass
+
+        print("continuing")
+        robot.start_rtde()
+        time.sleep(1)
 
 def reset():
     pass
