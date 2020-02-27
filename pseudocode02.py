@@ -45,11 +45,35 @@ m_per_pixel = 00.00009  # Variable which scales the robot movement from pixels t
 RASPBERRY_BOOL = False
 # If this is run on a linux system, it is assumed it runs on a raspberry pi and a picamera will be used.
 # If you are using a linux system, with a webcam instead of a raspberry pi delete the following if-statement
+def interrupt(channel):
+    global PROGRAMSTATE
+    global ROBOT_ACTION
+    global RASPBERRY_BOOL
+    global PLAY_PIN
+    global RESET_PIN
+    global PAUSE_PIN
+
+    if channel == PAUSE_PIN:
+        pause()
+    elif channel == RESET_PIN:
+        reset()
+    else:
+        print("interrupt but unknown button")
+
+
 if sys.platform == "linux":
+    RASPBERRY_BOOL = True
     import picamera
     from picamera.array import PiRGBArray
     import RPi.GPIO as GPIO
-    RASPBERRY_BOOL = True
+
+    PAUSE_PIN = 8
+    RESET_PIN = 9
+    GPIO.setmode(GPIO.BOARD)
+    GPIO.setup(PAUSE_PIN, GPIO.IN, pull_up_down=GPIO.PUD_UP)
+    GPIO.setup(RESET_PIN, GPIO.IN, pull_up_down=GPIO.PUD_UP)
+    GPIO.add_event_detect(PAUSE_PIN, GPIO.FALLING, callback=interrupt())
+    GPIO.add_event_detect(RESET_PIN, GPIO.FALLING, callback=interrupt())
 
 vs = VideoStream(src= 0 ,
                  usePiCamera= RASPBERRY_BOOL,
@@ -282,8 +306,8 @@ class Robot:
         ROBOT_ACTION = 3
         # use self.position to go to a close position and search for faces
         angle_a = random.uniform(-360.0, 360.0)
-        exceeds = 0 
-        
+        exceeds = 0
+        print("starting wander loop. ROBOT_ACTION: ", ROBOT_ACTION)
         while PROGRAMSTATE == 0:
             # wander around
             frame = vs.read()
@@ -325,7 +349,7 @@ class Robot:
         global ROBOT_ACTION
         ROBOT_ACTION = 4
         try:
-            print("starting loop")
+            print("starting follow_face loop. ROBOT_ACTION:", ROBOT_ACTION)
             timer = time.time()
             while PROGRAMSTATE == 0:
 
@@ -940,8 +964,6 @@ class Robot:
 def check_exhibit_time():
     pass
 
-PAUSE_PIN = 1 
-RESET_PIN = 2 
 
 def interrupt(channel):
     global PROGRAMSTATE
