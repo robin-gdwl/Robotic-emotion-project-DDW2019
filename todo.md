@@ -9,4 +9,5 @@
 - [ ] test slim model 
 - [ ] simple model switch
 - [ ] rtde loop time parameter 
+- [ ] create config file 
 

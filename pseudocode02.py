@@ -304,10 +304,10 @@ class Robot:
         pass
 
     def wander(self):
+        global PROGRAMSTATE
+        global ROBOT_ACTION
         if PROGRAMSTATE ==0:
             print("wander function")
-            global PROGRAMSTATE
-            global ROBOT_ACTION
             ROBOT_ACTION = 3
             # use self.position to go to a close position and search for faces
             angle_a = random.uniform(-360.0, 360.0)
@@ -352,11 +352,9 @@ class Robot:
             pass
 
     def follow_face(self, close = True):
-        # either breaks or returns a face object if run for enough time
-        
+        # either breaks or returns a face object if run for enough time 
         global PROGRAMSTATE
         global ROBOT_ACTION
-        
         if PROGRAMSTATE ==0:
             
             ROBOT_ACTION = 4
