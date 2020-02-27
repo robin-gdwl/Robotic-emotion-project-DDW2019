@@ -998,7 +998,7 @@ def pause():
     robot.move_home()
     
     if RASPBERRY_BOOL:
-        GPIO.wait_for_edge(PLAY_PIN, GPIO.Falling)
+        GPIO.wait_for_edge(PLAY_PIN, GPIO.FALLING)
         PROGRAMSTATE = 0
     else:  # what to do if this runs on a mac and there is no button 
         time.sleep(10)
