@@ -66,6 +66,7 @@ i=0
 while i< 300:
     timer = time.time()
     frame = vs.read()
+    print(time.time() - timer, "seconds before inference")
     """(h, w) = frame.shape[:2]
     blob = cv2.dnn.blobFromImage(cv2.resize(frame, (300, 300)), 1.0,
                                  (300, 300), (104.0, 177.0, 123.0))
