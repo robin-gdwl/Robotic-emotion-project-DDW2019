@@ -158,7 +158,7 @@ def inference(frame, show=False):
     ori_size = img_ori.shape
     video_midpoint = (int(ori_size[1] / 2),
                       int(ori_size[0] / 2))
-    print(ori_size, "   ori size")
+    #print(ori_size, "   ori size")
     cv2.circle(img_ori, video_midpoint, 4, (250, 200, 0), 6)
     rect = cv2.resize(img_ori, (witdh, height))
     cv2.circle(img_ori, video_midpoint, 4, (250, 200, 0), 6)
@@ -193,8 +193,8 @@ def inference(frame, show=False):
         cv2.imshow("ultra_face_ace_opencvdnn_py", img_ori)
         cv2.waitKey(1)
         
-    print(locations)
-    print(rectangles)
+    #print(locations)
+    #print(rectangles)
     #print(img_ori)
     return locations, rectangles , img_ori
     
