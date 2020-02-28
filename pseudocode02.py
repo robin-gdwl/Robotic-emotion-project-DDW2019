@@ -437,7 +437,7 @@ class Robot:
     def move_home(self):
         global PROGRAMSTATE
         global ROBOT_ACTION
-        if PROGRAMSTATE == 0:
+        if PROGRAMSTATE == 0 or PROGRAMSTATE == 1:
             ROBOT_ACTION = 1  # sets ROBOT_ACTION to "move home"
             print("moving Home. ROBOT_ACTION:  ", ROBOT_ACTION)
             
