@@ -998,8 +998,8 @@ def pause():
     robot.move_safe(ROBOT_ACTION)
     robot.move_home()
     
-    #if RASPBERRY_BOOL:
-    if False:
+    if RASPBERRY_BOOL:
+    #if False:
         print("waiting to continue")
         print("----" * 5)
         GPIO.wait_for_edge(PLAY_PIN, GPIO.BOTH)
