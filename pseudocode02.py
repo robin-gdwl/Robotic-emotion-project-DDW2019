@@ -291,6 +291,14 @@ class Robot:
         self.drag_dist = 0.10  # 10 cm
         self.plunge_dist = 0.1273
         self.paperslot_start = [0.02, -0.548, 0.1980, 0.0, -3.14, 0]
+        
+        # positions
+        self.home_pos = (math.radians(-218),
+                           math.radians(-63),
+                           math.radians(-93),
+                           math.radians(-20),
+                           math.radians(88),
+                           math.radians(0))
 
     def initialise_robot(self):
         self.robotUR = URBasic.urScriptExt.UrScriptExt(host=self.ip, robotModel=self.robotURModel)
@@ -441,12 +449,7 @@ class Robot:
             ROBOT_ACTION = 1  # sets ROBOT_ACTION to "move home"
             print("moving Home. ROBOT_ACTION:  ", ROBOT_ACTION)
             
-            self.robotUR.movej(q=(math.radians(-218),
-                           math.radians(-63),
-                           math.radians(-93),
-                           math.radians(-20),
-                           math.radians(88),
-                           math.radians(0)), a=self.accel, v=self.vel)
+            self.robotUR.movej(q=self.home_pos, a=self.accel, v=self.vel)
     
             self.position = [0, 0]
             self.origin = self.set_lookorigin()
