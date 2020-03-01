@@ -1,4 +1,12 @@
 import math
+import sys
+
+RASPBERRY_BOOL = False
+if sys.platform == "linux":
+    RASPBERRY_BOOL = True
+    import picamera
+    from picamera.array import PiRGBArray
+
 
 #ROBOT_IP = "10.211.55.5"
 ROBOT_IP = "192.168.178.20"

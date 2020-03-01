@@ -8,6 +8,7 @@ import math
 
 from Face_obj import Face
 from Robot_control import Robot
+from Videostream import vs
 import CONFIG
 
 # Path to the face-detection model:
@@ -16,19 +17,19 @@ pretrained_model2 = cv2.dnn.readNetFromCaffe("models/RFB-320.prototxt", "models/
 
 
 
-RASPBERRY_BOOL = False
+#RASPBERRY_BOOL = False
 # If this is run on a linux system, it is assumed it runs on a raspberry pi and a picamera will be used.
 # If you are using a linux system, with a webcam instead of a raspberry pi delete the following if-statement
 def interrupt(channel):
-    global PROGRAMSTATE
-    global ROBOT_ACTION
+    #global CONFIG.PROGRAMSTATE
+    #global ROBOT_ACTION
     global RASPBERRY_BOOL
     global PLAY_PIN
     global RESET_PIN
     global PAUSE_PIN
     
-    print("INTERRUPT!  ROBOTACTION: ", ROBOT_ACTION)
-    print("PROGRAMSTATE: ", PROGRAMSTATE)
+    print("INTERRUPT!  ROBOTACTION: ", CONFIG.ROBOT_ACTION)
+    print("CONFIG.PROGRAMSTATE: ", CONFIG.PROGRAMSTATE)
     if channel == PAUSE_PIN:
         pause()
     elif channel == RESET_PIN:
@@ -53,36 +54,26 @@ if sys.platform == "linux":
     GPIO.add_event_detect(PAUSE_PIN, GPIO.RISING, callback=interrupt, bouncetime = 500)
     GPIO.add_event_detect(RESET_PIN, GPIO.RISING, callback=interrupt, bouncetime = 500)
 
-vs = VideoStream(src= 0 ,
-                 usePiCamera= RASPBERRY_BOOL,
-                 resolution=CONFIG.VIDEO_RESOLUTION,
-                 framerate = 13,
-                 meter_mode = "backlit",
-                 exposure_mode ="auto",
-                 shutter_speed = 8900,
-                 exposure_compensation = 2,
-                 rotation = 0).start()
-
 # PROGRAMSTATE: 0 = running , 1 = pause, 2 = error
-CONFIG.PROGRAMSTATE = 0
-CONFIG.ROBOT_ACTION = 0
+#PROGRAMSTATE = 0
+#ROBOT_ACTION = 0
 
 def check_exhibit_time():
     pass
 
         
 def pause():
-    global PROGRAMSTATE
-    global ROBOT_ACTION
+    #global CONFIG.PROGRAMSTATE
+    #global ROBOT_ACTION
     global RASPBERRY_BOOL
     global PLAY_PIN
     global RESET_PIN 
     
-    PROGRAMSTATE = 1
+    CONFIG.PROGRAMSTATE = 1
     print("pause")
     robot.robotUR.stopj(robot.accel/5)
     time.sleep(1)
-    robot.move_safe(ROBOT_ACTION)
+    robot.move_safe(CONFIG.ROBOT_ACTION)
     robot.move_home()
     
     if RASPBERRY_BOOL:
@@ -90,7 +81,7 @@ def pause():
         print("waiting to continue")
         print("----" * 5)
         GPIO.wait_for_edge(PLAY_PIN, GPIO.BOTH)
-        PROGRAMSTATE = 0
+        CONFIG.PROGRAMSTATE = 0
         
         print("continuing")
         robot.start_rtde()
@@ -100,7 +91,7 @@ def pause():
         print("waiting 10s to continue")
         print("----"*5)
         time.sleep(10)
-        PROGRAMSTATE = 0
+        CONFIG.PROGRAMSTATE = 0
 
         print("continuing")
         robot.start_rtde()
@@ -123,11 +114,11 @@ time.sleep(1)
 print("____"*800)
 
 def main():    
-    PROGRAMSTATE = 0
+    CONFIG.PROGRAMSTATE = 0
     try: 
         while True :
             
-            if PROGRAMSTATE == 0:
+            if CONFIG.PROGRAMSTATE == 0:
                 
                 robot.wander()
                 face_img, face_box, face_pos  = robot.follow_face(close=False)
