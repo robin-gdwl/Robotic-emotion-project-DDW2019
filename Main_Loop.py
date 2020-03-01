@@ -27,7 +27,7 @@ def interrupt(channel):
     global PLAY_PIN
     global RESET_PIN
     global PAUSE_PIN
-    
+    print("..."*200)
     print("INTERRUPT!  ROBOTACTION: ", CONFIG.ROBOT_ACTION)
     print("CONFIG.PROGRAMSTATE: ", CONFIG.PROGRAMSTATE)
     print("CHANNEL: ", channel)
