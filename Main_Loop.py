@@ -30,6 +30,7 @@ def interrupt(channel):
     
     print("INTERRUPT!  ROBOTACTION: ", CONFIG.ROBOT_ACTION)
     print("CONFIG.PROGRAMSTATE: ", CONFIG.PROGRAMSTATE)
+    print("CHANNEL: ", channel)
     if channel == PAUSE_PIN:
         pause()
     elif channel == RESET_PIN:
