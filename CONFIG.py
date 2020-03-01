@@ -44,7 +44,7 @@ PLUNGE_DIST = 0.1273
 PAPERSLOT_START = [0.02, -0.548, 0.1980, 0.0, -3.14, 0]
 
 # positions
-HOME_POS = (math.radians(-218),
+HOME_POS = (math.radians(-230),
                  math.radians(-63),
                  math.radians(-93),
                  math.radians(-20),

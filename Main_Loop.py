@@ -53,8 +53,8 @@ if sys.platform == "linux":
     GPIO.setup(PAUSE_PIN, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
     GPIO.setup(RESET_PIN, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
     GPIO.setup(PLAY_PIN, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
-    GPIO.add_event_detect(PAUSE_PIN, GPIO.RISING, callback=interrupt, bouncetime = 500)
-    GPIO.add_event_detect(RESET_PIN, GPIO.RISING, callback=interrupt, bouncetime = 500)
+    GPIO.add_event_detect(PAUSE_PIN, GPIO.RISING, callback=interrupt, bouncetime = 1000)
+    GPIO.add_event_detect(RESET_PIN, GPIO.RISING, callback=interrupt, bouncetime = 1000)
 
 # PROGRAMSTATE: 0 = running , 1 = pause, 2 = error
 #PROGRAMSTATE = 0
