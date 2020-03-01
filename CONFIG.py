@@ -42,3 +42,6 @@ HOME_POS = (math.radians(-218),
                  math.radians(-20),
                  math.radians(88),
                  math.radians(0))
+
+PROGRAMSTATE = 0 
+ROBOT_ACTION = 0

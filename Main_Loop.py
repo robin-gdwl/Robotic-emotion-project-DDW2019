@@ -8,6 +8,7 @@ import math
 
 from Face_obj import Face
 from Robot_control import Robot
+import CONFIG
 
 # Path to the face-detection model:
 pretrained_model = cv2.dnn.readNetFromCaffe("models/deploy.prototxt.txt", "models/res10_300x300_ssd_iter_140000.caffemodel")
@@ -69,8 +70,8 @@ vs = VideoStream(src= 0 ,
                  rotation = 0).start()
 
 # PROGRAMSTATE: 0 = running , 1 = pause, 2 = error
-PROGRAMSTATE = 0
-ROBOT_ACTION = 0
+CONFIG.PROGRAMSTATE = 0
+CONFIG.ROBOT_ACTION = 0
 
 def check_exhibit_time():
     pass
