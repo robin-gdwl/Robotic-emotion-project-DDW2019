@@ -45,9 +45,10 @@ if sys.platform == "linux":
     from picamera.array import PiRGBArray
     import RPi.GPIO as GPIO
 
-    PAUSE_PIN = 8
+    PLAY_PIN = 8
+    PAUSE_PIN = 10
     RESET_PIN = 12
-    PLAY_PIN = 10
+    
     GPIO.setmode(GPIO.BOARD)
     GPIO.setup(PAUSE_PIN, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
     GPIO.setup(RESET_PIN, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
