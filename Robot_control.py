@@ -12,6 +12,7 @@ import caffe_inference as cf
 from Face_obj import Face
 
 import CONFIG
+from Main_Loop import vs
 
 
 class Robot:
