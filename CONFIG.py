@@ -45,3 +45,12 @@ HOME_POS = (math.radians(-218),
 
 PROGRAMSTATE = 0 
 ROBOT_ACTION = 0
+
+
+VIDEO_RESOLUTION = (700, 400)  # resolution the video capture will be resized to, smaller sizes can speed up detection
+VIDEO_MIDPOINT = (int(VIDEO_RESOLUTION[0]/2),
+                  int(VIDEO_RESOLUTION[1]/2))
+VIDEO_ASPECT_RATIO  = VIDEO_RESOLUTION[0] / VIDEO_RESOLUTION[1]  # Aspect ration of each frame
+VIDEO_VIEWANGLE_HOR = math.radians(25)  # Camera FOV (field of fiew) angle in radians in horizontal direction
+#video_viewangle_vert = video_viewangle_hor / video_asp_ratio  #  Camera FOV (field of fiew) angle in radians in vertical direction
+M_PER_PIXEL = 00.00009  # Variable which scales the robot movement from pixels to meters.

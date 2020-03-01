@@ -15,6 +15,10 @@ import CONFIG
 from Main_Loop import vs
 
 
+pretrained_model = cv2.dnn.readNetFromCaffe("models/deploy.prototxt.txt", "models/res10_300x300_ssd_iter_140000.caffemodel")
+pretrained_model2 = cv2.dnn.readNetFromCaffe("models/RFB-320.prototxt", "models/RFB-320.caffemodel")
+
+
 class Robot:
     # TODO : scale face test 
     # TODO : test paper advance
@@ -394,7 +398,7 @@ class Robot:
         """
 
         frame = image
-        frame = imutils.resize(frame, width=video_resolution[0])
+        frame = imutils.resize(frame, width=CONFIG.VIDEO_RESOLUTION[0])
         # frame = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
         # rects = self.face_detect(frame, 1)
         # gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
@@ -442,7 +446,7 @@ class Robot:
             y = startY - 10 if startY - 10 > 10 else startY + 10
 
             face_center = (int(startX + (endX - startX) / 2), int(startY + (endY - startY) / 2))
-            position_from_center = (face_center[0] - video_midpoint[0], face_center[1] - video_midpoint[1])
+            position_from_center = (face_center[0] - CONFIG.VIDEO_MIDPOINT[0], face_center[1] - CONFIG.VIDEO_MIDPOINT[1])
             face_centers.append(position_from_center)
 
             cv2.rectangle(frame, (startX, startY), (endX, endY),
@@ -450,7 +454,7 @@ class Robot:
             cv2.putText(frame, text, (startX, y),
                         cv2.FONT_HERSHEY_SIMPLEX, 0.45, (0, 0, 255), 2)
             # cv2.putText(frame, str(position_from_center), face_center, 0, 1, (0, 200, 0))
-            cv2.line(frame, video_midpoint, face_center, (0, 200, 0), 5)
+            cv2.line(frame, CONFIG.VIDEO_MIDPOINT, face_center, (0, 200, 0), 5)
             cv2.circle(frame, face_center, 4, (0, 200, 0), 3)
 
             rectangle = [startX, startY, endX, endY]
@@ -636,7 +640,7 @@ class Robot:
         face_from_center = list(list_of_facepos[0])  # TODO: find way of making the selected face persistent
 
         prev_robot_pos = self.position
-        scaled_face_pos = [c * m_per_pixel for c in face_from_center]
+        scaled_face_pos = [c * CONFIG.M_PER_PIXEL for c in face_from_center]
 
         robot_target_xy = [a + b for a, b in zip(prev_robot_pos, scaled_face_pos)]
         # print("..", robot_target_xy)
