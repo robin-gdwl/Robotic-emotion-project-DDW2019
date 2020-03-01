@@ -20,15 +20,6 @@ EMOTIONS = ["angry", "disgust", "scared", "happy", "sad", "surprised",
 pretrained_model = cv2.dnn.readNetFromCaffe("models/deploy.prototxt.txt", "models/res10_300x300_ssd_iter_140000.caffemodel")
 pretrained_model2 = cv2.dnn.readNetFromCaffe("models/RFB-320.prototxt", "models/RFB-320.caffemodel")
 
-video_resolution = (700, 400)  # resolution the video capture will be resized to, smaller sizes can speed up detection
-video_midpoint = (int(video_resolution[0]/2),
-                  int(video_resolution[1]/2))
-video_asp_ratio  = video_resolution[0] / video_resolution[1]  # Aspect ration of each frame
-video_viewangle_hor = math.radians(25)  # Camera FOV (field of fiew) angle in radians in horizontal direction
-#video_viewangle_vert = video_viewangle_hor / video_asp_ratio  #  Camera FOV (field of fiew) angle in radians in vertical direction
-m_per_pixel = 00.00009  # Variable which scales the robot movement from pixels to meters.
-
-
 
 class Face:
     def __init__(self, image, roi_boxes):

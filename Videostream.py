@@ -3,8 +3,6 @@ import CONFIG
 import sys
 
 
-
-
 vs = VideoStream(src= 0 ,
                  usePiCamera= CONFIG.RASPBERRY_BOOL,
                  resolution=CONFIG.VIDEO_RESOLUTION,
@@ -13,4 +11,4 @@ vs = VideoStream(src= 0 ,
                  exposure_mode ="auto",
                  shutter_speed = 8900,
                  exposure_compensation = 2,
-                 rotation = 0).start()
+                 rotation = 180).start()
