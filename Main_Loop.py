@@ -46,8 +46,8 @@ if sys.platform == "linux":
     import RPi.GPIO as GPIO
 
     PAUSE_PIN = 8
-    RESET_PIN = 10
-    PLAY_PIN = 12
+    RESET_PIN = 12
+    PLAY_PIN = 10
     GPIO.setmode(GPIO.BOARD)
     GPIO.setup(PAUSE_PIN, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
     GPIO.setup(RESET_PIN, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
