@@ -9,11 +9,12 @@ import imutils
 import numpy as np
 import time
 import caffe_inference as cf
-from Face_obj import Face
 
 import CONFIG
 from Videostream import vs
 
+if CONFIG.FACE_ACTIVATE:
+    from Face_obj import Face
 
 pretrained_model = cv2.dnn.readNetFromCaffe("models/deploy.prototxt.txt", "models/res10_300x300_ssd_iter_140000.caffemodel")
 pretrained_model2 = cv2.dnn.readNetFromCaffe("models/RFB-320.prototxt", "models/RFB-320.caffemodel")
@@ -23,7 +24,7 @@ class Robot:
     # TODO : scale face test 
     # TODO : test paper advance
 
-    def __init__(self, ip):
+    def __init__(self, ip=None):
         self.ip = CONFIG.ROBOT_IP
         self.robotUR = None
         self.position = [0, 0]
@@ -140,7 +141,7 @@ class Robot:
                     frame = vs.read()
                     # face_positions, face_boxes, new_frame = self.find_faces_dnn(frame)
                     face_positions, face_boxes, new_frame = self.find_face_fast(frame)
-                    # self.show_frame(new_frame)
+                    self.show_frame(new_frame)
                     if len(face_positions) > 0:
                         if time.time() - timer < self.follow_time:
                             self.position = self.move_to_face(face_positions, self.position)
@@ -175,7 +176,7 @@ class Robot:
             return new_frame, face_boxes, face_positions
             pass
 
-    def move_to_write(self, row):
+    def move_to_write(self, row=0):
 
         #global PROGRAMSTATE
         #global ROBOT_ACTION
@@ -183,19 +184,22 @@ class Robot:
             CONFIG.ROBOT_ACTION = 5  # sets ROBOT_ACTION to "move to write"
 
             print("moving to write ")
-            self.robotUR.movej(q=(math.radians(-69),
+            self.robotUR.movej(q=CONFIG.ABOVE_PAPER, a=self.accel, v=self.vel)
+            
+            
+            """self.robotUR.movej(q=(math.radians(-69),
                                   math.radians(-97),
                                   math.radians(-108),
                                   math.radians(-64),
                                   math.radians(89.5),
-                                  math.radians(0)), a=self.accel, v=self.vel)
-            # ueber dem papier 01 self.robot.movej((-1.186561409627096, -1.9445274511920374, -1.7661479155169886, -1.006078068410055, 1.5503629446029663, 0.3756316900253296), self.a, self.v)
-            self.robotUR.movej(q=(-1.2749927679644983,
+                                  math.radians(0)), a=self.accel, v=self.vel)"""
+
+            """self.robotUR.movej(q=(-1.2749927679644983,
                                   -1.9379289785968226,
                                   -2.09098464647402,
                                   -0.6840408484088343,
                                   1.5629680156707764,
-                                  0.28495118021965027), a=self.accel, v=self.vel)
+                                  0.28495118021965027), a=self.accel, v=self.vel)"""
             self.origin = self.get_origin()
             print("moved")
             CONFIG.ROBOT_ACTION = 6  # sets ROBOT_ACTION to "at write"
@@ -246,6 +250,33 @@ class Robot:
             print("oriented lines:  ", oriented_list)
         return oriented_list
 
+    def write_strings(self, list_of_strings):
+
+        if CONFIG.PROGRAMSTATE == 0:
+            
+            print(list_of_strings)
+            if len(list_of_strings) == 0:
+                print("no emotions to write")
+                return False
+            #elif len(list_of_strings==1):
+                
+            else:
+                CONFIG.ROBOT_ACTION = 8  # sets ROBOT_ACTION to "writing"
+
+                origin = self.calculate_origin(text=True)
+                i = 0
+                for line in list_of_strings:
+                    string_coords = ThingToWrite(line).string_to_coordinates(origin)
+                    if self.print_coordinates:
+                        print("string_coords", string_coords)
+                    self._draw_curves(string_coords, origin)
+                    origin[1] += self.line_spacing
+
+                return True
+        else:
+            print("program paused or stopped: ", CONFIG.PROGRAMSTATE)
+            return False
+    
     def write_emotions(self, Face_obj):
 
         #global PROGRAMSTATE
@@ -263,9 +294,10 @@ class Robot:
                 origin = self.calculate_origin(text=True)
                 i = 0
                 for emotion in emos:
-                    emotion_coords = [ThingToWrite(emotion).string_to_coordinates(origin)]
+                    emotion_coords = ThingToWrite(emotion).string_to_coordinates(origin)
                     if self.print_coordinates:
                         print("emotion_coords", emotion_coords)
+                    #TODO: ADD ZHOP HERE !!!!!!!!!!!!!!
                     self._draw_curves(emotion_coords, origin)
                     origin[1] += self.line_spacing
 
@@ -353,8 +385,8 @@ class Robot:
             line_w_hop.extend(line)
             line_w_hop.append(line[-1].copy())
 
-            line_w_hop[0][2] = self.z_hop
-            line_w_hop[-1][2] = self.z_hop
+            line_w_hop[0][2] = self.drawing_zval-self.z_hop
+            line_w_hop[-1][2] = self.drawing_zval-self.z_hop
             list_w_hop.append(line_w_hop)
 
         if self.print_coordinates:
@@ -716,12 +748,12 @@ class Robot:
                                 y,
                                 z - self.plunge_dist,
                                 0, -math.pi, 0), self.accel, self.vel)  # drag the desired drag distance
-            time.sleep(2)
+            #time.sleep(2)
             self.robotUR.movel((x - self.drag_dist,
                                 y,
                                 z,
                                 0, -math.pi, 0), self.accel, self.vel)  # raise up to initial z height
-            self.robotUR.movel((x - self.drag_dist,
+            """self.robotUR.movel((x - self.drag_dist,
                                 y,
                                 z - self.plunge_dist / 3,
                                 0, -math.pi, 0), self.accel * 2.5, self.vel * 2.6)  # plunge down by half z
@@ -729,8 +761,8 @@ class Robot:
                                 y,
                                 z + self.plunge_dist,
                                 0, -math.pi, 0), self.accel * 2.7, self.vel * 2.7)  # raise by plunge dist  
-
-            time.sleep(2)
+"""
+            #time.sleep(2)
 
             print("paper moved")
 

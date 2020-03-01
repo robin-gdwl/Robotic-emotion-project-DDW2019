@@ -40,24 +40,21 @@ def interrupt(channel):
 
 
 if sys.platform == "linux":
-    RASPBERRY_BOOL = True
+    CONFIG.RASPBERRY_BOOL = True
     import picamera
     from picamera.array import PiRGBArray
     import RPi.GPIO as GPIO
 
-    PAUSE_PIN = 8
+    PLAY_PIN = 8
+    PAUSE_PIN = 10
     RESET_PIN = 12
-    PLAY_PIN = 10
+    
     GPIO.setmode(GPIO.BOARD)
     GPIO.setup(PAUSE_PIN, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
     GPIO.setup(RESET_PIN, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
     GPIO.setup(PLAY_PIN, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
-    GPIO.add_event_detect(PAUSE_PIN, GPIO.RISING, callback=interrupt, bouncetime = 500)
-    GPIO.add_event_detect(RESET_PIN, GPIO.RISING, callback=interrupt, bouncetime = 500)
-
-# PROGRAMSTATE: 0 = running , 1 = pause, 2 = error
-#PROGRAMSTATE = 0
-#ROBOT_ACTION = 0
+    GPIO.add_event_detect(PAUSE_PIN, GPIO.RISING, callback=interrupt, bouncetime = 1000)
+    GPIO.add_event_detect(RESET_PIN, GPIO.RISING, callback=interrupt, bouncetime = 1000)
 
 def check_exhibit_time():
     pass
@@ -77,12 +74,13 @@ def pause():
     robot.move_safe(CONFIG.ROBOT_ACTION)
     robot.move_home()
     
-    if RASPBERRY_BOOL:
+    if CONFIG.RASPBERRY_BOOL:
     #if False:
         print("waiting to continue")
         print("----" * 5)
         GPIO.wait_for_edge(PLAY_PIN, GPIO.BOTH)
         CONFIG.PROGRAMSTATE = 0
+        robot.robotUR.reset_error()
         
         print("continuing")
         robot.start_rtde()

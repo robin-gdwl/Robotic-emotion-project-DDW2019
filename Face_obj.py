@@ -5,6 +5,7 @@ import cv2
 import imutils
 import time
 import math
+import numpy as np
 
 detector = dlib.get_frontal_face_detector()
 predictor = dlib.shape_predictor("shape_predictor_68_face_landmarks.dat")
