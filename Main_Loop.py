@@ -40,7 +40,7 @@ def interrupt(channel):
 
 
 if sys.platform == "linux":
-    RASPBERRY_BOOL = True
+    CONFIG.RASPBERRY_BOOL = True
     import picamera
     from picamera.array import PiRGBArray
     import RPi.GPIO as GPIO
@@ -74,7 +74,7 @@ def pause():
     robot.move_safe(CONFIG.ROBOT_ACTION)
     robot.move_home()
     
-    if RASPBERRY_BOOL:
+    if CONFIG.RASPBERRY_BOOL:
     #if False:
         print("waiting to continue")
         print("----" * 5)

@@ -42,7 +42,8 @@ PRINT_COORDINATES = True
 #dnnFaceDetector = dlib.cnn_face_detection_model_v1("models/mmod_human_face_detector.dat")
 # paper advancing
 DRAG_DIST = 0.10  # 10 cm
-PLUNGE_DIST = 0.1273
+#PLUNGE_DIST = 0.1273
+PLUNGE_DIST = 0.01273
 PAPERSLOT_START = [0.02, -0.548, 0.1980, 0.0, -3.14, 0]
 
 # positions
