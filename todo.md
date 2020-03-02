@@ -12,8 +12,10 @@
 - [x] create config file  
 - [ ] maximum drags check
 - [x] letter zhop
-- [ ] letter spacing 
+- [x] letter spacing 
 - [ ] face squisching fix 
+- [ ] automatic git pull 
+- [ ] 
 
  
 
