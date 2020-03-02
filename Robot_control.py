@@ -140,7 +140,7 @@ class Robot:
                     frame = vs.read()
                     # face_positions, face_boxes, new_frame = self.find_faces_dnn(frame)
                     face_positions, face_boxes, new_frame = self.find_face_fast(frame)
-                    # self.show_frame(new_frame)
+                    self.show_frame(new_frame)
                     if len(face_positions) > 0:
                         if time.time() - timer < self.follow_time:
                             self.position = self.move_to_face(face_positions, self.position)
