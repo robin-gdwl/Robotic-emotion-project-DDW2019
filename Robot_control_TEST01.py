@@ -1,7 +1,7 @@
 from Robot_control import Robot
 
 
-strings = ["Test 12345", "00000--??????", "the quick brown fox jumps over the lazy dog __ "]
+strings = ["the quick brown fox jumps over the lazy dog __ ", "THE QUICK BROWN FOX JUMPS OVER THE LAZY DOG", "ABCabc thijkqr"]
 robot = Robot()
 robot.initialise_robot()
 
