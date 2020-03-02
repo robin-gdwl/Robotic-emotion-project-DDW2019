@@ -138,7 +138,7 @@ class ThingToWrite:
             i +=1
 
         print(letter_coord_list)
-        time.sleep(10)
+        #time.sleep(10)
         
         return letter_coord_list
     # letter_to_coordinates("%",[2,2])
