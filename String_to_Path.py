@@ -111,13 +111,13 @@ class ThingToWrite:
 
             for point in line:
                 # print("i: ", i)
-                if i == 0:
+                """if i == 0:
                     hop_point = [0, 0]
                     hop_point[0] = point[0] * self.scale + x_offset
                     hop_point[1] = point[1] * self.scale + y_offset
                     #hop_point[2] = (self.z_hop)
                     # print("hop_point start: ", hop_point)
-                    letter_coord_list.append(hop_point.copy())
+                    letter_coord_list.append(hop_point.copy())"""
 
                 scaled_offset_point = [0, 0]
                 scaled_offset_point[0] = point[0] * self.scale + x_offset
