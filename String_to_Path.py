@@ -137,14 +137,14 @@ class ThingToWrite:
             letter_coord_list.append(indiv_line)
             i +=1
 
-        print(letter_coord_list)
+        #print(letter_coord_list)
         #time.sleep(10)
         
         return letter_coord_list
     # letter_to_coordinates("%",[2,2])
 
     # converts a string of text into coordinates as lines
-    # returns a list of coordinates (x,y,z) which trace the string in space
+    # returns a list of coordinates (x,y) which trace the string in space
     def string_to_coordinates(self,origin=[0,0],offset = CONFIG.LETTER_SPACING):
         motion_path = []
         offset_amount = offset

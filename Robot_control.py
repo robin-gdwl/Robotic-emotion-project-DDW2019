@@ -265,7 +265,7 @@ class Robot:
                 origin = self.calculate_origin(text=True)
                 i = 0
                 for line in list_of_strings:
-                    string_coords = [ThingToWrite(line).string_to_coordinates(origin)]
+                    string_coords = ThingToWrite(line).string_to_coordinates(origin)
                     if self.print_coordinates:
                         print("string_coords", string_coords)
                     self._draw_curves(string_coords, origin)
@@ -293,7 +293,7 @@ class Robot:
                 origin = self.calculate_origin(text=True)
                 i = 0
                 for emotion in emos:
-                    emotion_coords = [ThingToWrite(emotion).string_to_coordinates(origin)]
+                    emotion_coords = ThingToWrite(emotion).string_to_coordinates(origin)
                     if self.print_coordinates:
                         print("emotion_coords", emotion_coords)
                     #TODO: ADD ZHOP HERE !!!!!!!!!!!!!!
