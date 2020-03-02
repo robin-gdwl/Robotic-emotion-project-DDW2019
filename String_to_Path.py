@@ -1,5 +1,6 @@
 # Dictionary of every letter+ Number with a list of coordinate lists- {a : [ [0,1], [1,1], ...] }
 import CONFIG
+import time
 
 class ThingToWrite:
 
@@ -136,7 +137,9 @@ class ThingToWrite:
             letter_coord_list.append(indiv_line)
             i +=1
 
-        # print(letter_coord_list)
+        print(letter_coord_list)
+        time.sleep(10)
+        
         return letter_coord_list
     # letter_to_coordinates("%",[2,2])
 
