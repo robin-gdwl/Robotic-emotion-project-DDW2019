@@ -11,7 +11,10 @@
 - [ ] rtde loop time parameter 
 - [x] create config file  
 - [ ] maximum drags check
-- [ ] letter zhop
+- [x] letter zhop
+- [ ] letter spacing 
+- [ ] face squisching fix 
+
  
 
 
