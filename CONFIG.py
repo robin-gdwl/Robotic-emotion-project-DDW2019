@@ -28,7 +28,7 @@ ACCEL = 0.5
 VEL= 0.5
 
 
-FOLLOW_TIME = 50
+FOLLOW_TIME = 5
 WANDER_DIST = 0.005
 W_ANGLECHANGE = 5.0
 ESCAPE_ANGLECHANGE = 45
@@ -61,4 +61,4 @@ VIDEO_MIDPOINT = (int(VIDEO_RESOLUTION[0]/2),
 VIDEO_ASPECT_RATIO  = VIDEO_RESOLUTION[0] / VIDEO_RESOLUTION[1]  # Aspect ration of each frame
 VIDEO_VIEWANGLE_HOR = math.radians(25)  # Camera FOV (field of fiew) angle in radians in horizontal direction
 #video_viewangle_vert = video_viewangle_hor / video_asp_ratio  #  Camera FOV (field of fiew) angle in radians in vertical direction
-M_PER_PIXEL = 00.00009  # Variable which scales the robot movement from pixels to meters.
+M_PER_PIXEL = 00.00006  # Variable which scales the robot movement from pixels to meters.
