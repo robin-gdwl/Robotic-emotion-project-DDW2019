@@ -149,7 +149,7 @@ class ThingToWrite:
         motion_path = []
         offset_amount = offset
         text = self.string.split() # splits the string at each space
-        #print("text: ", text)
+        print("text: ", text)
         # print(origin)
         x_offset = origin[0]
         y_offset = origin[1]
@@ -163,7 +163,7 @@ class ThingToWrite:
                 #print("x_offset", x_offset)
 
             x_offset += offset_amount # add a whitespace move here
-        #print("motion_path", motion_path)
+        print("motion_path", motion_path)
         return motion_path
 
 
