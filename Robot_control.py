@@ -384,8 +384,8 @@ class Robot:
             line_w_hop.extend(line)
             line_w_hop.append(line[-1].copy())
 
-            line_w_hop[0][2] = self.z_hop
-            line_w_hop[-1][2] = self.z_hop
+            line_w_hop[0][2] = self.drawing_zval-self.z_hop
+            line_w_hop[-1][2] = self.drawing_zval-self.z_hop
             list_w_hop.append(line_w_hop)
 
         if self.print_coordinates:
