@@ -5,11 +5,12 @@
 - [ ] catch errors
 - [ ] move home confirmation
 - [ ] reset function 
-- [ ] split program into 4 files
+- [x] split program into 4 files
 - [ ] test slim model 
 - [ ] simple model switch
 - [ ] rtde loop time parameter 
-- [ ] create config file  
+- [x] create config file  
+- [ ] maximum drags check 
 
 
 
@@ -17,7 +18,7 @@ _________
 
 
 - [x] Button box CAD
-- [ ] Button Box Wiring 
+- [x] Button Box Wiring 
 - [ ] Pen calibration 
 - [ ] size calibration 
 - [ ] Paper roll choice 
