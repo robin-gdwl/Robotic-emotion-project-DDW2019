@@ -23,7 +23,7 @@ class Robot:
     # TODO : scale face test 
     # TODO : test paper advance
 
-    def __init__(self, ip):
+    def __init__(self, ip=None):
         self.ip = CONFIG.ROBOT_IP
         self.robotUR = None
         self.position = [0, 0]
@@ -175,7 +175,7 @@ class Robot:
             return new_frame, face_boxes, face_positions
             pass
 
-    def move_to_write(self, row):
+    def move_to_write(self, row=0):
 
         #global PROGRAMSTATE
         #global ROBOT_ACTION
@@ -183,19 +183,22 @@ class Robot:
             CONFIG.ROBOT_ACTION = 5  # sets ROBOT_ACTION to "move to write"
 
             print("moving to write ")
-            self.robotUR.movej(q=(math.radians(-69),
+            self.robotUR.movej(q=CONFIG.ABOVE_PAPER, a=self.accel, v=self.vel)
+            
+            
+            """self.robotUR.movej(q=(math.radians(-69),
                                   math.radians(-97),
                                   math.radians(-108),
                                   math.radians(-64),
                                   math.radians(89.5),
-                                  math.radians(0)), a=self.accel, v=self.vel)
-            # ueber dem papier 01 self.robot.movej((-1.186561409627096, -1.9445274511920374, -1.7661479155169886, -1.006078068410055, 1.5503629446029663, 0.3756316900253296), self.a, self.v)
-            self.robotUR.movej(q=(-1.2749927679644983,
+                                  math.radians(0)), a=self.accel, v=self.vel)"""
+
+            """self.robotUR.movej(q=(-1.2749927679644983,
                                   -1.9379289785968226,
                                   -2.09098464647402,
                                   -0.6840408484088343,
                                   1.5629680156707764,
-                                  0.28495118021965027), a=self.accel, v=self.vel)
+                                  0.28495118021965027), a=self.accel, v=self.vel)"""
             self.origin = self.get_origin()
             print("moved")
             CONFIG.ROBOT_ACTION = 6  # sets ROBOT_ACTION to "at write"
@@ -246,6 +249,33 @@ class Robot:
             print("oriented lines:  ", oriented_list)
         return oriented_list
 
+    def write_strings(self, list_of_strings):
+
+        if CONFIG.PROGRAMSTATE == 0:
+            
+            print(list_of_strings)
+            if len(list_of_strings) == 0:
+                print("no emotions to write")
+                return False
+            #elif len(list_of_strings==1):
+                
+            else:
+                CONFIG.ROBOT_ACTION = 8  # sets ROBOT_ACTION to "writing"
+
+                origin = self.calculate_origin(text=True)
+                i = 0
+                for line in list_of_strings:
+                    string_coords = [ThingToWrite(line).string_to_coordinates(origin)]
+                    if self.print_coordinates:
+                        print("string_coords", string_coords)
+                    self._draw_curves(string_coords, origin)
+                    origin[1] += self.line_spacing
+
+                return True
+        else:
+            print("program paused or stopped: ", CONFIG.PROGRAMSTATE)
+            return False
+    
     def write_emotions(self, Face_obj):
 
         #global PROGRAMSTATE
@@ -266,6 +296,7 @@ class Robot:
                     emotion_coords = [ThingToWrite(emotion).string_to_coordinates(origin)]
                     if self.print_coordinates:
                         print("emotion_coords", emotion_coords)
+                    #TODO: ADD ZHOP HERE !!!!!!!!!!!!!!
                     self._draw_curves(emotion_coords, origin)
                     origin[1] += self.line_spacing
 

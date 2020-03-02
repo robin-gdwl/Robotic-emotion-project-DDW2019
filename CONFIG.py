@@ -14,11 +14,13 @@ ROBOT_IP = "192.168.178.20"
 FACE_ROW_OFFSET = [0, 0.04]
 TEXT_HOR_OFFSET = 0.03
 Z_HOP = -0.03
-DRAWING_ZVAL = 0.01
+DRAWING_ZVAL = 0.015
 CURRENT_ROW = 0
 MAX_ROWS = 1
-LINE_SPACING = 0.01
-BLEND_RADIUS = 0.0001
+LINE_SPACING = 0.015
+BLEND_RADIUS = 0.0002
+TEXT_SCALING = 1/120
+LETTER_SPACING = 0.005
 
 MAX_X = 0.2
 MAX_Y = 0.2
@@ -34,7 +36,7 @@ W_ANGLECHANGE = 5.0
 ESCAPE_ANGLECHANGE = 45
 
 # reporting
-PRINT_COORDINATES = False
+PRINT_COORDINATES = True
 
 # self.face_detect = dlib.get_frontal_face_detector()
 #dnnFaceDetector = dlib.cnn_face_detection_model_v1("models/mmod_human_face_detector.dat")
@@ -50,6 +52,13 @@ HOME_POS = (math.radians(50),
                  math.radians(-20),
                  math.radians(88),
                  math.radians(0))
+
+ABOVE_PAPER = (math.radians(-73),
+                 math.radians(-105.5),
+                 math.radians(-116),
+                 math.radians(-46.4),
+                 math.radians(89.5),
+                 math.radians(17))
 
 PROGRAMSTATE = 0 
 ROBOT_ACTION = 0
