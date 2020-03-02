@@ -109,6 +109,7 @@ class ThingToWrite:
             i = 0  # just a value to tell me if this is the first or last point of the line
             line_length = len(line) - 1
 
+            indiv_line = []
             for point in line:
                 # print("i: ", i)
                 """if i == 0:
@@ -124,14 +125,16 @@ class ThingToWrite:
                 scaled_offset_point[1] = point[1] * self.scale + y_offset
 
                 # print("point", scaled_offset_point)
-                letter_coord_list.append(scaled_offset_point)
+                indiv_line.append(scaled_offset_point)
 
                 """if i == line_length:
                     hop_point = scaled_offset_point.copy()
                     hop_point[2] = self.z_hop
                     # print("hop_point end: ", hop_point)
                     letter_coord_list.append(hop_point)"""
-                i +=1
+                i += 1
+            letter_coord_list.append(indiv_line)
+            i +=1
 
         # print(letter_coord_list)
         return letter_coord_list
