@@ -43,7 +43,7 @@ PRINT_COORDINATES = True
 # paper advancing
 DRAG_DIST = 0.10  # 10 cm
 #PLUNGE_DIST = 0.1273
-PLUNGE_DIST = 0.09
+PLUNGE_DIST = 0.07
 PAPERSLOT_START = [0.02, -0.548, 0.1980, 0.0, -3.14, 0]
 
 # positions
