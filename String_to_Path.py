@@ -84,7 +84,7 @@ class ThingToWrite:
             "?": [[[0.060976, 0.271341], [0.094655, 0.14496], [0.15987, 0.054687], [0.256622, 0.000524], [0.506288, -0.000191], [0.606707, 0.051829], [0.681593, 0.140816], [0.706555, 0.255335], [0.661585, 0.398628], [0.55564, 0.510671], [0.492378, 0.571646], [0.449695, 0.647104], [0.439787, 0.753811]], [[0.395579, 0.867378], [0.429878, 0.833841], [0.464177, 0.867378], [0.429878, 0.901677], [0.395579, 0.867378]]],
             "!": [[[0.198933, 0.76753], [0.198933, -0.0625]], [[0.198933, 0.897866], [0.198933, 0.921494]]],
             }  # Dictionary of every letter+ Number with a list of coordinate lists- {a : [ [0,1], [1,1], ...] }
-        #self.z_hop = z_hop # defines how far the pen retracts after each line
+        self.z_hop = CONFIG.Z_HOP # defines how far the pen retracts after each line
         self.scale = CONFIG.TEXT_SCALING  # Letter size
 
         # reflect letters (they are mirrored in the alphabet dictionary)
@@ -111,13 +111,13 @@ class ThingToWrite:
 
             for point in line:
                 # print("i: ", i)
-                """if i == 0:
+                if i == 0:
                     hop_point = [0, 0]
                     hop_point[0] = point[0] * self.scale + x_offset
                     hop_point[1] = point[1] * self.scale + y_offset
                     #hop_point[2] = (self.z_hop)
                     # print("hop_point start: ", hop_point)
-                    letter_coord_list.append(hop_point.copy())"""
+                    letter_coord_list.append(hop_point.copy())
 
                 scaled_offset_point = [0, 0]
                 scaled_offset_point[0] = point[0] * self.scale + x_offset

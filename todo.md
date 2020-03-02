@@ -10,7 +10,9 @@
 - [ ] simple model switch
 - [ ] rtde loop time parameter 
 - [x] create config file  
-- [ ] maximum drags check 
+- [ ] maximum drags check
+- [ ] letter zhop
+ 
 
 
 
