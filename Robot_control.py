@@ -748,12 +748,12 @@ class Robot:
                                 y,
                                 z - self.plunge_dist,
                                 0, -math.pi, 0), self.accel, self.vel)  # drag the desired drag distance
-            time.sleep(2)
+            #time.sleep(2)
             self.robotUR.movel((x - self.drag_dist,
                                 y,
                                 z,
                                 0, -math.pi, 0), self.accel, self.vel)  # raise up to initial z height
-            self.robotUR.movel((x - self.drag_dist,
+            """self.robotUR.movel((x - self.drag_dist,
                                 y,
                                 z - self.plunge_dist / 3,
                                 0, -math.pi, 0), self.accel * 2.5, self.vel * 2.6)  # plunge down by half z
@@ -761,8 +761,8 @@ class Robot:
                                 y,
                                 z + self.plunge_dist,
                                 0, -math.pi, 0), self.accel * 2.7, self.vel * 2.7)  # raise by plunge dist  
-
-            time.sleep(2)
+"""
+            #time.sleep(2)
 
             print("paper moved")
 

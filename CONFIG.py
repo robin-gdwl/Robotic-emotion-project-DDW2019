@@ -27,8 +27,8 @@ MAX_X = 0.2
 MAX_Y = 0.2
 HOR_ROT_MAX = math.radians(50)
 VERT_ROT_MAX = math.radians(25)
-ACCEL = 0.5
-VEL= 0.5
+ACCEL = 3
+VEL= 5
 
 
 FOLLOW_TIME = 50
@@ -42,10 +42,10 @@ PRINT_COORDINATES = True
 # self.face_detect = dlib.get_frontal_face_detector()
 #dnnFaceDetector = dlib.cnn_face_detection_model_v1("models/mmod_human_face_detector.dat")
 # paper advancing
-DRAG_DIST = 0.20  # 10 cm
+DRAG_DIST = 0.13  # 10 cm
 #PLUNGE_DIST = 0.1273
-PLUNGE_DIST = 0.064
-PAPERSLOT_START = [0.02, -0.548, 0.1980, 0.0, -3.14, 0]
+PLUNGE_DIST = 0.058
+PAPERSLOT_START = [-0.065, -0.548, 0.1980, 0.0, -3.14, 0]
 
 # positions
 HOME_POS = (math.radians(50),
