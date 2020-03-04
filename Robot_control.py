@@ -9,11 +9,12 @@ import imutils
 import numpy as np
 import time
 import caffe_inference as cf
-from Face_obj import Face
 
 import CONFIG
 from Videostream import vs
 
+if CONFIG.FACE_ACTIVATE:
+    from Face_obj import Face
 
 pretrained_model = cv2.dnn.readNetFromCaffe("models/deploy.prototxt.txt", "models/res10_300x300_ssd_iter_140000.caffemodel")
 pretrained_model2 = cv2.dnn.readNetFromCaffe("models/RFB-320.prototxt", "models/RFB-320.caffemodel")

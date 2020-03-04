@@ -6,7 +6,15 @@ robot = Robot()
 robot.initialise_robot()
 
 robot.move_to_write()
-robot.write_strings(strings)
+#robot.write_strings(strings)
 robot.advance_paper()
+robot.advance_paper()
+robot.advance_paper()
+robot.advance_paper()
+robot.advance_paper()
+robot.advance_paper()
+robot.advance_paper()
+robot.advance_paper()
+
 
 
