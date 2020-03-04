@@ -11,7 +11,7 @@ if sys.platform == "linux":
 #ROBOT_IP = "10.211.55.5"
 ROBOT_IP = "192.168.178.20"
 
-FACE_ACTIVATE = False
+FACE_ACTIVATE = True
 FACE_ROW_OFFSET = [0, 0.04]
 TEXT_HOR_OFFSET = 0.03
 Z_HOP = 0.01
@@ -27,8 +27,8 @@ MAX_X = 0.2
 MAX_Y = 0.2
 HOR_ROT_MAX = math.radians(50)
 VERT_ROT_MAX = math.radians(25)
-ACCEL = 3
-VEL= 5
+ACCEL = 1
+VEL= 3
 
 
 FOLLOW_TIME = 5
