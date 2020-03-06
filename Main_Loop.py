@@ -46,9 +46,9 @@ if sys.platform == "linux":
     import RPi.GPIO as GPIO
     
     # Button Pins 
-    PLAY_PIN = 3
-    PAUSE_PIN = 5
-    RESET_PIN = 7
+    PLAY_PIN = 11
+    PAUSE_PIN = 13
+    RESET_PIN = 15
     
     # Led colour pins
     RED_PIN = 8
@@ -60,6 +60,7 @@ if sys.platform == "linux":
     GPIO.setup(PAUSE_PIN, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
     GPIO.setup(RESET_PIN, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
     GPIO.setup(PLAY_PIN, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
+    
     GPIO.add_event_detect(PAUSE_PIN, GPIO.RISING, callback=interrupt, bouncetime = 1000)
     GPIO.add_event_detect(RESET_PIN, GPIO.RISING, callback=interrupt, bouncetime = 1000)
 
@@ -128,6 +129,7 @@ time.sleep(1)
 print("____"*80)
 
 def loop():    
+    print("looop")
     CONFIG.PROGRAMSTATE = 0
     try: 
         while True :
