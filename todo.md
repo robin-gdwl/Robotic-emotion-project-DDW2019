@@ -29,6 +29,12 @@
 - [ ] 
  
 
+Bash script: 
+enter virtualenv
+cd into directory 
+git pull 
+( write to overall log file)
+start Main_Loop.py
 
 
 _________

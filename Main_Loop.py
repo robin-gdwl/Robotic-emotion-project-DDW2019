@@ -44,10 +44,17 @@ if sys.platform == "linux":
     import picamera
     from picamera.array import PiRGBArray
     import RPi.GPIO as GPIO
-
-    PLAY_PIN = 8
-    PAUSE_PIN = 10
-    RESET_PIN = 12
+    
+    # Button Pins 
+    PLAY_PIN = 3
+    PAUSE_PIN = 5
+    RESET_PIN = 7
+    
+    # Led colour pins
+    RED_PIN = 8
+    GREEN_PIN = 10
+    BLUE_PIN = 12
+    
     
     GPIO.setmode(GPIO.BOARD)
     GPIO.setup(PAUSE_PIN, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
@@ -82,9 +89,6 @@ def pause():
         CONFIG.PROGRAMSTATE = 0
         robot.robotUR.reset_error()
         
-        print("continuing")
-        robot.start_rtde()
-        time.sleep(1)
         
     else:  # what to do if this runs on a mac and there is no button 
         print("waiting 10s to continue")
@@ -92,17 +96,28 @@ def pause():
         time.sleep(10)
         CONFIG.PROGRAMSTATE = 0
 
-        print("continuing")
-        robot.start_rtde()
-        time.sleep(1)
+    robot.robotUR.reset_error()
+    print("continuing")
+    robot.start_rtde()
+    time.sleep(1)
 
-def reset():
+def reset(waitforplay=False):
+    # do reset procedure
+    #create reboot interrupt
+   
+    #if reboot: reboot
+    
+    global RASPBERRY_BOOL
+    global PLAY_PIN
+    global RESET_PIN
+    
+    if waitforplay:
+        GPIO.wait_for_edge(PLAY_PIN, GPIO.BOTH)
     pass
 
-#robot_ip = "10.211.55.5"
-robot_ip = "192.168.178.20"
 
-robot = Robot(robot_ip)
+print("initialising loop")
+robot = Robot()
 robot.initialise_robot()
 robot.move_home()
 
@@ -110,9 +125,9 @@ robot.current_row = 0
 robot.start_rtde()
 time.sleep(1)
 
-print("____"*800)
+print("____"*80)
 
-def main():    
+def loop():    
     CONFIG.PROGRAMSTATE = 0
     try: 
         while True :
@@ -148,6 +163,11 @@ def main():
         traceback.print_exc()
         print("closing robot connection")
         robot.robotUR.close()
+        
+
+def main():
+    pause()
+    loop()
         
 if __name__ == '__main__':
     main()

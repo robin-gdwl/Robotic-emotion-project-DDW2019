@@ -177,6 +177,7 @@ class Robot:
             pass
 
     def move_to_write(self, row=0):
+        #TODO: check if paper is there 
 
         #global PROGRAMSTATE
         #global ROBOT_ACTION
@@ -290,14 +291,13 @@ class Robot:
                 return False
             else:
                 CONFIG.ROBOT_ACTION = 8  # sets ROBOT_ACTION to "writing"
-
+                #TODO: stop if paused
                 origin = self.calculate_origin(text=True)
                 i = 0
                 for emotion in emos:
                     emotion_coords = ThingToWrite(emotion).string_to_coordinates(origin)
                     if self.print_coordinates:
                         print("emotion_coords", emotion_coords)
-                    #TODO: ADD ZHOP HERE !!!!!!!!!!!!!!
                     self._draw_curves(emotion_coords, origin)
                     origin[1] += self.line_spacing
 
@@ -324,6 +324,8 @@ class Robot:
             return False
 
     def _draw_curves(self, polylines, origin_point):
+        #TODO: programstate query
+        
         print("polylines to be drawn: ", polylines)
 
         polylines_zvalue = self._add_zvalue(polylines)
@@ -343,7 +345,7 @@ class Robot:
             # print(list_mapped_wpts)    
             self.robotUR.movel_waypoints(list_mapped_wpts)
 
-        pass
+        
 
     def calculate_origin(self, text=False):
         row = self.current_row
