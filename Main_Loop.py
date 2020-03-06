@@ -86,9 +86,8 @@ def pause():
     #if False:
         print("waiting to continue")
         print("----" * 5)
-        GPIO.wait_for_edge(PLAY_PIN, GPIO.BOTH)
+        #GPIO.wait_for_edge(PLAY_PIN, GPIO.BOTH)
         CONFIG.PROGRAMSTATE = 0
-        robot.robotUR.reset_error()
         
         
     else:  # what to do if this runs on a mac and there is no button 
@@ -123,7 +122,7 @@ robot.initialise_robot()
 robot.move_home()
 
 robot.current_row = 0
-robot.start_rtde()
+#robot.start_rtde()
 time.sleep(1)
 
 print("____"*80)
