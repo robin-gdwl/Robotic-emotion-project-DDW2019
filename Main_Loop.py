@@ -97,7 +97,7 @@ def pause():
     #if False:
         print("waiting to continue")
         print("----" * 5)
-        #GPIO.wait_for_edge(PLAY_PIN, GPIO.BOTH)
+        GPIO.wait_for_edge(PLAY_PIN, GPIO.BOTH)
         CONFIG.PROGRAMSTATE = 0
         
         
