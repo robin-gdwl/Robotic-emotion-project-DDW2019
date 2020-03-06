@@ -86,8 +86,7 @@ class Face:
 
             else:
                 i += 1
-            cv2.imshow("current", frame)
-            cv2.waitKey(10)  # this defines how long each frame is shown
+            
 
         person_emo = ["ERROR - 0 %", "_ _ _ _ _",
                       "ARE YOU ", "A ROBOT", "- ??? -"]
@@ -165,8 +164,8 @@ class Face:
                              lips_outer]
             # feature_lines is now a list of all lines to be drawn each list consisting of a list of coordinates
             self.annotated_image = frame
-            cv2.imshow("current", frame)
-            cv2.waitKey(10)  # this defines how long each frame is shown
+            #cv2.imshow("current", frame)
+            #cv2.waitKey(10)  # this defines how long each frame is shown
             self.landmarks = feature_lines
             # print(self.landmarks)
             return feature_lines

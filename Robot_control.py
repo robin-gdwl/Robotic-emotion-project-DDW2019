@@ -97,8 +97,9 @@ class Robot:
                     # time.sleep(10)
                     break
                 else:
-                    cv2.imshow('current', new_frame)
-                    cv2.waitKey(1)
+                    if CONFIG.SHOW_FRAME:
+                        cv2.imshow('current', new_frame)
+                        cv2.waitKey(1)
 
                     if exceeds != 0:
                         anglechange = random.uniform(-self.escape_anglechange, self.escape_anglechange)
@@ -501,8 +502,10 @@ class Robot:
         return face_centers, rectangles, new_frame
 
     def show_frame(self, frame):
-        cv2.imshow('current', frame)
-        k = cv2.waitKey(6) & 0xff
+
+        if CONFIG.SHOW_FRAME:
+            cv2.imshow('current', frame)
+            k = cv2.waitKey(6) & 0xff
 
     def send_interrupting_prg(self):
         """sends a simple program to stop the one currently running"""
