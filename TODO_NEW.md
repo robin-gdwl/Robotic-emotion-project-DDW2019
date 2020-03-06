@@ -10,7 +10,7 @@ Status:
 - [ ] test pause interrupt during writing
 
 ### Meta (Raspberry Software)   
-- [ ] start Program on reboot
+- [x] start Program on reboot
 
 ### Head 
 - [ ] buy pens
@@ -22,8 +22,8 @@ Status:
 - [ ] reTest big version
 
 ### Button Box
-- [ ] status LED build 
-- [ ] status LED wiring
+- [x] status LED build 
+- [x] status LED wiring
 - [ ] status LED Test
 
 ### Paper Roll 

@@ -37,8 +37,8 @@ W_ANGLECHANGE = 5.0
 ESCAPE_ANGLECHANGE = 45
 
 # reporting
-PRINT_COORDINATES = True
-SHOW_FRAME = False
+PRINT_COORDINATES = False
+SHOW_FRAME = True
 
 # self.face_detect = dlib.get_frontal_face_detector()
 #dnnFaceDetector = dlib.cnn_face_detection_model_v1("models/mmod_human_face_detector.dat")
