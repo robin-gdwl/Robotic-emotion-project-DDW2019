@@ -4,6 +4,7 @@ from PROGRAMSTATE import ProgramState
 programstate = ProgramState()
 
 while True:
+    print("loop new ")
     programstate.level= 0
     time.sleep(5)
     programstate.level= 1

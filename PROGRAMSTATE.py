@@ -60,6 +60,7 @@ class ProgramState:
         led_t.start()
     
     def __set_led(self):
+        print("setting LED")
         previous_level = self.level
         while self.activate_led:             
             # print(self.led_values_dict[self.level])
@@ -87,6 +88,7 @@ class ProgramState:
     
     def __led_change(self, Red=0, Green=0, Blue=0, flash = False):
         led_bools = [Red,Green,Blue]
+        print("led_bools: ", led_bools)
         
         GPIO.output(self.led_pin_list, led_bools)
         time.sleep(1)
