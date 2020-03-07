@@ -56,7 +56,7 @@ class ProgramState:
         return level_p
     
     def _led_thread(self):
-        led_t = threading.Thread(target= self.__set_led())
+        led_t = threading.Thread(target= self.__set_led)
         led_t.start()
     
     def __set_led(self):
