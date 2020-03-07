@@ -94,7 +94,7 @@ class ProgramState:
         time.sleep(0.3)
         if flash:
             GPIO.output(self.led_pin_list, 0)
-            time.sleep(1)
+            time.sleep(0.3)
             
             
     @property 
