@@ -4,18 +4,19 @@ import time
 import CONFIG
 from itertools import compress
 
-#if CONFIG.RASPBERRY_BOOL:
-import RPi.GPIO as GPIO
+if CONFIG.RASPBERRY_BOOL:
+    import RPi.GPIO as GPIO
 
 class ProgramState:
     
     def __init__(self,initial_lvl = 0 ):
-        self.level = initial_lvl
+        
         self.level_dict = {0: "Playing",
                            1: "Paused and ready",
                            2: "Error",
                            3: "Paused and action required",
                            4: "Resetting"}
+        self.level = initial_lvl
         #self.robotaction = 0 
         self.led_values_dict = {0: "green",
                                 1: "green flash",
