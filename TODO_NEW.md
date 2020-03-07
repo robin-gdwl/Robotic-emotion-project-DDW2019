@@ -11,9 +11,10 @@ Status:
 
 ### Meta (Raspberry Software)   
 - [x] start Program on reboot
+- [ ] test git pull on reboot 
 
 ### Head 
-- [ ] buy pens
+- [x] buy pens
 - [x] assemble big version
 - [ ] test big version 
 
@@ -27,6 +28,12 @@ Status:
 - [ ] status LED Test
 
 ### Paper Roll 
+- [ ] Test
 
 ### Table
+- [ ] Bohrschablone
 
+### Instructions
+- [ ] Change Paper 
+- [ ] Change pen 
+- [ ] reset

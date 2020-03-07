@@ -327,7 +327,8 @@ class Robot:
     def _draw_curves(self, polylines, origin_point):
         #TODO: programstate query
         
-        print("polylines to be drawn: ", polylines)
+        if self.print_coordinates:
+            print("polylines to be drawn: ", polylines)
 
         polylines_zvalue = self._add_zvalue(polylines)
         polylines_with_zhop = self._add_zhop(polylines_zvalue)
