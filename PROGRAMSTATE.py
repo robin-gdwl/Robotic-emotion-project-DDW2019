@@ -10,7 +10,7 @@ if CONFIG.RASPBERRY_BOOL:
 class ProgramState:
     
     def __init__(self,initial_lvl = 0 ):
-        self.level = 0
+        self.__level = 0
     
         self.led_values_dict = {0: "green",
                                 1: "green flash",
