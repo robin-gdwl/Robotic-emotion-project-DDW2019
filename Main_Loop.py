@@ -61,12 +61,6 @@ if sys.platform == "linux":
     PAUSE_PIN = 13
     RESET_PIN = 15
     
-    # Led colour pins
-    RED_PIN = 8
-    GREEN_PIN = 10
-    BLUE_PIN = 12
-    
-    
     GPIO.setmode(GPIO.BOARD)
     GPIO.setup(PAUSE_PIN, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
     GPIO.setup(RESET_PIN, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
@@ -78,6 +72,10 @@ if sys.platform == "linux":
 def check_exhibit_time():
     pass
 
+def statusled():
+    while True: 
+        if CONFIG.PROGRAMSTATE == 0:
+            pass
         
 def pause():
     #global CONFIG.PROGRAMSTATE

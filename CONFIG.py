@@ -38,7 +38,7 @@ ESCAPE_ANGLECHANGE = 45
 
 # reporting
 PRINT_COORDINATES = False
-SHOW_FRAME = True
+SHOW_FRAME = False
 
 # self.face_detect = dlib.get_frontal_face_detector()
 #dnnFaceDetector = dlib.cnn_face_detection_model_v1("models/mmod_human_face_detector.dat")
@@ -74,3 +74,9 @@ VIDEO_ASPECT_RATIO  = VIDEO_RESOLUTION[0] / VIDEO_RESOLUTION[1]  # Aspect ration
 VIDEO_VIEWANGLE_HOR = math.radians(25)  # Camera FOV (field of fiew) angle in radians in horizontal direction
 #video_viewangle_vert = video_viewangle_hor / video_asp_ratio  #  Camera FOV (field of fiew) angle in radians in vertical direction
 M_PER_PIXEL = 00.00006  # Variable which scales the robot movement from pixels to meters.
+
+# LED Pins: 
+# Led colour pins
+RED_PIN = 8
+GREEN_PIN = 10
+BLUE_PIN = 12
