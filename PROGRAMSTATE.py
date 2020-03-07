@@ -11,13 +11,7 @@ class ProgramState:
     
     def __init__(self,initial_lvl = 0 ):
         
-        self.level_dict = {0: "Playing",
-                           1: "Paused and ready",
-                           2: "Error",
-                           3: "Paused and action required",
-                           4: "Resetting"}
-        self.level = initial_lvl
-        #self.robotaction = 0 
+    
         self.led_values_dict = {0: "green",
                                 1: "green flash",
                                 2: "Red flash",
@@ -34,6 +28,14 @@ class ProgramState:
         if self.activate_led:
             self.__setup_led()
         self._led_thread()
+
+        self.level_dict = {0: "Playing",
+                           1: "Paused and ready",
+                           2: "Error",
+                           3: "Paused and action required",
+                           4: "Resetting"}
+        self.level = initial_lvl
+        # self.robotaction = 0 
     
     def __setup_led(self):
         if self.activate_led == True and CONFIG.RASPBERRY_BOOL:
