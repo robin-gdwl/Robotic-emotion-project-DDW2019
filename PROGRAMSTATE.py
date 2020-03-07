@@ -91,7 +91,7 @@ class ProgramState:
         print("led_bools: ", led_bools)
         
         GPIO.output(self.led_pin_list, led_bools)
-        time.sleep(1)
+        time.sleep(0.3)
         if flash:
             GPIO.output(self.led_pin_list, 0)
             time.sleep(1)
