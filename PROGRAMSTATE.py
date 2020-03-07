@@ -95,13 +95,13 @@ class ProgramState:
             
     @property 
     def level(self):
-        pass
+        return self.__level
         
     @level.setter
     def level(self, new_lvl):
         if new_lvl in self.level_dict:
             
-            self.level = new_lvl
+            self.__level = new_lvl
         else: 
             print("unknown level, no level set")
         
