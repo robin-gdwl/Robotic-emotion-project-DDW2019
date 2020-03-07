@@ -30,6 +30,8 @@ class ProgramState:
                         self.led_pin_dict["blue"]]
         
         self.activate_led = True
+        if self.activate_led:
+            self.__setup_led()
         self._led_thread()
     
     def __setup_led(self):
