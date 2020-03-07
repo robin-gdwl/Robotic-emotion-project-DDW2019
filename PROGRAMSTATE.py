@@ -20,7 +20,7 @@ class ProgramState:
         self.led_pin_dict = {"red": CONFIG.RED_PIN,
                              "green": CONFIG.GREEN_PIN,
                              "blue": CONFIG.BLUE_PIN}
-        led_pin_list = [self.led_pin_dict["red"],
+        self.led_pin_list = [self.led_pin_dict["red"],
                         self.led_pin_dict["green"],
                         self.led_pin_dict["blue"]]
         
