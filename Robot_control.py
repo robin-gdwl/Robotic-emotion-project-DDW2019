@@ -325,28 +325,30 @@ class Robot:
             return False
 
     def _draw_curves(self, polylines, origin_point):
-        #TODO: programstate query
+        if CONFIG.PROGRAMSTATE.level == 0:
         
-        if self.print_coordinates:
-            print("polylines to be drawn: ", polylines)
-
-        polylines_zvalue = self._add_zvalue(polylines)
-        polylines_with_zhop = self._add_zhop(polylines_zvalue)
-        polylines_rotvec = self._add_rotvec(polylines_with_zhop)
-        polylines_oriented = self.orient_list_of_lines(polylines_rotvec)
-        for line in polylines_oriented:
-            list_mapped_wpts = []
-            for pose6d in line:
-                # it is necessary to convert the list of poses to a dict with values for acceleration and velocity
-                wpt_dict = {"pose": pose6d,
-                            "a": self.accel,
-                            "v": self.vel,
-                            "r": self.blend_radius}
-
-                list_mapped_wpts.append(wpt_dict)
-            # print(list_mapped_wpts)    
-            self.robotUR.movel_waypoints(list_mapped_wpts)
-
+            if self.print_coordinates:
+                print("polylines to be drawn: ", polylines)
+    
+            polylines_zvalue = self._add_zvalue(polylines)
+            polylines_with_zhop = self._add_zhop(polylines_zvalue)
+            polylines_rotvec = self._add_rotvec(polylines_with_zhop)
+            polylines_oriented = self.orient_list_of_lines(polylines_rotvec)
+            for line in polylines_oriented:
+                list_mapped_wpts = []
+                for pose6d in line:
+                    # it is necessary to convert the list of poses to a dict with values for acceleration and velocity
+                    wpt_dict = {"pose": pose6d,
+                                "a": self.accel,
+                                "v": self.vel,
+                                "r": self.blend_radius}
+    
+                    list_mapped_wpts.append(wpt_dict)
+                # print(list_mapped_wpts)    
+                self.robotUR.movel_waypoints(list_mapped_wpts)
+            return True
+        else:
+            return False
         
 
     def calculate_origin(self, text=False):
