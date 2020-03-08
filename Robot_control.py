@@ -78,14 +78,14 @@ class Robot:
     def wander(self):
         #global PROGRAMSTATE
         #global ROBOT_ACTION
-        if CONFIG.PROGRAMSTATE == 0:
+        if CONFIG.PROGRAMSTATE.level == 0:
             print("wander function")
             CONFIG.ROBOT_ACTION = 3
             # use self.position to go to a close position and search for faces
             angle_a = random.uniform(-360.0, 360.0)
             exceeds = 0
             print("starting wander loop. CONFIG.ROBOT_ACTION: ", CONFIG.ROBOT_ACTION)
-            while CONFIG.PROGRAMSTATE == 0:
+            while CONFIG.PROGRAMSTATE.level == 0:
                 # wander around
                 frame = vs.read()
                 # face_positions, _, new_frame = self.find_faces_dnn(frame)
@@ -118,7 +118,7 @@ class Robot:
                     next_position, exceeds = self.move_to_position(next_position)
                     # print(next_position)
             print("exiting wander function")
-            print("CONFIG.PROGRAMSTATE:  ", CONFIG.PROGRAMSTATE)
+            print("CONFIG.PROGRAMSTATE.level:  ", CONFIG.PROGRAMSTATE.level)
 
         else:
             pass
@@ -129,7 +129,7 @@ class Robot:
         #global ROBOT_ACTION
 
         new_frame, face_boxes, face_positions = None, None, None
-        if CONFIG.PROGRAMSTATE == 0:
+        if CONFIG.PROGRAMSTATE.level == 0:
 
             CONFIG.ROBOT_ACTION = 4
             try:
@@ -137,7 +137,7 @@ class Robot:
                 timer = time.time()
                 frame = []
 
-                while CONFIG.PROGRAMSTATE == 0:
+                while CONFIG.PROGRAMSTATE.level == 0:
 
                     frame = vs.read()
                     # face_positions, face_boxes, new_frame = self.find_faces_dnn(frame)
@@ -182,7 +182,7 @@ class Robot:
 
         #global PROGRAMSTATE
         #global ROBOT_ACTION
-        if CONFIG.PROGRAMSTATE == 0:
+        if CONFIG.PROGRAMSTATE.level == 0:
             CONFIG.ROBOT_ACTION = 5  # sets ROBOT_ACTION to "move to write"
 
             print("moving to write ")
@@ -207,13 +207,13 @@ class Robot:
             CONFIG.ROBOT_ACTION = 6  # sets ROBOT_ACTION to "at write"
             return True
         else:
-            print("program paused or stopped: ", CONFIG.PROGRAMSTATE)
+            print("program paused or stopped: ", CONFIG.PROGRAMSTATE.level)
             return False
 
     def move_home(self):
         #global PROGRAMSTATE
         #global ROBOT_ACTION
-        if CONFIG.PROGRAMSTATE == 0 or CONFIG.PROGRAMSTATE == 1:
+        if CONFIG.PROGRAMSTATE.level == 0 or CONFIG.PROGRAMSTATE.level == 1:
             CONFIG.ROBOT_ACTION = 1  # sets ROBOT_ACTION to "move home"
             print("moving Home. CONFIG.ROBOT_ACTION:  ", CONFIG.ROBOT_ACTION)
 
@@ -223,7 +223,7 @@ class Robot:
             self.origin = self.set_lookorigin()
             return True
         else:
-            print("program paused or stopped: ", CONFIG.PROGRAMSTATE)
+            print("program paused or stopped: ", CONFIG.PROGRAMSTATE.level)
             return False
 
     def create_coordinates(self, image_with_face, box):
@@ -254,7 +254,7 @@ class Robot:
 
     def write_strings(self, list_of_strings):
 
-        if CONFIG.PROGRAMSTATE == 0:
+        if CONFIG.PROGRAMSTATE.level == 0:
             
             print(list_of_strings)
             if len(list_of_strings) == 0:
@@ -276,14 +276,14 @@ class Robot:
 
                 return True
         else:
-            print("program paused or stopped: ", CONFIG.PROGRAMSTATE)
+            print("program paused or stopped: ", CONFIG.PROGRAMSTATE.level)
             return False
     
     def write_emotions(self, Face_obj):
 
         #global PROGRAMSTATE
         #global ROBOT_ACTION
-        if CONFIG.PROGRAMSTATE == 0:
+        if CONFIG.PROGRAMSTATE.level == 0:
 
             emos = Face_obj.emotions
             print(emos)
@@ -304,13 +304,13 @@ class Robot:
 
                 return True
         else:
-            print("program paused or stopped: ", CONFIG.PROGRAMSTATE)
+            print("program paused or stopped: ", CONFIG.PROGRAMSTATE.level)
             return False
 
     def draw_face(self, Face_obj):
         #global PROGRAMSTATE
         #global ROBOT_ACTION
-        if CONFIG.PROGRAMSTATE == 0:
+        if CONFIG.PROGRAMSTATE.level == 0:
 
             if len(Face_obj.landmarks) == 0:
                 print("no landmarks to draw")
@@ -321,7 +321,7 @@ class Robot:
                 self._draw_curves(Face_obj.landmarks, origin)
                 return True
         else:
-            print("program paused or stopped: ", CONFIG.PROGRAMSTATE)
+            print("program paused or stopped: ", CONFIG.PROGRAMSTATE.level)
             return False
 
     def _draw_curves(self, polylines, origin_point):
@@ -735,7 +735,7 @@ class Robot:
     def advance_paper(self):
         #global PROGRAMSTATE
         #global ROBOT_ACTION
-        if CONFIG.PROGRAMSTATE == 0:
+        if CONFIG.PROGRAMSTATE.level == 0:
             CONFIG.ROBOT_ACTION = 9  # sets current ROBOT_ACTION to "moving paper" 
 
             x = self.paperslot_start[0]
@@ -774,7 +774,7 @@ class Robot:
 
             return True
         else:
-            print("program paused or stopped: ", CONFIG.PROGRAMSTATE)
+            print("program paused or stopped: ", CONFIG.PROGRAMSTATE.level)
             return False
 
     def move_safe(self, curr_action):
