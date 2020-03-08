@@ -730,9 +730,10 @@ class Robot:
         return target, exceeds
 
     def check_paper(self):
-        if self.current_row == self.max_rows:
-            self.advance_paper()
-            self.current_row = 0
+        if CONFIG.PROGRAMSTATE.level == 0:
+            if self.current_row == self.max_rows:
+                self.advance_paper()
+                self.current_row = 0
 
     def advance_paper(self):
         #global PROGRAMSTATE
