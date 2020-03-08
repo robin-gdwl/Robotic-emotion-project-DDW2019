@@ -4,6 +4,7 @@ import time
 import CONFIG
 from itertools import compress
 
+
 if CONFIG.RASPBERRY_BOOL:
     import RPi.GPIO as GPIO
     

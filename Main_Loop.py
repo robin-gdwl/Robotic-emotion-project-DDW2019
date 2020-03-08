@@ -22,6 +22,7 @@ from Face_obj import Face
 from Robot_control import Robot
 from Videostream import vs
 import CONFIG
+from PROGRAMSTATE import ProgramState
 
 # Path to the face-detection model:
 #pretrained_model = cv2.dnn.readNetFromCaffe("models/deploy.prototxt.txt", "models/res10_300x300_ssd_iter_140000.caffemodel")
@@ -33,7 +34,7 @@ import CONFIG
 # If this is run on a linux system, it is assumed it runs on a raspberry pi and a picamera will be used.
 # If you are using a linux system, with a webcam instead of a raspberry pi delete the following if-statement
 def interrupt(channel):
-    #global CONFIG.PROGRAMSTATE
+    global PROGRAMSTATE
     #global ROBOT_ACTION
     global RASPBERRY_BOOL
     global PLAY_PIN
@@ -41,7 +42,7 @@ def interrupt(channel):
     global PAUSE_PIN
     print("..."*200)
     print("INTERRUPT!  ROBOTACTION: ", CONFIG.ROBOT_ACTION)
-    print("CONFIG.PROGRAMSTATE: ", CONFIG.PROGRAMSTATE.level)
+    print("PROGRAMSTATE: ", PROGRAMSTATE.level)
     print("CHANNEL: ", channel)
     if channel == PAUSE_PIN:
         pause()
@@ -52,6 +53,7 @@ def interrupt(channel):
 
 
 if sys.platform == "linux":
+    global PROGRAMSTATE
     CONFIG.RASPBERRY_BOOL = True
     import picamera
     from picamera.array import PiRGBArray
@@ -75,17 +77,17 @@ def check_exhibit_time():
 
 def statusled():
     while True: 
-        if CONFIG.PROGRAMSTATE.level == 0:
+        if PROGRAMSTATE.level == 0:
             pass
         
 def pause():
-    #global CONFIG.PROGRAMSTATE
+    global PROGRAMSTATE
     #global ROBOT_ACTION
     global RASPBERRY_BOOL
     global PLAY_PIN
     global RESET_PIN 
     
-    CONFIG.PROGRAMSTATE.level = 1
+    PROGRAMSTATE.level = 1
     print("pause")
     robot.robotUR.stopj(robot.accel/5)
     time.sleep(1)
@@ -97,14 +99,14 @@ def pause():
         print("waiting to continue")
         print("----" * 5)
         GPIO.wait_for_edge(PLAY_PIN, GPIO.BOTH)
-        CONFIG.PROGRAMSTATE.level = 0
+        PROGRAMSTATE.level = 0
         
         
     else:  # what to do if this runs on a mac and there is no button 
         print("waiting 10s to continue")
         print("----"*5)
         time.sleep(10)
-        CONFIG.PROGRAMSTATE.level = 0
+        PROGRAMSTATE.level = 0
 
     robot.robotUR.reset_error()
     print("continuing")
@@ -114,7 +116,8 @@ def pause():
 def reset(waitforplay=False, reboot=True):
     # do reset procedure
     #create reboot interrupt
-    CONFIG.PROGRAMSTATE.level = 4
+    global PROGRAMSTATE
+    PROGRAMSTATE.level = 4
     robot.robotUR.stopj(robot.accel / 5)
     time.sleep(1)
     robot.move_safe(CONFIG.ROBOT_ACTION)
@@ -133,7 +136,8 @@ def reset(waitforplay=False, reboot=True):
 
 
 print("initialising loop")
-CONFIG.PROGRAMSTATE.level = 1
+PROGRAMSTATE = ProgramState()
+PROGRAMSTATE.level = 1
 robot = Robot()
 robot.initialise_robot()
 robot.move_home()
@@ -144,13 +148,14 @@ time.sleep(1)
 
 print("____"*80)
 
-def loop():    
+def loop():
+    global PROGRAMSTATE
     print("looop")
-    CONFIG.PROGRAMSTATE.level = 0
+    PROGRAMSTATE.level = 0
     try: 
         while True :
             
-            if CONFIG.PROGRAMSTATE.level == 0:
+            if PROGRAMSTATE.level == 0:
                 
                 robot.wander()
                 face_img, face_box, face_pos  = robot.follow_face(close=False)

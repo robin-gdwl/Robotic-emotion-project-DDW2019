@@ -8,7 +8,7 @@ if sys.platform == "linux":
     import picamera
     from picamera.array import PiRGBArray
 
-PROGRAMSTATE = ProgramState() 
+#PROGRAMSTATE = ProgramState() 
 ROBOT_ACTION = 0
 
 #ROBOT_IP = "10.211.55.5"
