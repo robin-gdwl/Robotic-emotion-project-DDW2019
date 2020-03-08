@@ -159,7 +159,6 @@ def loop():
                 face_img, face_box, face_pos  = robot.follow_face(close=False)
                 #cv2.imwrite("testface.png", face_img)
                 
-                
                 if not face_pos:
                     continue
                 print("face follow done")
