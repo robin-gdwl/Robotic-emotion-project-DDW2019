@@ -1232,7 +1232,7 @@ end
     def textmsg(self, s1, s2=''):
         '''
         Send text message to log
-
+        
         Send message with s1 and s2 concatenated to be shown on the GUI
         log-tab
         Parameters
@@ -1241,7 +1241,12 @@ end
         s2: message string, variables of other types (int, bool poses
         etc.) can also be sent
         '''
-        raise NotImplementedError('Function Not yet implemented')
+        
+        prg = 'textmsg("{s1}","{s2}")\n'
+
+        programString = prg.format(**locals())
+        self.robotConnector.RealTimeClient.Send(programString)
+        return True
 
 ############    Module urmath    #################
     @staticmethod

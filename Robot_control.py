@@ -783,3 +783,14 @@ class Robot:
     def move_safe(self, curr_action):
         print("safety-move")
         pass
+    
+    def stop_safe(self):
+        action = CONFIG.ROBOT_ACTION
+        
+        if action == 3 or action == 4:
+            self.robotUR.stopj(self.accel)
+            time.sleep(0.2)
+        else:
+            self.robotUR.waitRobotIdleOrStopFlag()
+            self.robotUR.stopj(self.accel)
+            time.sleep(0.2)

@@ -7,15 +7,19 @@ robot.initialise_robot()
 max_draws = 200
 
 
-robot.move_to_write()
+#robot.move_to_write()
 #robot.write_strings(strings)
 i = 0
-while i <= max_draws:
+"""while i <= max_draws:
     robot.advance_paper()
     print(i, "of ", max_draws)
     i+=1
 
-print("done "*300)
+print("done "*300)"""
+
+text = "halloooo"
+
+robot.robotUR.textmsg(text)
 
 
 

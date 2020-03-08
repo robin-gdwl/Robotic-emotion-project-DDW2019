@@ -87,10 +87,11 @@ def pause():
     
     CONFIG.PROGRAMSTATE.level = 1
     print("pause")
-    robot.robotUR.waitRobotIdleOrStopFlag()
-    robot.robotUR.stopj(robot.accel/5)
+    #robot.robotUR.waitRobotIdleOrStopFlag()
+    robot.stop_safe()
+    #robot.robotUR.stopj(robot.accel)
     time.sleep(1)
-    robot.move_safe(CONFIG.ROBOT_ACTION)
+    #robot.move_safe(CONFIG.ROBOT_ACTION)
     robot.move_home()
     
     if CONFIG.RASPBERRY_BOOL:

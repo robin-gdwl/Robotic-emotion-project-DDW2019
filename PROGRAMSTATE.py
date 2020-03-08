@@ -8,7 +8,9 @@ from itertools import compress
 # WHY DOES THIS NOT SYNC with git ???? ?????
 
 # if CONFIG.RASPBERRY_BOOL:
+Pi_bool = False
 if sys.platform == "linux":
+    Pi_bool = True
     import RPi.GPIO as GPIO
     
 
@@ -29,10 +31,10 @@ class ProgramState:
                         self.led_pin_dict["green"],
                         self.led_pin_dict["blue"]]
         
-        self.activate_led = True
+        self.activate_led = Pi_bool
         if self.activate_led:
             self.__setup_led()
-        self._led_thread()
+            self._led_thread()
 
         self.level_dict = {0: "Playing",
                            1: "Paused and ready",
@@ -40,7 +42,7 @@ class ProgramState:
                            3: "Paused and action required",
                            4: "Resetting"}
         self.level = initial_lvl
-        # self.robotaction = 0 
+        # self.action = 0 
     
     def __setup_led(self):
         if self.activate_led == True:  # and CONFIG.RASPBERRY_BOOL:
