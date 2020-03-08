@@ -335,17 +335,18 @@ class Robot:
             polylines_rotvec = self._add_rotvec(polylines_with_zhop)
             polylines_oriented = self.orient_list_of_lines(polylines_rotvec)
             for line in polylines_oriented:
-                list_mapped_wpts = []
-                for pose6d in line:
-                    # it is necessary to convert the list of poses to a dict with values for acceleration and velocity
-                    wpt_dict = {"pose": pose6d,
-                                "a": self.accel,
-                                "v": self.vel,
-                                "r": self.blend_radius}
-    
-                    list_mapped_wpts.append(wpt_dict)
-                # print(list_mapped_wpts)    
-                self.robotUR.movel_waypoints(list_mapped_wpts)
+                if CONFIG.PROGRAMSTATE.level == 0:
+                    list_mapped_wpts = []
+                    for pose6d in line:
+                        # it is necessary to convert the list of poses to a dict with values for acceleration and velocity
+                        wpt_dict = {"pose": pose6d,
+                                    "a": self.accel,
+                                    "v": self.vel,
+                                    "r": self.blend_radius}
+        
+                        list_mapped_wpts.append(wpt_dict)
+                    # print(list_mapped_wpts)    
+                    self.robotUR.movel_waypoints(list_mapped_wpts)
             return True
         else:
             return False

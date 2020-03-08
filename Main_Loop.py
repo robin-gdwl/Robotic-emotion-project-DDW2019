@@ -164,14 +164,16 @@ def loop():
                 if not face_pos:
                     continue
                 print("face follow done")
-                
+            
+            if CONFIG.PROGRAMSTATE.level == 0:
                 time.sleep(0.1)
                 landmark_queue = mp.Queue()
                 emotion_queue = mp.Queue()
                 robot.robotUR.textmsg("face found, moving to write")
                 robot.move_to_write(robot.current_row)
                 robot.create_coordinates(face_img, face_box)
-                
+            
+            if CONFIG.PROGRAMSTATE.level == 0:
                 robot.current_row += 1
                 robot.check_paper()
             
