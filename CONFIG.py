@@ -1,6 +1,6 @@
 import math
 import sys
-#from PROGRAMSTATE import ProgramState
+from PROGRAMSTATE import ProgramState
 
 RASPBERRY_BOOL = False
 if sys.platform == "linux":
@@ -8,7 +8,7 @@ if sys.platform == "linux":
     import picamera
     from picamera.array import PiRGBArray
 
-#PROGRAMSTATE = ProgramState() 
+PROGRAMSTATE = ProgramState() 
 ROBOT_ACTION = 0
 
 #ROBOT_IP = "10.211.55.5"

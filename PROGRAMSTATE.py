@@ -2,7 +2,7 @@ import threading
 import math
 import sys
 import time 
-import CONFIG
+import PI_PINS
 from itertools import compress
 
 # WHY DOES THIS NOT SYNC with git ???? ?????
@@ -22,9 +22,9 @@ class ProgramState:
                                 2: "Red flash",
                                 3: "blue flash",
                                 4: "red"}
-        self.led_pin_dict = {"red": CONFIG.RED_PIN,
-                             "green": CONFIG.GREEN_PIN,
-                             "blue": CONFIG.BLUE_PIN}
+        self.led_pin_dict = {"red": PI_PINS.RED_PIN,
+                             "green": PI_PINS.GREEN_PIN,
+                             "blue": PI_PINS.BLUE_PIN}
         self.led_pin_list = [self.led_pin_dict["red"],
                         self.led_pin_dict["green"],
                         self.led_pin_dict["blue"]]
@@ -46,14 +46,14 @@ class ProgramState:
         if self.activate_led == True:  # and CONFIG.RASPBERRY_BOOL:
             GPIO.setmode(GPIO.BOARD) 
             #GPIO.cleanup()
-            GPIO.setup(CONFIG.RED_PIN, GPIO.OUT)
-            GPIO.output(CONFIG.RED_PIN, 0)
+            GPIO.setup(PI_PINS.RED_PIN, GPIO.OUT)
+            GPIO.output(PI_PINS.RED_PIN, 0)
 
-            GPIO.setup(CONFIG.GREEN_PIN, GPIO.OUT)
-            GPIO.output(CONFIG.GREEN_PIN, 0)
+            GPIO.setup(PI_PINS.GREEN_PIN, GPIO.OUT)
+            GPIO.output(PI_PINS.GREEN_PIN, 0)
 
-            GPIO.setup(CONFIG.BLUE_PIN, GPIO.OUT)
-            GPIO.output(CONFIG.BLUE_PIN, 0)
+            GPIO.setup(PI_PINS.BLUE_PIN, GPIO.OUT)
+            GPIO.output(PI_PINS.BLUE_PIN, 0)
         else:
             self.activate_led = False
 
