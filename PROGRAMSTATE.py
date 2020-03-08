@@ -42,8 +42,8 @@ class ProgramState:
         # self.robotaction = 0 
     
     def __setup_led(self):
-        if self.activate_led == True and CONFIG.RASPBERRY_BOOL:
-            GPIO.setmode(GPIO.BOARD)
+        if self.activate_led == True:  # and CONFIG.RASPBERRY_BOOL:
+            GPIO.setmode(GPIO.BOARD) 
             #GPIO.cleanup()
             GPIO.setup(CONFIG.RED_PIN, GPIO.OUT)
             GPIO.output(CONFIG.RED_PIN, 0)
