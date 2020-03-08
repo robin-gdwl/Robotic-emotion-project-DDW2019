@@ -402,6 +402,7 @@ end
         a: joint acceleration [rad/s^2] (of leading axis)
         '''
         print("stopj")
+                
         prg = 'stopj({a})\n'
         programString = prg.format(**locals())
 

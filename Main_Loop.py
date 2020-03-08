@@ -87,6 +87,7 @@ def pause():
     
     CONFIG.PROGRAMSTATE.level = 1
     print("pause")
+    robot.robotUR.waitRobotIdleOrStopFlag()
     robot.robotUR.stopj(robot.accel/5)
     time.sleep(1)
     robot.move_safe(CONFIG.ROBOT_ACTION)
