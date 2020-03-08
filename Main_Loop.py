@@ -133,6 +133,7 @@ def reset(waitforplay=False, reboot=True):
 
 
 print("initialising loop")
+CONFIG.PROGRAMSTATE.level = 1
 robot = Robot()
 robot.initialise_robot()
 robot.move_home()
