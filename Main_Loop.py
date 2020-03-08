@@ -13,6 +13,7 @@ import multiprocessing as mp
 import cv2
 import time
 import sys
+import os
 import traceback 
 from imutils.video import VideoStream
 import math
@@ -40,7 +41,7 @@ def interrupt(channel):
     global PAUSE_PIN
     print("..."*200)
     print("INTERRUPT!  ROBOTACTION: ", CONFIG.ROBOT_ACTION)
-    print("CONFIG.PROGRAMSTATE: ", CONFIG.PROGRAMSTATE)
+    print("CONFIG.PROGRAMSTATE: ", CONFIG.PROGRAMSTATE.level)
     print("CHANNEL: ", channel)
     if channel == PAUSE_PIN:
         pause()
@@ -74,7 +75,7 @@ def check_exhibit_time():
 
 def statusled():
     while True: 
-        if CONFIG.PROGRAMSTATE == 0:
+        if CONFIG.PROGRAMSTATE.level == 0:
             pass
         
 def pause():
@@ -84,7 +85,7 @@ def pause():
     global PLAY_PIN
     global RESET_PIN 
     
-    CONFIG.PROGRAMSTATE = 1
+    CONFIG.PROGRAMSTATE.level = 1
     print("pause")
     robot.robotUR.stopj(robot.accel/5)
     time.sleep(1)
@@ -96,25 +97,31 @@ def pause():
         print("waiting to continue")
         print("----" * 5)
         GPIO.wait_for_edge(PLAY_PIN, GPIO.BOTH)
-        CONFIG.PROGRAMSTATE = 0
+        CONFIG.PROGRAMSTATE.level = 0
         
         
     else:  # what to do if this runs on a mac and there is no button 
         print("waiting 10s to continue")
         print("----"*5)
         time.sleep(10)
-        CONFIG.PROGRAMSTATE = 0
+        CONFIG.PROGRAMSTATE.level = 0
 
     robot.robotUR.reset_error()
     print("continuing")
     robot.start_rtde()
     time.sleep(1)
 
-def reset(waitforplay=False):
+def reset(waitforplay=False, reboot=True):
     # do reset procedure
     #create reboot interrupt
-   
+    CONFIG.PROGRAMSTATE.level = 4
+    robot.robotUR.stopj(robot.accel / 5)
+    time.sleep(1)
+    robot.move_safe(CONFIG.ROBOT_ACTION)
+    robot.move_home()
     #if reboot: reboot
+    if reboot:
+        os.system('sudo reboot')
     
     global RASPBERRY_BOOL
     global PLAY_PIN
@@ -138,11 +145,11 @@ print("____"*80)
 
 def loop():    
     print("looop")
-    CONFIG.PROGRAMSTATE = 0
+    CONFIG.PROGRAMSTATE.level = 0
     try: 
         while True :
             
-            if CONFIG.PROGRAMSTATE == 0:
+            if CONFIG.PROGRAMSTATE.level == 0:
                 
                 robot.wander()
                 face_img, face_box, face_pos  = robot.follow_face(close=False)

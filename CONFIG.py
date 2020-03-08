@@ -1,5 +1,6 @@
 import math
 import sys
+from PROGRAMSTATE import ProgramState
 
 RASPBERRY_BOOL = False
 if sys.platform == "linux":
@@ -7,6 +8,8 @@ if sys.platform == "linux":
     import picamera
     from picamera.array import PiRGBArray
 
+PROGRAMSTATE = ProgramState() 
+ROBOT_ACTION = 0
 
 #ROBOT_IP = "10.211.55.5"
 ROBOT_IP = "192.168.178.20"
@@ -63,8 +66,7 @@ ABOVE_PAPER = (math.radians(-73),
                  math.radians(89.5),
                  math.radians(17))
 
-PROGRAMSTATE = 0 
-ROBOT_ACTION = 0
+
 
 
 VIDEO_RESOLUTION = (700, 400)  # resolution the video capture will be resized to, smaller sizes can speed up detection
@@ -78,5 +80,5 @@ M_PER_PIXEL = 00.00006  # Variable which scales the robot movement from pixels t
 # LED Pins: 
 # Led colour pins
 RED_PIN = 8
-GREEN_PIN = 10
-BLUE_PIN = 12
+GREEN_PIN = 12
+BLUE_PIN = 10

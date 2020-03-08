@@ -11,7 +11,7 @@ Status:
 
 ### Meta (Raspberry Software)   
 - [x] start Program on reboot
-- [ ] test git pull on reboot 
+- [x] test git pull on reboot 
 
 ### Head 
 - [x] buy pens
@@ -25,7 +25,12 @@ Status:
 ### Button Box
 - [x] status LED build 
 - [x] status LED wiring
-- [ ] status LED Test
+- [x] status LED Test
+- [ ] print new top + middle
+- [ ] print new bottom
+- [ ] wire new
+- [ ] test new 
+
 
 ### Paper Roll 
 - [ ] Test

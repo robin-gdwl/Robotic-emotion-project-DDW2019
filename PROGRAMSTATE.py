@@ -6,6 +6,7 @@ from itertools import compress
 
 if CONFIG.RASPBERRY_BOOL:
     import RPi.GPIO as GPIO
+    
 
 class ProgramState:
     
@@ -49,6 +50,8 @@ class ProgramState:
 
             GPIO.setup(CONFIG.BLUE_PIN, GPIO.OUT)
             GPIO.output(CONFIG.BLUE_PIN, 0)
+        else:
+            self.activate_led = False
 
     def print_lvl(self):
         level_p = self.level_dict[self.level]
@@ -60,31 +63,32 @@ class ProgramState:
         led_t.start()
     
     def __set_led(self):
-        print("setting LED")
-        previous_level = self.level
-        while self.activate_led:             
-            # print(self.led_values_dict[self.level])
-            if self.level == 0:
-                """if self.level == previous_level:
-                    # no level change do not change led
-                    pass"""
-                # make LED green 
-                self.__led_change(Green=1)
-            elif self.level == 1:
-                # flash LED green
-                self.__led_change(Green=1, flash = True)
-            elif self.level == 2:
-                # flash LED red
-                self.__led_change(Red=1, flash=True)
-            elif self.level == 3:
-                # flash LED blue
-                self.__led_change(Blue=1, flash=True)
-            elif self.level == 4:
-                # make LED red
-                self.__led_change(Red=1)
-            else:
-                print("unknown level!, no led change")
-                # something to do if an unknown level
+        if self.activate_led:
+            print("setting LED")
+            previous_level = self.level
+            while self.activate_led:             
+                # print(self.led_values_dict[self.level])
+                if self.level == 0:
+                    """if self.level == previous_level:
+                        # no level change do not change led
+                        pass"""
+                    # make LED green 
+                    self.__led_change(Green=1)
+                elif self.level == 1:
+                    # flash LED green
+                    self.__led_change(Green=1, flash = True)
+                elif self.level == 2:
+                    # flash LED red
+                    self.__led_change(Red=1, flash=True)
+                elif self.level == 3:
+                    # flash LED blue
+                    self.__led_change(Blue=1, flash=True)
+                elif self.level == 4:
+                    # make LED red
+                    self.__led_change(Red=1)
+                else:
+                    print("unknown level!, no led change")
+                    # something to do if an unknown level
     
     def __led_change(self, Red=0, Green=0, Blue=0, flash = False):
         led_bools = [Red,Green,Blue]
