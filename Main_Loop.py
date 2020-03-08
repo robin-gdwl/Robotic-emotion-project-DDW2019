@@ -28,8 +28,6 @@ import CONFIG
 #pretrained_model = cv2.dnn.readNetFromCaffe("models/deploy.prototxt.txt", "models/res10_300x300_ssd_iter_140000.caffemodel")
 #pretrained_model2 = cv2.dnn.readNetFromCaffe("models/RFB-320.prototxt", "models/RFB-320.caffemodel")
 
-
-
 #RASPBERRY_BOOL = False
 # If this is run on a linux system, it is assumed it runs on a raspberry pi and a picamera will be used.
 # If you are using a linux system, with a webcam instead of a raspberry pi delete the following if-statement
