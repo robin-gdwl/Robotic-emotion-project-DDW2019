@@ -394,7 +394,7 @@ end
         if(wait):
             self.waitRobotIdleOrStopFlag()
 
-    def stopj(self, a, wait=True):
+    def stopj(self, a=0.5, wait=True):
         '''
         Stop (linear in joint space)
         Decellerate joint speeds to zero

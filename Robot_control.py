@@ -788,9 +788,9 @@ class Robot:
         action = CONFIG.ROBOT_ACTION
         
         if action == 3 or action == 4:
-            self.robotUR.stopj(self.accel)
+            self.robotUR.stopj(self.accel/2)
             time.sleep(0.2)
         else:
             self.robotUR.waitRobotIdleOrStopFlag()
-            self.robotUR.stopj(self.accel)
+            self.robotUR.stopj(self.accel/2)
             time.sleep(0.2)
