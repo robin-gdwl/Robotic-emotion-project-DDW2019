@@ -6,7 +6,7 @@ import CONFIG
 from itertools import compress
 
 
-#if CONFIG.RASPBERRY_BOOL:
+# if CONFIG.RASPBERRY_BOOL:
 if sys.platform == "linux":
     import RPi.GPIO as GPIO
     
