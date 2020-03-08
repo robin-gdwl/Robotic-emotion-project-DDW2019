@@ -5,6 +5,7 @@ import time
 import CONFIG
 from itertools import compress
 
+# WHY DOES THIS NOT SYNC with git ???? ?????
 
 # if CONFIG.RASPBERRY_BOOL:
 if sys.platform == "linux":
