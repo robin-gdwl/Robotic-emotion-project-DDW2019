@@ -18,7 +18,7 @@ FACE_ACTIVATE = True
 FACE_ROW_OFFSET = [0, 0.04]
 TEXT_HOR_OFFSET = 0.03
 Z_HOP = 0.005
-DRAWING_ZVAL = 0.018
+DRAWING_ZVAL = 0.021
 CURRENT_ROW = 0
 MAX_ROWS = 1
 LINE_SPACING = 0.015
@@ -46,7 +46,7 @@ SHOW_FRAME = False
 # self.face_detect = dlib.get_frontal_face_detector()
 #dnnFaceDetector = dlib.cnn_face_detection_model_v1("models/mmod_human_face_detector.dat")
 # paper advancing
-DRAG_DIST = 0.5  # 10 cm
+DRAG_DIST = 0.05  # 10 cm
 #PLUNGE_DIST = 0.1273
 PLUNGE_DIST = 0.058
 PAPERSLOT_START = [-0.065, -0.548, 0.1980, 0.0, -3.14, 0]
