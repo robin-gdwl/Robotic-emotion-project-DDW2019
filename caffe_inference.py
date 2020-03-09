@@ -164,7 +164,7 @@ def inference(frame, show=False):
     rect = cv2.resize(img_ori, (witdh, height))
     cv2.circle(img_ori, video_midpoint, 4, (250, 200, 0), 6)
     rect = cv2.cvtColor(rect, cv2.COLOR_BGR2RGB)
-    #img_ori = rect
+    img_cln = rect
     net.setInput(dnn.blobFromImage(rect, 1 / image_std, (witdh, height), 127))
     time_time = time.time()
     boxes, scores = net.forward(["boxes", "scores"])
