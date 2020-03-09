@@ -148,14 +148,15 @@ def center_form_to_corner_form(locations):
 def inference(frame, show=False):
     #net = dnn.readNetFromONNX(args.onnx_path)  # onnx version
     input_size = [int(v.strip()) for v in args.input_size.split(",")]
-    witdh = input_size[0]
-    height = input_size[1]
-    priors = define_img_size(input_size)
-    #video_midpoint = (int(input_size[0] / 2),int(input_size[1] / 2))
-    
     img_ori = frame
     img_cln = frame.copy()
     ori_size = img_ori.shape
+    
+    witdh = ori_size[0]
+    height = ori_size[1]
+    priors = define_img_size(ori_size)
+    #video_midpoint = (int(input_size[0] / 2),int(input_size[1] / 2))
+    
     video_midpoint = (int(ori_size[1] / 2),
                       int(ori_size[0] / 2))
     print("ori size", ori_size)
