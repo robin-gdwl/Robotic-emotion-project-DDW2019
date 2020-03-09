@@ -362,13 +362,14 @@ end
         self.robotConnector.RTDE.setData('input_double_register_3', init_pose[3])
         self.robotConnector.RTDE.setData('input_double_register_4', init_pose[4])
         self.robotConnector.RTDE.setData('input_double_register_5', init_pose[5])
-
+        self.robotConnector.RTDE.setData('input_double_register_7', True)
+        
         self.robotConnector.RTDE.sendData()
 
         prog = '''def realtime_control():
     
     
-    while (True):
+    while (read_input_float_register(7)):
         
         new_pose = p[read_input_float_register(0),
                     read_input_float_register(1),
@@ -381,6 +382,8 @@ end
             
         sync()
     end
+    stopj(1)
+    textmsg("realtime control loop ended")
 end
 '''
         # , t=0.1
@@ -419,7 +422,10 @@ end
 
             return False
     
-    
+    def send_realtime_stop(self):
+
+        self.robotConnector.RTDE.setData('input_double_register_7', False)
+        self.robotConnector.RTDE.sendData()
     
     def move_force_2stop(self, start_tolerance=0.01,
                          stop_tolerance=0.01,

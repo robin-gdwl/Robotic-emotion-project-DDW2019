@@ -149,7 +149,8 @@ class Robot:
                             self.position = self.move_to_face(face_positions, self.position)
                         else:
                             print("time up returning frame")
-                            print(close)
+                            self.robotUR.stop_realtime_control()
+                            #print(close)
                             if close:
                                 print("stopping realtime control")
                                 self.robotUR.stop_realtime_control()
@@ -731,7 +732,7 @@ class Robot:
 
     def check_paper(self):
         if CONFIG.PROGRAMSTATE.level == 0:
-            if self.current_row == self.max_rows:
+            if self.current_row >= self.max_rows:
                 self.advance_paper()
                 self.current_row = 0
 
