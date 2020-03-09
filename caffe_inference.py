@@ -160,8 +160,8 @@ def inference(frame, show=False):
                       int(ori_size[0] / 2))
 
     cv2.circle(img_ori, video_midpoint, 4, (250, 200, 0), 6)
-    rect = cv2.resize(img_ori, (ori_size[0] * 0.4,
-                                ori_size[1] * 0.4))
+    rect = cv2.resize(img_ori, (int(ori_size[0] * 0.4),
+                                int(ori_size[1] * 0.4)))
     cv2.circle(img_ori, video_midpoint, 4, (250, 200, 0), 6)
     img_cln = rect
     rect = cv2.cvtColor(rect, cv2.COLOR_BGR2RGB)
