@@ -165,6 +165,8 @@ def loop():
                 else:
                     filename = str(time.time()) + ".png"
                     cv2.imwrite(filename, face_img)
+                    filename = "cln-" + str(time.time()) + ".png"
+                    cv2.imwrite(filename, cln_img)
                 print("face follow done")
             
             if CONFIG.PROGRAMSTATE.level == 0:
