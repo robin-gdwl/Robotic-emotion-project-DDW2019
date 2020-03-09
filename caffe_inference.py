@@ -169,10 +169,10 @@ def inference(frame, show=False):
 
     cv2.imshow("img:ori", img_ori)
     cv2.waitKey(1)
-    cv2.imshow("img_cln", img_ori)
+    """cv2.imshow("img_cln", img_ori)
     cv2.waitKey(1)
     cv2.imshow("rect", rect)
-    cv2.waitKey(1)
+    cv2.waitKey(1)"""
     net.setInput(dnn.blobFromImage(rect, 1 / image_std, (witdh, height), 127))
     time_time = time.time()
     boxes, scores = net.forward(["boxes", "scores"])
