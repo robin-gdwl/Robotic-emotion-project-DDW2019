@@ -124,7 +124,7 @@ class Robot:
         else:
             pass
 
-    def follow_face(self, close=True):
+    def follow_face(self, close=False):
         # either breaks or returns a face object if run for enough time 
         #global PROGRAMSTATE
         #global ROBOT_ACTION
@@ -501,8 +501,8 @@ class Robot:
         return face_centers, rectangles, frame, clean_frame
 
     def find_face_fast(self, image):
-        face_centers, rectangles, new_frame = cf.inference(image)
-        return face_centers, rectangles, new_frame
+        face_centers, rectangles, annotated_frame, cln_frame = cf.inference(image)
+        return face_centers, rectangles, annotated_frame, cln_frame
 
     def show_frame(self, frame):
 

@@ -155,6 +155,7 @@ def inference(frame, show=False):
     
     #img_path = os.path.join(imgs_path, file_path)
     img_ori = frame
+    img_cln = frame.copy()
     ori_size = img_ori.shape
     video_midpoint = (int(ori_size[1] / 2),
                       int(ori_size[0] / 2))
@@ -196,7 +197,7 @@ def inference(frame, show=False):
     #print(locations)
     #print(rectangles)
     #print(img_ori)
-    return locations, rectangles , img_ori
+    return locations, rectangles , img_ori, img_cln
     
 
 
