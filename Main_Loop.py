@@ -173,7 +173,7 @@ def loop():
                 robot.robotUR.textmsg("face found, moving to write")
                 robot.move_to_write(robot.current_row)
                 robot.create_coordinates(face_img, face_box)
-                obot.current_row += 1
+                robot.current_row += 1
             
             if CONFIG.PROGRAMSTATE.level == 0:
                 robot.check_paper()

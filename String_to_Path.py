@@ -162,7 +162,7 @@ class ThingToWrite:
                 #print("x_offset", x_offset)
 
             x_offset += offset_amount # add a whitespace move here
-        print("motion_path", motion_path)
+        #print("motion_path", motion_path)
         return motion_path
 
 
