@@ -196,7 +196,14 @@ class Robot:
             CONFIG.ROBOT_ACTION = 5  # sets ROBOT_ACTION to "move to write"
 
             print("moving to write ")
+            time.sleep(0.5) # otherwise move between may be skipped 
             self.move_between()
+            i = 0
+            while self.check_position_dist(self.between_pos) > self.position_threshhold and i <=3
+                time.sleep(0.5)
+                self.move_between()
+                i += 1
+            # only continue if you are sure move between has been reached 
             self.robotUR.movej(q=CONFIG.ABOVE_PAPER, a=self.accel, v=self.vel)
 
             position = self.robotUR.get_actual_tcp_pose()
