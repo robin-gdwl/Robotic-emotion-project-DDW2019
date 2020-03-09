@@ -30,8 +30,8 @@ MAX_X = 0.2
 MAX_Y = 0.2
 HOR_ROT_MAX = math.radians(50)
 VERT_ROT_MAX = math.radians(25)
-ACCEL = 1.5
-VEL= 1
+ACCEL = 1
+VEL= 2
 
 
 FOLLOW_TIME = 5
