@@ -168,10 +168,6 @@ def inference(frame, show=False):
     #img_cln = rect
     rect = cv2.cvtColor(rect, cv2.COLOR_BGR2RGB)
 
-    """cv2.imshow("img_cln", img_ori)
-    cv2.waitKey(1)
-    cv2.imshow("rect", rect)
-    cv2.waitKey(1)"""
     net.setInput(dnn.blobFromImage(rect, 1 / image_std, (witdh, height), 127))
     time_time = time.time()
     boxes, scores = net.forward(["boxes", "scores"])
