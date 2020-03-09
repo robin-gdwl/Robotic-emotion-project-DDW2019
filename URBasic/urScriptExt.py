@@ -367,8 +367,7 @@ end
         self.robotConnector.RTDE.sendData()
 
         prog = '''def realtime_control():
-    
-    
+    textmsg("realtime control loop started ---------------")
     while (read_input_float_register(7)):
         
         new_pose = p[read_input_float_register(0),
@@ -378,12 +377,11 @@ end
                     read_input_float_register(4),
                     read_input_float_register(5)]
            
-        servoj(get_inverse_kin(new_pose), t=0.2, lookahead_time= 0.19, gain=500)
-            
+        servoj(get_inverse_kin(new_pose), t=0.2, lookahead_time= 0.19, gain=500)            
         sync()
     end
-    stopj(1)
-    textmsg("realtime control loop ended")
+    stopj(0.5)
+    textmsg("realtime control loop ended---------------")
 end
 '''
         # , t=0.1
