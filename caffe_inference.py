@@ -153,22 +153,23 @@ def inference(frame, show=False):
     priors = define_img_size(input_size)
     #video_midpoint = (int(input_size[0] / 2),int(input_size[1] / 2))
     
-    #img_path = os.path.join(imgs_path, file_path)
     img_ori = frame
     img_cln = frame.copy()
     ori_size = img_ori.shape
     video_midpoint = (int(ori_size[1] / 2),
                       int(ori_size[0] / 2))
-    #print(ori_size, "   ori size")
+
     cv2.circle(img_ori, video_midpoint, 4, (250, 200, 0), 6)
-    rect = cv2.resize(img_ori, (witdh, height))
+    rect = cv2.resize(img_ori, (ori_size[0] * 0.4,
+                                ori_size[1] * 0.4))
     cv2.circle(img_ori, video_midpoint, 4, (250, 200, 0), 6)
-    rect = cv2.cvtColor(rect, cv2.COLOR_BGR2RGB)
     img_cln = rect
+    rect = cv2.cvtColor(rect, cv2.COLOR_BGR2RGB)
     net.setInput(dnn.blobFromImage(rect, 1 / image_std, (witdh, height), 127))
     time_time = time.time()
     boxes, scores = net.forward(["boxes", "scores"])
-    print("inference time: {} s".format(round(time.time() - time_time, 4)))
+    
+    # print("inference time: {} s".format(round(time.time() - time_time, 4)))
     boxes = np.expand_dims(np.reshape(boxes, (-1, 4)), axis=0)
     scores = np.expand_dims(np.reshape(scores, (-1, 2)), axis=0)
     boxes = convert_locations_to_boxes(boxes, priors, center_variance, size_variance)
