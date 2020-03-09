@@ -151,7 +151,7 @@ def inference(frame, show=False):
     img_ori = frame
     img_cln = frame.copy()
     ori_size = img_ori.shape
-    size_factor = 0.6
+    size_factor = 0.9
     resized_size = (int(ori_size[0] * size_factor), int(ori_size[1] * size_factor))
     
     witdh = ori_size[0]
@@ -165,7 +165,7 @@ def inference(frame, show=False):
     cv2.circle(img_ori, video_midpoint, 4, (250, 200, 0), 6)
     rect = cv2.resize(img_ori, resized_size)
     cv2.circle(img_ori, video_midpoint, 4, (250, 200, 0), 6)
-    img_cln = rect
+    #img_cln = rect
     rect = cv2.cvtColor(rect, cv2.COLOR_BGR2RGB)
 
     """cv2.imshow("img_cln", img_ori)
@@ -176,7 +176,7 @@ def inference(frame, show=False):
     time_time = time.time()
     boxes, scores = net.forward(["boxes", "scores"])
     
-    # print("inference time: {} s".format(round(time.time() - time_time, 4)))
+    print("inference time: {} s".format(round(time.time() - time_time, 4)))
     boxes = np.expand_dims(np.reshape(boxes, (-1, 4)), axis=0)
     scores = np.expand_dims(np.reshape(scores, (-1, 2)), axis=0)
     boxes = convert_locations_to_boxes(boxes, priors, center_variance, size_variance)
