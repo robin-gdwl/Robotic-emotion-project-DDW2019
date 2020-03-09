@@ -140,6 +140,7 @@ print("initialising loop")
 CONFIG.PROGRAMSTATE.level = 1
 robot = Robot()
 robot.initialise_robot()
+robot.move_between()
 robot.move_home()
 
 robot.current_row = 0

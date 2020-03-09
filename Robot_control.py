@@ -219,13 +219,18 @@ class Robot:
             print("program paused or stopped: ", CONFIG.PROGRAMSTATE.level)
             return False
 
-    def move_home(self):
+    def move_home(self, between_tries= 5):
         #TODO: Make it a multi pose move
         if CONFIG.PROGRAMSTATE.level == 0 or CONFIG.PROGRAMSTATE.level == 1:
             CONFIG.ROBOT_ACTION = 1  # sets ROBOT_ACTION to "move home"
             print("moving Home. CONFIG.ROBOT_ACTION:  ", CONFIG.ROBOT_ACTION)
             if self.check_position_dist(self.home_pos)>self.position_threshhold:
                 self.move_between()
+                i = 0
+                while self.check_position_dist(self.between_pos) > self.position_threshhold and i <= between_tries:
+                    time.sleep(0.5)
+                    self.move_between()
+                    i += 1
             self.robotUR.movej(q=self.home_pos, a=self.accel, v=self.vel)
 
             self.position = [0, 0]
