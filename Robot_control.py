@@ -199,7 +199,7 @@ class Robot:
             time.sleep(0.5) # otherwise move between may be skipped 
             self.move_between()
             i = 0
-            while self.check_position_dist(self.between_pos) > self.position_threshhold and i <=3
+            while self.check_position_dist(self.between_pos) > self.position_threshhold and i <=3:
                 time.sleep(0.5)
                 self.move_between()
                 i += 1
