@@ -20,7 +20,7 @@ TEXT_HOR_OFFSET = 0.04
 Z_HOP = 0.006
 DRAWING_ZVAL = 0.015
 CURRENT_ROW = 0
-MAX_ROWS = 2
+MAX_ROWS = 5
 ROW_SPACING = 0.06
 LINE_SPACING = 0.012
 BLEND_RADIUS = 0.0005
@@ -77,7 +77,7 @@ BETWEEN = (math.radians(-63),
 
 
 
-VIDEO_RESOLUTION = (700, 400)  # resolution the video capture will be resized to, smaller sizes can speed up detection
+VIDEO_RESOLUTION = (640, 480)  # resolution the video capture will be resized to, smaller sizes can speed up detection
 VIDEO_MIDPOINT = (int(VIDEO_RESOLUTION[0]/2),
                   int(VIDEO_RESOLUTION[1]/2))
 VIDEO_ASPECT_RATIO  = VIDEO_RESOLUTION[0] / VIDEO_RESOLUTION[1]  # Aspect ration of each frame
