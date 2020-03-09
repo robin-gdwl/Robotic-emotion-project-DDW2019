@@ -35,6 +35,7 @@ class Robot:
         self.drawing_zval =    CONFIG.DRAWING_ZVAL
         self.current_row =     CONFIG.CURRENT_ROW
         self.max_rows =        CONFIG.MAX_ROWS
+        self.row_spacing =     CONFIG.ROW_SPACING
         self.line_spacing =    CONFIG.LINE_SPACING 
         self.blend_radius =    CONFIG.BLEND_RADIUS
         self.robotURModel =    URBasic.robotModel.RobotModel()
@@ -195,9 +196,9 @@ class Robot:
 
             position = self.robotUR.get_actual_tcp_pose()
             self.robotUR.movel((position[0],
-                                position[1] + (self.current_row * self.face_row_offset[1]),
+                                position[1] + (self.current_row * self.row_spacing),
                                 position[2],
-                                position[3], position[4], position[5]), self.accel, self.vel)  # move to row
+                                position[3], position[4], position[5]), self.accel, self.vel*2)  # move to row
             self.origin = self.get_origin()
             print("moved")
             CONFIG.ROBOT_ACTION = 6  # sets ROBOT_ACTION to "at write"
@@ -295,7 +296,7 @@ class Robot:
                     emotion_coords = ThingToWrite(emotion).string_to_coordinates(origin)
                     if self.print_coordinates:
                         print("emotion_coords", emotion_coords)
-                    self._draw_curves(emotion_coords, origin)
+                    self._draw_curves(emotion_coords)
                     origin[1] += self.line_spacing
 
                 return True
@@ -320,7 +321,7 @@ class Robot:
             print("program paused or stopped: ", CONFIG.PROGRAMSTATE.level)
             return False
 
-    def _draw_curves(self, polylines, origin_point):
+    def _draw_curves(self, polylines, origin_point=[0,0]):
         if CONFIG.PROGRAMSTATE.level == 0:
         
             if self.print_coordinates:
@@ -351,7 +352,8 @@ class Robot:
     def calculate_origin(self, text=False):
         row = self.current_row
         x = self.face_row_offset[0]
-        y = (row + 0) * self.face_row_offset[1]  # TODO: do I need a general offset here? 
+        #y = (row + 0) * self.face_row_offset[1]  # TODO: do I need a general offset here?
+        y = self.face_row_offset[1]
 
         if text:
             x += self.text_hor_offset
