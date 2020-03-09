@@ -151,8 +151,7 @@ def inference(frame, show=False):
     img_ori = frame
     img_cln = frame.copy()
     ori_size = img_ori.shape
-    size_factor = 0.6
-    resized_size = (int(ori_size[0] * size_factor), int(ori_size[1] * size_factor))
+    resized_size = (int(ori_size[0] * 0.8), int(ori_size[1] * 0.8))
     
     witdh = ori_size[0]
     height = ori_size[1]
