@@ -90,7 +90,7 @@ class Robot:
                 # wander around
                 frame = vs.read()
                 # face_positions, _, new_frame = self.find_faces_dnn(frame)
-                face_positions, _, new_frame = self.find_face_fast(frame)
+                face_positions, _, new_frame, cln_frame = self.find_face_fast(frame)
 
                 if len(face_positions) > 0:
                     # cv2.imshow('current', new_frame)
