@@ -162,7 +162,7 @@ class Robot:
 
                         # print("end of loop")
                 print("exiting loop without face ")
-                return frame, False, False
+                return frame, False, False, False
 
             except KeyboardInterrupt:
                 print("face tracking interrupted by user")
