@@ -64,6 +64,9 @@ class Robot:
 
         # positions
         self.home_pos =        CONFIG.HOME_POS
+        self.between_pos =     CONFIG.BETWEEN
+        self.write_pos =       CONFIG.ABOVE_PAPER
+        self.position_threshhold = 1
 
     def initialise_robot(self):
         self.robotUR = URBasic.urScriptExt.UrScriptExt(host=self.ip, robotModel=self.robotURModel)
@@ -210,12 +213,12 @@ class Robot:
             return False
 
     def move_home(self):
-        #global PROGRAMSTATE
-        #global ROBOT_ACTION
+        #TODO: Make it a multi pose move
         if CONFIG.PROGRAMSTATE.level == 0 or CONFIG.PROGRAMSTATE.level == 1:
             CONFIG.ROBOT_ACTION = 1  # sets ROBOT_ACTION to "move home"
             print("moving Home. CONFIG.ROBOT_ACTION:  ", CONFIG.ROBOT_ACTION)
-            self.move_between()
+            if self.check_position_dist(self.home_pos)>self.position_threshhold:
+                self.move_between()
             self.robotUR.movej(q=self.home_pos, a=self.accel, v=self.vel)
 
             self.position = [0, 0]
@@ -800,3 +803,13 @@ class Robot:
             self.robotUR.waitRobotIdleOrStopFlag()
             self.robotUR.stopj(self.accel/2)
             time.sleep(0.2)
+            
+    def check_position_dist(self, target):
+        joints = self.robotUR.get_actual_joint_positions()
+        print(target)
+        print(joints.tolist())
+        dist = 0
+        for i in range(6):
+            dist += (target[i] - joints[i]) ** 2
+        print(dist)
+        return dist ** 0.5
