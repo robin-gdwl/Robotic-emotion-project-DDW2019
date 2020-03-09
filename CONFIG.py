@@ -66,6 +66,13 @@ ABOVE_PAPER = (math.radians(-73),
                  math.radians(89.5),
                  math.radians(17))
 
+BETWEEN = (math.radians(-10),
+                 math.radians(-80),
+                 math.radians(-60),
+                 math.radians(-120),
+                 math.radians(90),
+                 math.radians(0))
+
 
 
 

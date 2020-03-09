@@ -177,15 +177,20 @@ class Robot:
             return new_frame, face_boxes, face_positions
             pass
 
+    def move_between(self):
+        self.robotUR.movej(q=CONFIG.BETWEEN, a=self.accel, v=self.vel)
+
     def move_to_write(self, row=0):
         #TODO: check if paper is there 
 
         #global PROGRAMSTATE
         #global ROBOT_ACTION
         if CONFIG.PROGRAMSTATE.level == 0:
+            
             CONFIG.ROBOT_ACTION = 5  # sets ROBOT_ACTION to "move to write"
 
             print("moving to write ")
+            self.move_between()
             self.robotUR.movej(q=CONFIG.ABOVE_PAPER, a=self.accel, v=self.vel)
             
             
@@ -216,7 +221,7 @@ class Robot:
         if CONFIG.PROGRAMSTATE.level == 0 or CONFIG.PROGRAMSTATE.level == 1:
             CONFIG.ROBOT_ACTION = 1  # sets ROBOT_ACTION to "move home"
             print("moving Home. CONFIG.ROBOT_ACTION:  ", CONFIG.ROBOT_ACTION)
-
+            self.move_between()
             self.robotUR.movej(q=self.home_pos, a=self.accel, v=self.vel)
 
             self.position = [0, 0]
