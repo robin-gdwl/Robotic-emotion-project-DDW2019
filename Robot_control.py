@@ -150,7 +150,7 @@ class Robot:
                         else:
                             print("time up returning frame")
                             self.position = self.move_to_face(face_positions, self.position)
-                            self.robotUR.stop_realtime_control()
+                            self.robotUR.send_realtime_stop()
                             
                             if close:
                                 print("stopping realtime control")
