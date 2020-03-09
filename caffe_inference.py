@@ -161,10 +161,9 @@ def inference(frame, show=False):
     video_midpoint = (int(ori_size[1] / 2),
                       int(ori_size[0] / 2))
     print("ori size", ori_size)
-    cv2.circle(img_ori, video_midpoint, 4, (250, 200, 0), 6)
     rect = cv2.resize(img_ori, (witdh, height))
-    cv2.circle(img_ori, video_midpoint, 4, (250, 200, 0), 6)
     img_cln = rect
+    cv2.circle(img_ori, video_midpoint, 4, (250, 200, 0), 6)
     rect = cv2.cvtColor(rect, cv2.COLOR_BGR2RGB)
 
     net.setInput(dnn.blobFromImage(rect, 1 / image_std, (witdh, height), 127))
