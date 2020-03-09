@@ -1,22 +1,26 @@
 ### Program  
 Drawing:
 - [ ] squashed face fix
-- [ ] multiple rows test
+- [x] multiple rows test
 - [ ] aruco marker detection
 
+Error Detection:
+- [ ] catch robot errors
+- [ ] check home position
+
 Status:
-- [ ] implement status LED
-- [ ] implement reboot function
-- [ ] test pause interrupt during writing
+- [x] implement status LED
+- [x] implement reboot function
+- [x] test pause interrupt during writing
 
 ### Meta (Raspberry Software)   
 - [x] start Program on reboot
-- [x] test git pull on reboot 
+- [ ] test git pull on reboot 
 
 ### Head 
 - [x] buy pens
 - [x] assemble big version
-- [ ] test big version 
+- [x] test big version 
 
 - [ ] reCAD big version
 - [ ] rePrint big version
@@ -26,14 +30,14 @@ Status:
 - [x] status LED build 
 - [x] status LED wiring
 - [x] status LED Test
-- [ ] print new top + middle
+- [x] print new top + middle
 - [ ] print new bottom
-- [ ] wire new
-- [ ] test new 
+- [x] wire new
+- [x] test new 
 
 
 ### Paper Roll 
-- [ ] Test
+- [x] Test
 
 ### Table
 - [ ] Bohrschablone

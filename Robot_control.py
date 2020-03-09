@@ -129,7 +129,7 @@ class Robot:
         #global PROGRAMSTATE
         #global ROBOT_ACTION
 
-        new_frame, face_boxes, face_positions = None, None, None
+        cln_frame, annotated_frame, face_boxes, face_positions = None, None, None, None
         if CONFIG.PROGRAMSTATE.level == 0:
 
             CONFIG.ROBOT_ACTION = 4
@@ -142,8 +142,8 @@ class Robot:
 
                     frame = vs.read()
                     # face_positions, face_boxes, new_frame = self.find_faces_dnn(frame)
-                    face_positions, face_boxes, new_frame = self.find_face_fast(frame)
-                    self.show_frame(new_frame)
+                    face_positions, face_boxes, annotated_frame, cln_frame = self.find_face_fast(frame)
+                    self.show_frame(annotated_frame)
                     if len(face_positions) > 0:
                         if time.time() - timer < self.follow_time:
                             self.position = self.move_to_face(face_positions, self.position)
@@ -155,9 +155,9 @@ class Robot:
                                 self.robotUR.stop_realtime_control()
                                 print("stopped realtime control")
 
-                            return new_frame, face_boxes, face_positions
+                            return cln_frame, annotated_frame, face_boxes, face_positions
                     else:
-                        return new_frame, face_boxes, face_positions
+                        return cln_frame, annotated_frame, face_boxes, face_positions
                         break
 
                         # print("end of loop")
@@ -175,7 +175,7 @@ class Robot:
                 self.robotUR.close()
 
         else:
-            return new_frame, face_boxes, face_positions
+            return cln_frame, annotated_frame, face_boxes, face_positions
             pass
 
     def move_between(self):
@@ -436,6 +436,7 @@ class Robot:
 
         frame = image
         frame = imutils.resize(frame, width=CONFIG.VIDEO_RESOLUTION[0])
+        clean_frame = frame.copy()
         # frame = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
         # rects = self.face_detect(frame, 1)
         # gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
@@ -458,9 +459,9 @@ class Robot:
         print(detections.shape)
         print(detections)
 
-        detections2 = pretrained_model2.forward()
+        """detections2 = pretrained_model2.forward()
         print(detections2.shape)
-        print(detections2)
+        print(detections2)"""
 
         face_centers = []
         rectangles = []
@@ -497,7 +498,7 @@ class Robot:
             rectangle = [startX, startY, endX, endY]
             rectangles.append(rectangle)
 
-        return face_centers, rectangles, frame
+        return face_centers, rectangles, frame, clean_frame
 
     def find_face_fast(self, image):
         face_centers, rectangles, new_frame = cf.inference(image)

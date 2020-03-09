@@ -158,12 +158,13 @@ def loop():
             if CONFIG.PROGRAMSTATE.level == 0:
                 
                 robot.wander()
-                face_img, face_box, face_pos  = robot.follow_face(close=False)
-                filename= str(time.time())+".png"
-                cv2.imwrite(filename, face_img)
+                cln_img, face_img, face_box, face_pos  = robot.follow_face(close=False)
                 
                 if not face_pos:
                     continue
+                else:
+                    filename = str(time.time()) + ".png"
+                    cv2.imwrite(filename, face_img)
                 print("face follow done")
             
             if CONFIG.PROGRAMSTATE.level == 0:
@@ -172,7 +173,7 @@ def loop():
                 emotion_queue = mp.Queue()
                 robot.robotUR.textmsg("face found, moving to write")
                 robot.move_to_write(robot.current_row)
-                robot.create_coordinates(face_img, face_box)
+                robot.create_coordinates(cln_img, face_box)
                 robot.current_row += 1
             
             if CONFIG.PROGRAMSTATE.level == 0:
