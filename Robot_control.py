@@ -192,21 +192,12 @@ class Robot:
             print("moving to write ")
             self.move_between()
             self.robotUR.movej(q=CONFIG.ABOVE_PAPER, a=self.accel, v=self.vel)
-            
-            
-            """self.robotUR.movej(q=(math.radians(-69),
-                                  math.radians(-97),
-                                  math.radians(-108),
-                                  math.radians(-64),
-                                  math.radians(89.5),
-                                  math.radians(0)), a=self.accel, v=self.vel)"""
 
-            """self.robotUR.movej(q=(-1.2749927679644983,
-                                  -1.9379289785968226,
-                                  -2.09098464647402,
-                                  -0.6840408484088343,
-                                  1.5629680156707764,
-                                  0.28495118021965027), a=self.accel, v=self.vel)"""
+            position = self.robotUR.get_actual_tcp_pose()
+            self.robotUR.movel((position[0],
+                                position[1] + (self.current_row * self.face_row_offset[1]),
+                                position[2],
+                                position[3], position[4], position[5]), self.accel, self.vel)  # move to row
             self.origin = self.get_origin()
             print("moved")
             CONFIG.ROBOT_ACTION = 6  # sets ROBOT_ACTION to "at write"
