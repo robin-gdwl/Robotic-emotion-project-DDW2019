@@ -175,13 +175,16 @@ def loop():
                 emotion_queue = mp.Queue()
                 robot.robotUR.textmsg("face found, moving to write")
                 robot.move_to_write(robot.current_row)
+                if robot.check_paper():
+                    robot.move_to_write(robot.current_row)
                 robot.create_coordinates(cln_img, face_box)
-                robot.current_row += 1
-            
+                
             if CONFIG.PROGRAMSTATE.level == 0:
                 robot.check_paper()
             
                 robot.move_home()
+            
+            if CONFIG.PROGRAMSTATE.level == 0:
                 robot.start_rtde()
             else:
                 time.sleep(1)

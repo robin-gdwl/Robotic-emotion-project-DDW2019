@@ -229,6 +229,7 @@ class Robot:
         print("creating coordinates")
         Face_object = Face(image_with_face, box)
         Face_object.evaluate()
+        self.current_row += 1
         self.draw_face(Face_object)
         self.write_emotions(Face_object)
 
@@ -736,6 +737,9 @@ class Robot:
             if self.current_row >= self.max_rows:
                 self.advance_paper()
                 self.current_row = 0
+                return True
+            else:
+                return False
 
     def advance_paper(self):
         #global PROGRAMSTATE
