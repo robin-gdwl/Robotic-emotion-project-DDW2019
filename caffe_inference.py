@@ -158,10 +158,10 @@ def inference(frame, show=False):
     ori_size = img_ori.shape
     video_midpoint = (int(ori_size[1] / 2),
                       int(ori_size[0] / 2))
-
+    print("ori size", ori_size)
     cv2.circle(img_ori, video_midpoint, 4, (250, 200, 0), 6)
-    rect = cv2.resize(img_ori, (int(ori_size[0] * 0.4),
-                                int(ori_size[1] * 0.4)))
+    rect = cv2.resize(img_ori, (int(ori_size[0] * 0.8),
+                                int(ori_size[1] * 0.8)))
     cv2.circle(img_ori, video_midpoint, 4, (250, 200, 0), 6)
     img_cln = rect
     rect = cv2.cvtColor(rect, cv2.COLOR_BGR2RGB)
