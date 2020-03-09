@@ -151,6 +151,7 @@ def inference(frame, show=False):
     img_ori = frame
     img_cln = frame.copy()
     ori_size = img_ori.shape
+    resized_size = (int(ori_size[0] * 0.8), int(ori_size[1] * 0.8))
     
     witdh = ori_size[0]
     height = ori_size[1]
@@ -161,8 +162,7 @@ def inference(frame, show=False):
                       int(ori_size[0] / 2))
     print("ori size", ori_size)
     cv2.circle(img_ori, video_midpoint, 4, (250, 200, 0), 6)
-    rect = cv2.resize(img_ori, (int(ori_size[0] * 0.8),
-                                int(ori_size[1] * 0.8)))
+    rect = cv2.resize(img_ori, resized_size)
     cv2.circle(img_ori, video_midpoint, 4, (250, 200, 0), 6)
     img_cln = rect
     rect = cv2.cvtColor(rect, cv2.COLOR_BGR2RGB)
