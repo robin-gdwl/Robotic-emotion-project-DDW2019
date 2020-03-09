@@ -1,5 +1,5 @@
 from Robot_control import Robot
-
+import time
 
 strings = ["the quick brown fox jumps over the lazy dog __ ", "THE QUICK BROWN FOX JUMPS OVER THE LAZY DOG", "ABCabc thijkqr"]
 robot = Robot()
@@ -20,6 +20,14 @@ print("done "*300)"""
 text = "halloooo"
 
 robot.robotUR.textmsg(text)
-
+robot.move_home()
+while True:
+    robot.check_position_dist(robot.home_pos)
+    print("___"*25)
+    robot.check_position_dist(robot.between_pos)
+    time.sleep(1)
+    print("___" * 25)
+    print("___" * 25)
+    print("___" * 25)
 
 
