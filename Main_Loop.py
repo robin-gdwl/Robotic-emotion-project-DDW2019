@@ -146,7 +146,7 @@ robot.current_row = 0
 #robot.start_rtde()
 time.sleep(1)
 
-print("____"*80)
+print("____"*50)
 
 def loop():
     #global PROGRAMSTATE
@@ -159,7 +159,8 @@ def loop():
                 
                 robot.wander()
                 face_img, face_box, face_pos  = robot.follow_face(close=False)
-                #cv2.imwrite("testface.png", face_img)
+                filename= str(time.time())+".png"
+                cv2.imwrite(filename, face_img)
                 
                 if not face_pos:
                     continue

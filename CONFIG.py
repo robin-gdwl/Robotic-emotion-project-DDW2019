@@ -20,7 +20,7 @@ TEXT_HOR_OFFSET = 0.03
 Z_HOP = 0.005
 DRAWING_ZVAL = 0.021
 CURRENT_ROW = 0
-MAX_ROWS = 1
+MAX_ROWS = 4
 LINE_SPACING = 0.015
 BLEND_RADIUS = 0.0004
 TEXT_SCALING = 1/120
@@ -46,9 +46,9 @@ SHOW_FRAME = False
 # self.face_detect = dlib.get_frontal_face_detector()
 #dnnFaceDetector = dlib.cnn_face_detection_model_v1("models/mmod_human_face_detector.dat")
 # paper advancing
-DRAG_DIST = 0.05  # 10 cm
+DRAG_DIST = 0.09  # 10 cm
 #PLUNGE_DIST = 0.1273
-PLUNGE_DIST = 0.062
+PLUNGE_DIST = 0.072
 PAPERSLOT_START = [-0.065, -0.548, 0.1980, 0.0, -3.14, 0]
 
 # positions
@@ -59,19 +59,19 @@ HOME_POS = (math.radians(90),
                  math.radians(88),
                  math.radians(0))
 
-ABOVE_PAPER = (math.radians(-73),
-                 math.radians(-105.5),
-                 math.radians(-116),
-                 math.radians(-46.4),
-                 math.radians(89.5),
-                 math.radians(17))
+ABOVE_PAPER = (math.radians(-71.92),
+                 math.radians(-129.10),
+                 math.radians(-78.44),
+                 math.radians(-62.2),
+                 math.radians(90.4),
+                 math.radians(17.6))
 
-BETWEEN = (math.radians(-10),
+BETWEEN = (math.radians(-63),
                  math.radians(-80),
-                 math.radians(-60),
-                 math.radians(-120),
+                 math.radians(-85),
+                 math.radians(-96),
                  math.radians(90),
-                 math.radians(0))
+                 math.radians(17.6))
 
 
 
