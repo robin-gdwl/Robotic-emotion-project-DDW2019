@@ -136,6 +136,7 @@ def wait4play():
 
     if CONFIG.RASPBERRY_BOOL:
         print("waiting to continue")
+        print(CONFIG.PROGRAMSTATE.level)
         print("----" * 5)
         GPIO.wait_for_edge(PLAY_PIN, GPIO.BOTH)
         CONFIG.PROGRAMSTATE.level = 3
