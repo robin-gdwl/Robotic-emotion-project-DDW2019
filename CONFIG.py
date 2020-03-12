@@ -12,7 +12,7 @@ PROGRAMSTATE = ProgramState()
 ROBOT_ACTION = 0
 
 #ROBOT_IP = "10.211.55.5"
-ROBOT_IP = "192.168.178.35"
+#ROBOT_IP = "192.168.178.35"
 ROBOT_IP = "192.168.178.165"
 
 FACE_ACTIVATE = True
@@ -43,7 +43,7 @@ ESCAPE_ANGLECHANGE = 45
 
 # reporting
 PRINT_COORDINATES = False
-SHOW_FRAME = True
+SHOW_FRAME = False
 
 # self.face_detect = dlib.get_frontal_face_detector()
 #dnnFaceDetector = dlib.cnn_face_detection_model_v1("models/mmod_human_face_detector.dat")
