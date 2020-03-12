@@ -74,7 +74,7 @@ class RealTimeClient(object):
         self.__robotModel = robotModel
 
         logger = URBasic.dataLogging.DataLogging()
-        name = logger.AddEventLogging(__name__, log2Consol=False,level = URBasic.logging.WARNING)
+        name = logger.AddEventLogging(__name__, log2Consol=True,level = URBasic.logging.ERROR)
         self.__logger = logger.__dict__[name]
         self.__robotModel.rtcConnectionState = ConnectionState.DISCONNECTED
         self.__reconnectTimeout = 60

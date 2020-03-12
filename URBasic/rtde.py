@@ -650,6 +650,8 @@ class RTDE(threading.Thread): #, metaclass=Singleton
                     self._logger.info("RTDE interface restarted")
                 else:
                     self._logger.warning("RTDE reconnection failed!")
+                    # TODO: 10s delay TEST!!!! 
+                    time.sleep(6)
 
         self.__sendPause()
         with self.__dataEvent:

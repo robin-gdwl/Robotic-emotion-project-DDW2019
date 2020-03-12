@@ -725,7 +725,7 @@ class Robot:
         xyz_coords = m3d.Vector(x, y, z)
 
         x_pos_perc = x / self.max_x
-        y_pos_perc = y / self.max_y
+        y_pos_perc = y / self.max_y 
 
         x_rot = x_pos_perc * self.hor_rot_max
         y_rot = y_pos_perc * self.vert_rot_max * -1
@@ -825,3 +825,8 @@ class Robot:
             dist += (target[i] - joints[i]) ** 2
         print(dist)
         return dist ** 0.5
+    
+    def check_if_connected(self):
+        connected = self.robotUR.robotConnector.RealTimeClient.IsRtcConnected()
+        return connected
+        

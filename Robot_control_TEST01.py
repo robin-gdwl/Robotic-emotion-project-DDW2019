@@ -20,7 +20,10 @@ print("done "*300)"""
 text = "halloooo"
 
 robot.robotUR.textmsg(text)
-robot.move_home()
+#robot.move_between()
+#robot.move_home()
+robot.move_to_write()
+#robot.wander()
 while True:
     robot.check_position_dist(robot.home_pos)
     print("___"*25)

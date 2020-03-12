@@ -40,7 +40,7 @@ def interrupt(channel):
     global PAUSE_PIN
     print("..."*200)
     print("INTERRUPT!  ROBOTACTION: ", CONFIG.ROBOT_ACTION)
-    print("CONFIG.PROGRAMSTATE: ", CONFIG.PROGRAMSTATE.level)
+    print("CONFIG.PROGRAMSTATE.level: ", CONFIG.PROGRAMSTATE.level)
     print("CHANNEL: ", channel)
     if channel == PAUSE_PIN:
         pause()
@@ -155,7 +155,7 @@ def loop():
     CONFIG.PROGRAMSTATE.level = 0
     try: 
         while True :
-            
+            print("CONFIG.PROGRAMSTATE.level at top of loop: ", CONFIG.PROGRAMSTATE.level)
             if CONFIG.PROGRAMSTATE.level == 0:
                 
                 robot.wander()

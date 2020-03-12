@@ -23,7 +23,7 @@ Status:
 - [x] test big version 
 
 - [ ] reCAD big version
-- [ ] rePrint big version
+- [x] rePrint big version
 - [ ] reTest big version
 
 ### Button Box
@@ -31,7 +31,7 @@ Status:
 - [x] status LED wiring
 - [x] status LED Test
 - [x] print new top + middle
-- [ ] print new bottom
+- [x] print new bottom
 - [x] wire new
 - [x] test new 
 
@@ -40,9 +40,9 @@ Status:
 - [x] Test
 
 ### Table
-- [ ] Bohrschablone
+- [x] Bohrschablone
 
 ### Instructions
-- [ ] Change Paper 
-- [ ] Change pen 
-- [ ] reset
+- [x] Change Paper 
+- [x] Change pen 
+- [x] reset

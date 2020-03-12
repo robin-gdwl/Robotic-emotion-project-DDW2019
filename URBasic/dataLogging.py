@@ -126,7 +126,7 @@ class DataLogging(with_metaclass(Singleton, object)):
                 os.makedirs(self.directory)
         return self.directory, self.logDir
 
-    def AddEventLogging(self, name='root', log2file=True, log2Consol=True, level = logging.DEBUG):
+    def AddEventLogging(self, name='root', log2file=False, log2Consol=True, level = logging.DEBUG):
         '''
         Add a new event logger, the event logger can log data to a file and also output the log to the console.
 
