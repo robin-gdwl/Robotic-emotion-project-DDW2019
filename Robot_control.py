@@ -730,7 +730,7 @@ class Robot:
         x_rot = x_pos_perc * self.hor_rot_max
         y_rot = y_pos_perc * self.vert_rot_max * -1
         #y_rot = 0
-        x_rot = 0
+        #x_rot = 0
         
         tcp_rotation_rpy = [y_rot, x_rot, 0]
         # tcp_rotation_rvec = convert_rpy(tcp_rotation_rpy)
