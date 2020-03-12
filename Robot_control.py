@@ -704,7 +704,7 @@ class Robot:
         # print("..", robot_target_xy)
 
 
-        next_robot_pos, _ = self.move_to_position(robot_target_xy)
+        next_robot_pos, _ = self.move_to_position(robot_target_xy, face_bool=True)
 
         return next_robot_pos
 
