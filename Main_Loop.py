@@ -140,6 +140,8 @@ def wait4play():
         print("----" * 5)
         GPIO.wait_for_edge(PLAY_PIN, GPIO.BOTH)
         CONFIG.PROGRAMSTATE.level = 3
+        print("Play Button Pressed")
+        print("----" * 5)
 
 # ___________________________________________________________________________________________________________________________________
 

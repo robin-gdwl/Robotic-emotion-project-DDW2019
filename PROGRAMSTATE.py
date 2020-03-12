@@ -77,9 +77,6 @@ class ProgramState:
             while self.activate_led:             
                 # print(self.led_values_dict[self.level])
                 if self.__level == 0:
-                    """if self.level == previous_level:
-                        # no level change do not change led
-                        pass"""
                     # make LED green 
                     self.__led_change(Green=1)
                 elif self.__level == -1:
