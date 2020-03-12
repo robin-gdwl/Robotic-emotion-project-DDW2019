@@ -31,8 +31,8 @@ MAX_X = 0.2
 MAX_Y = 0.2
 HOR_ROT_MAX = math.radians(50)
 VERT_ROT_MAX = math.radians(25)
-ACCEL = 0.5
-VEL= 1.5
+ACCEL = 0.1
+VEL= 0.5
 
 
 FOLLOW_TIME = 20
@@ -67,10 +67,10 @@ ABOVE_PAPER = (math.radians(22),
                  math.radians(90.4),
                  math.radians(21.75))
 
-BETWEEN = (math.radians(-63 + 90),
-                 math.radians(-80),
-                 math.radians(-85),
-                 math.radians(-96),
+BETWEEN = (math.radians(27),
+                 math.radians(-57.5),
+                 math.radians(-117.6),
+                 math.radians(-89.6),
                  math.radians(90),
                  math.radians(17.6))
 
