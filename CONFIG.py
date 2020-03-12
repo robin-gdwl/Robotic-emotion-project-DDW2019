@@ -31,18 +31,18 @@ MAX_X = 0.2
 MAX_Y = 0.2
 HOR_ROT_MAX = math.radians(50)
 VERT_ROT_MAX = math.radians(25)
-ACCEL = 1
-VEL= 2
+ACCEL = 0.5
+VEL= 1.5
 
 
 FOLLOW_TIME = 2
-WANDER_DIST = 0.0008
+WANDER_DIST = 0.003
 W_ANGLECHANGE = 5.0
 ESCAPE_ANGLECHANGE = 45
 
 # reporting
 PRINT_COORDINATES = False
-SHOW_FRAME = False
+SHOW_FRAME = True
 
 # self.face_detect = dlib.get_frontal_face_detector()
 #dnnFaceDetector = dlib.cnn_face_detection_model_v1("models/mmod_human_face_detector.dat")
