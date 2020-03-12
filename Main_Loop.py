@@ -64,28 +64,23 @@ if sys.platform == "linux":
     
     GPIO.setmode(GPIO.BOARD)
     GPIO.setup(PAUSE_PIN, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
-    GPIO.setup(RESET_PIN, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
+    #GPIO.setup(RESET_PIN, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
     GPIO.setup(PLAY_PIN, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
     
     GPIO.add_event_detect(PAUSE_PIN, GPIO.RISING, callback=interrupt, bouncetime = 1000)
-    GPIO.add_event_detect(RESET_PIN, GPIO.RISING, callback=interrupt, bouncetime = 1000)
+    #GPIO.add_event_detect(RESET_PIN, GPIO.RISING, callback=interrupt, bouncetime = 1000)
 
 def check_exhibit_time():
     pass
 
-def statusled():
-    while True: 
-        if CONFIG.PROGRAMSTATE.level == 0:
-            pass
-        
 def pause():
     #global PROGRAMSTATE
     #global ROBOT_ACTION
-    global RASPBERRY_BOOL
+    #global RASPBERRY_BOOL
     global PLAY_PIN
     global RESET_PIN 
     
-    CONFIG.PROGRAMSTATE.level = 1
+    CONFIG.PROGRAMSTATE.level = 3
     print("pause")
     #robot.robotUR.waitRobotIdleOrStopFlag()
     robot.stop_safe()
@@ -93,6 +88,8 @@ def pause():
     time.sleep(1)
     #robot.move_safe(CONFIG.ROBOT_ACTION)
     robot.move_home()
+
+    CONFIG.PROGRAMSTATE.level = 1
     
     if CONFIG.RASPBERRY_BOOL:
     #if False:
@@ -134,10 +131,28 @@ def reset(waitforplay=False, reboot=True):
         GPIO.wait_for_edge(PLAY_PIN, GPIO.BOTH)
     pass
 
+def wait4play():
+    CONFIG.PROGRAMSTATE.level = 1
+
+    if CONFIG.RASPBERRY_BOOL:
+        print("waiting to continue")
+        print("----" * 5)
+        GPIO.wait_for_edge(PLAY_PIN, GPIO.BOTH)
+        CONFIG.PROGRAMSTATE.level = 3
+
+# ___________________________________________________________________________________________________________________________________
+
+#starting Program: 
+# 1. : Set programstate to Starting
+CONFIG.PROGRAMSTATE.level = -1
+print("___"*20)
+print("Starting Process")
+time.sleep(1)
+wait4play()
 
 print("initialising loop")
 #PROGRAMSTATE = ProgramState()
-CONFIG.PROGRAMSTATE.level = 1
+CONFIG.PROGRAMSTATE.level = 3
 robot = Robot()
 robot.initialise_robot()
 #robot.move_between()
@@ -148,6 +163,7 @@ robot.current_row = 0
 time.sleep(1)
 
 print("____"*50)
+
 
 def loop():
     #global PROGRAMSTATE
@@ -199,7 +215,6 @@ def loop():
         
 
 def main():
-    pause()
     loop()
         
 if __name__ == '__main__':

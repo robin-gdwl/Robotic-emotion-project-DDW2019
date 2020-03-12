@@ -87,6 +87,3 @@ M_PER_PIXEL = 00.00004  # Variable which scales the robot movement from pixels t
 
 # LED Pins: 
 # Led colour pins
-RED_PIN = 8
-GREEN_PIN = 12
-BLUE_PIN = 10

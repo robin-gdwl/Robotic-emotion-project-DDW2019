@@ -19,7 +19,8 @@ class ProgramState:
     def __init__(self,initial_lvl = 0 ):
         self.__level = 0
     
-        self.led_values_dict = {0: "green",
+        self.led_values_dict = {-1: "blue flash fast",
+                                0: "green",
                                 1: "green flash",
                                 2: "Red flash",
                                 3: "blue flash",
@@ -36,10 +37,11 @@ class ProgramState:
             self.__setup_led()
             self._led_thread()
 
-        self.level_dict = {0: "Playing",
+        self.level_dict = {-1: "Starting",
+                           0: "Playing",
                            1: "Paused and ready",
                            2: "Error",
-                           3: "Paused and action required",
+                           3: "Performing action, wait for next colour",
                            4: "Resetting"}
         self.level = initial_lvl
         # self.action = 0 
@@ -80,6 +82,9 @@ class ProgramState:
                         pass"""
                     # make LED green 
                     self.__led_change(Green=1)
+                elif self.level == -1:
+                    self.__led_change(Blue=1, interval=0.1)   
+                    # flash LED Blue very fast on startup 
                 elif self.level == 1:
                     # flash LED green
                     self.__led_change(Green=1, flash = True)
@@ -96,15 +101,15 @@ class ProgramState:
                     print("unknown level!, no led change")
                     # something to do if an unknown level
     
-    def __led_change(self, Red=0, Green=0, Blue=0, flash = False):
+    def __led_change(self, Red=0, Green=0, Blue=0, flash = False, interval=0.3):
         led_bools = [Red,Green,Blue]
         #print("led_bools: ", led_bools)
         
         GPIO.output(self.led_pin_list, led_bools)
-        time.sleep(0.3)
+        time.sleep(interval)
         if flash:
             GPIO.output(self.led_pin_list, 0)
-            time.sleep(0.3)
+            time.sleep(interval)
             
             
     @property 
