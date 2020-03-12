@@ -83,7 +83,7 @@ class ProgramState:
                     # make LED green 
                     self.__led_change(Green=1)
                 elif self.level == -1:
-                    self.__led_change(Blue=1, interval=0.1)   
+                    self.__led_change(Blue=1,flash=True, interval=0.1)   
                     # flash LED Blue very fast on startup 
                 elif self.level == 1:
                     # flash LED green
