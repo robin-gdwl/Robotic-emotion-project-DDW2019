@@ -226,11 +226,14 @@ class Robot:
             print("moving Home. CONFIG.ROBOT_ACTION:  ", CONFIG.ROBOT_ACTION)
             if self.check_position_dist(self.home_pos)>self.position_threshhold:
                 self.move_between()
+                time.sleep(0.5)
                 i = 0
-                while self.check_position_dist(self.between_pos) > self.position_threshhold and i <= between_tries:
-                    time.sleep(0.5)
+                while self.check_position_dist(self.between_pos) > self.position_threshhold/3 and i <= between_tries:
+                    print("retrying move between")
                     self.move_between()
+                    time.sleep(0.5)
                     i += 1
+            time.sleep(0.5)
             self.robotUR.movej(q=self.home_pos, a=self.accel, v=self.vel)
 
             self.position = [0, 0]
