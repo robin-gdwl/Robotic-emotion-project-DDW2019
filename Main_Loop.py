@@ -160,11 +160,12 @@ CONFIG.PROGRAMSTATE.level = 3
 robot = Robot()
 robot.initialise_robot()
 #robot.move_between()
+time.sleep(1)
 robot.move_home()
 
 robot.current_row = 0
 robot.start_rtde()
-time.sleep(2)
+time.sleep(0.5)
 
 print("____"*50)
 
