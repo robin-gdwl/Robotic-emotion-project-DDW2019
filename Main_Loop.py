@@ -160,7 +160,7 @@ CONFIG.PROGRAMSTATE.level = 3
 robot = Robot()
 robot.initialise_robot()
 #robot.move_between()
-time.sleep(1)
+time.sleep(2)
 robot.move_home()
 
 robot.current_row = 0
