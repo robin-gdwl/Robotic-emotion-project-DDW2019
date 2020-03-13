@@ -762,11 +762,15 @@ class Robot:
         #global PROGRAMSTATE
         #global ROBOT_ACTION
         if CONFIG.PROGRAMSTATE.level == 0:
+            self.move_to_write()
             CONFIG.ROBOT_ACTION = 9  # sets current ROBOT_ACTION to "moving paper" 
 
             x = self.paperslot_start[0]
             y = self.paperslot_start[1]
             z = self.paperslot_start[2]
+            rx = self.paperslot_start[3]
+            ry = self.paperslot_start[4]
+            rz = self.paperslot_start[5]
 
             print("moving paper")
 
@@ -775,25 +779,25 @@ class Robot:
             self.robotUR.movel((x,
                                 y,
                                 z - self.plunge_dist,
-                                0, -math.pi, 0), self.accel, self.vel)  # plunge into the slot
-            self.robotUR.movel((x - self.drag_dist,
-                                y,
+                                rx, ry, rz), self.accel, self.vel)  # plunge into the slot
+            self.robotUR.movel((x,
+                                y - self.drag_dist,
                                 z - self.plunge_dist,
-                                0, -math.pi, 0), self.accel, self.vel)  # drag the desired drag distance
+                                rx, ry, rz), self.accel, self.vel)  # drag the desired drag distance
             #time.sleep(2)
-            self.robotUR.movel((x - self.drag_dist,
-                                y,
+            self.robotUR.movel((x,
+                                y - self.drag_dist,
                                 z,
-                                0, -math.pi, 0), self.accel, self.vel)  # raise up to initial z height
-            """self.robotUR.movel((x - self.drag_dist,
-                                y,
-                                z - self.plunge_dist / 3,
-                                0, -math.pi, 0), self.accel * 2.5, self.vel * 2.6)  # plunge down by half z
-            self.robotUR.movel((x - self.drag_dist,
-                                y,
+                                rx, ry, rz), self.accel, self.vel)  # raise up to initial z height
+            self.robotUR.movel((x,
+                                y- self.drag_dist,
+                                z - (self.plunge_dist / 3),
+                                rx, ry, rz), self.accel * 2.5, self.vel * 2.6)  # plunge down by half z
+            self.robotUR.movel((x,
+                                y - self.drag_dist,
                                 z + self.plunge_dist,
-                                0, -math.pi, 0), self.accel * 2.7, self.vel * 2.7)  # raise by plunge dist  
-"""
+                                rx, ry, rz), self.accel * 2.7, self.vel * 2.7)  # raise by plunge dist  
+
             #time.sleep(2)
 
             print("paper moved")

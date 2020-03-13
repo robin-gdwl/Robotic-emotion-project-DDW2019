@@ -184,9 +184,9 @@ def loop():
                 if not face_pos:
                     continue
                 else:
-                    filename = str(time.time()) + ".png"
+                    filename = "/images/" +str(time.time()) + ".png"
                     cv2.imwrite(filename, face_img)
-                    filename = "cln-" + str(time.time()) + ".png"
+                    filename = "/images/" +"cln-" + str(time.time()) + ".png"
                     cv2.imwrite(filename, cln_img)
                 print("face follow done")
             
