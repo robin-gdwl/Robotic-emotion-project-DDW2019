@@ -79,6 +79,7 @@ def pause():
     #global RASPBERRY_BOOL
     global PLAY_PIN
     global RESET_PIN 
+    global robot
     
     CONFIG.PROGRAMSTATE.level = 3
     print("pause")
