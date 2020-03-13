@@ -9,7 +9,7 @@ vs = VideoStream(src= 0 ,
                  framerate = 15,
                  meter_mode = "average",
                  exposure_mode ="auto",
-                 shutter_speed = 16000,
+                 shutter_speed = 0,
                  exposure_compensation = 20,
                  iso = 1600,
                  rotation = 180).start()
