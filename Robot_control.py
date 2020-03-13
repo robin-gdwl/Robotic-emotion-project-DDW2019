@@ -240,7 +240,7 @@ class Robot:
             self.origin = self.set_lookorigin()
             return True
         else:
-            print("program paused or stopped: ", CONFIG.PROGRAMSTATE.level)
+            print("not executing move home: PROGRAMSTATE.level= ", CONFIG.PROGRAMSTATE.level)
             return False
 
     def create_coordinates(self, image_with_face, box):
