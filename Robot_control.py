@@ -221,7 +221,7 @@ class Robot:
 
     def move_home(self, between_tries= 5):
         #TODO: Make it a multi pose move
-        if CONFIG.PROGRAMSTATE.level == 0 or CONFIG.PROGRAMSTATE.level == 1 or CONFIG.PROGRAMSTATE.level == 3:
+        
             CONFIG.ROBOT_ACTION = 1  # sets ROBOT_ACTION to "move home"
             print("moving Home. CONFIG.ROBOT_ACTION:  ", CONFIG.ROBOT_ACTION)
             if self.check_position_dist(self.home_pos)>self.position_threshhold:
