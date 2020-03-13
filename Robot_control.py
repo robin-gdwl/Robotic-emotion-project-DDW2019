@@ -678,6 +678,7 @@ class Robot:
                 characterises location and rotation of the new coordinate system in reference to the base coordinate system
         """
         orig = self.get_origin()
+        print("lookorigin set")
         return orig
 
     def get_origin(self):

@@ -163,8 +163,8 @@ robot.initialise_robot()
 robot.move_home()
 
 robot.current_row = 0
-#robot.start_rtde()
-time.sleep(1)
+robot.start_rtde()
+time.sleep(2)
 
 print("____"*50)
 
