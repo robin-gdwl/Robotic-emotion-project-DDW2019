@@ -28,10 +28,10 @@ BLEND_RADIUS = 0.0005
 TEXT_SCALING = 1/120
 LETTER_SPACING = 0.006
 
-MAX_X = 0.2
-MAX_Y = 0.2
+MAX_X = 0.3
+MAX_Y = 0.15
 HOR_ROT_MAX = math.radians(50)
-VERT_ROT_MAX = math.radians(25)
+VERT_ROT_MAX = math.radians(10)
 ACCEL = 0.3
 VEL= 0.6
 

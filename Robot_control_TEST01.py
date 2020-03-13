@@ -7,6 +7,7 @@ robot.initialise_robot()
 max_draws = 0
 
 robot.move_home()
+robot.wander()
 #robot.move_to_write()
 #robot.write_strings(strings)
 i = 0
