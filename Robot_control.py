@@ -207,8 +207,8 @@ class Robot:
             self.robotUR.movej(q=CONFIG.ABOVE_PAPER, a=self.accel, v=self.vel)
 
             position = self.robotUR.get_actual_tcp_pose()
-            self.robotUR.movel((position[0],
-                                position[1] + (self.current_row * self.row_spacing),
+            self.robotUR.movel((position[0] - (self.current_row * self.row_spacing),
+                                position[1],
                                 position[2],
                                 position[3], position[4], position[5]), self.accel, self.vel*2)  # move to row
             self.origin = self.get_origin()
