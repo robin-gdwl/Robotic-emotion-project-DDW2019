@@ -1,4 +1,7 @@
-
+/ur_log/*
+ur_log/*
+*.log
+/.idea/*
 *.idea
 .idea/workspace.xml
 *.pyc
@@ -12,3 +15,4 @@ timetest.py
 *_.
 ur_log/UrEvent.log
 ur_log/UrDataLog.csv
+testface.png
