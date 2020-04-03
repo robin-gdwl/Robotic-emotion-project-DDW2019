@@ -12,8 +12,8 @@ PROGRAMSTATE = ProgramState()
 ROBOT_ACTION = 0
 
 #ROBOT_IP = "10.211.55.5"
-ROBOT_IP = "192.168.178.35"
-#ROBOT_IP = "192.168.178.165"
+#ROBOT_IP = "192.168.178.35"
+ROBOT_IP = "192.168.178.165"
 
 FACE_ACTIVATE = True
 FACE_ROW_OFFSET = [0, 0.01]
@@ -31,13 +31,17 @@ LETTER_SPACING = 0.006
 MAX_X = 0.3
 MAX_Y = 0.15
 HOR_ROT_MAX = math.radians(50)
-VERT_ROT_MAX = math.radians(10)
+VERT_ROT_MAX = math.radians(30/2)
 ACCEL = 0.3
 VEL= 0.6
 
 
-FOLLOW_TIME = 5
-WANDER_DIST = 0.003
+
+MIN_FOLLOWTIME = 5
+MAX_FOLLOWTIME = 35
+FOLLOW_TIME = (MAX_FOLLOWTIME-MIN_FOLLOWTIME)/2
+
+WANDER_DIST = 0.005
 W_ANGLECHANGE = 5.0
 ESCAPE_ANGLECHANGE = 45
 
@@ -56,10 +60,10 @@ PAPERSLOT_START = [0.657, -0.089, 0.210,
 
 # positions
 HOME_POS = (math.radians(180),
-                 math.radians(-90),
-                 math.radians(-101.5),
-                 math.radians(-19),
-                 math.radians(88),
+                 math.radians(-95.8),
+                 math.radians(-101.9),
+                 math.radians(17.67),
+                 math.radians(88.3),
                  math.radians(0))
 
 ABOVE_PAPER = (math.radians(17.33),

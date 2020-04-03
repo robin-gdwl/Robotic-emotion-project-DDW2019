@@ -46,7 +46,9 @@ class Robot:
         self.accel =           CONFIG.ACCEL
         self.vel =             CONFIG.VEL
         self.origin =          m3d.Transform()
-
+        
+        self.max_followtime = CONFIG.MAX_FOLLOWTIME
+        self.min_followtime = CONFIG.MIN_FOLLOWTIME
         self.follow_time =     CONFIG.FOLLOW_TIME
         self.wander_dist =     CONFIG.WANDER_DIST
         self.w_anglechange =   CONFIG.W_ANGLECHANGE
@@ -106,8 +108,8 @@ class Robot:
                         cv2.waitKey(1)
 
                     if exceeds != 0:
-                        anglechange = random.uniform(-self.escape_anglechange, self.escape_anglechange)
-                        # anglechange = 45
+                        #anglechange = random.uniform(-self.escape_anglechange, self.escape_anglechange)
+                        anglechange = self.escape_anglechange
                     else:
                         anglechange = random.uniform(-self.w_anglechange, self.w_anglechange)
                     angle_a = angle_a + anglechange
@@ -140,6 +142,7 @@ class Robot:
                 print("starting follow_face loop. CONFIG.ROBOT_ACTION:", CONFIG.ROBOT_ACTION)
                 timer = time.time()
                 frame = []
+                self.follow_time = random.uniform(self.min_followtime,self.max_followtime)
 
                 while CONFIG.PROGRAMSTATE.level == 0:
 
@@ -184,9 +187,10 @@ class Robot:
             pass
 
     def move_between(self):
-        self.robotUR.movej(q=CONFIG.BETWEEN, a=self.accel, v=self.vel)
+        if CONFIG.PROGRAMSTATE.level == 0 or CONFIG.PROGRAMSTATE.level == 1 or CONFIG.PROGRAMSTATE.level == 3:
+            self.robotUR.movej(q=CONFIG.BETWEEN, a=self.accel, v=self.vel)
 
-    def move_to_write(self, row=0):
+    def move_to_write(self, row_bool = True):
         #TODO: check if paper is there 
 
         #global PROGRAMSTATE
@@ -196,7 +200,7 @@ class Robot:
             CONFIG.ROBOT_ACTION = 5  # sets ROBOT_ACTION to "move to write"
 
             print("moving to write ")
-            time.sleep(0.5) # otherwise move between may be skipped 
+            time.sleep(0.1) # otherwise move between may be skipped 
             self.move_between()
             i = 0
             while self.check_position_dist(self.between_pos) > self.position_threshhold and i <=3:
@@ -206,11 +210,12 @@ class Robot:
             # only continue if you are sure move between has been reached 
             self.robotUR.movej(q=CONFIG.ABOVE_PAPER, a=self.accel, v=self.vel)
 
-            position = self.robotUR.get_actual_tcp_pose()
-            self.robotUR.movel((position[0] - (self.current_row * self.row_spacing),
-                                position[1],
-                                position[2],
-                                position[3], position[4], position[5]), self.accel, self.vel*2)  # move to row
+            if row_bool:
+                position = self.robotUR.get_actual_tcp_pose()
+                self.robotUR.movel((position[0] - (self.current_row * self.row_spacing),
+                                    position[1],
+                                    position[2],
+                                    position[3], position[4], position[5]), self.accel, self.vel*2)  # move to row
             self.origin = self.get_origin()
             print("moved")
             CONFIG.ROBOT_ACTION = 6  # sets ROBOT_ACTION to "at write"
@@ -218,7 +223,7 @@ class Robot:
         else:
             print("program paused or stopped: ", CONFIG.PROGRAMSTATE.level)
             return False
-
+    
     def move_home(self, between_tries= 5):
         #TODO: Make it a multi pose move
         if CONFIG.PROGRAMSTATE.level == 0 or CONFIG.PROGRAMSTATE.level == 1 or CONFIG.PROGRAMSTATE.level == 3:
@@ -719,9 +724,10 @@ class Robot:
         # TODO: make sure the target actually is the real position otherwise it is possible the robot might drift outside of the area or the area gets smaller and smaller
 
         if face_bool:
-            print("moving to face at", target)
+            print("moving to face at: ", target)
         else:
             print("moving to position:", target)
+            
 
         x = target[0]
         y = target[1]
@@ -729,13 +735,15 @@ class Robot:
         xyz_coords = m3d.Vector(x, y, z)
 
         x_pos_perc = x / self.max_x
-        y_pos_perc = y / self.max_y 
+        y_pos_perc = y / self.max_y + 1
+        print("percantages:", y_pos_perc)
 
         x_rot = x_pos_perc * self.hor_rot_max
         y_rot = y_pos_perc * self.vert_rot_max * -1
         #y_rot = 0
         #x_rot = 0
         
+        #tcp_rotation_rpy = [y_rot, x_rot, 0]
         tcp_rotation_rpy = [y_rot, x_rot, 0]
         # tcp_rotation_rvec = convert_rpy(tcp_rotation_rpy)
         tcp_orient = m3d.Orientation.new_euler(tcp_rotation_rpy, encoding='xyz')
@@ -766,7 +774,7 @@ class Robot:
         #global PROGRAMSTATE
         #global ROBOT_ACTION
         if CONFIG.PROGRAMSTATE.level == 0:
-            self.move_to_write()
+            self.move_to_write(row_bool=False)
             CONFIG.ROBOT_ACTION = 9  # sets current ROBOT_ACTION to "moving paper" 
 
             x = self.paperslot_start[0]

@@ -196,9 +196,8 @@ def loop():
                 landmark_queue = mp.Queue()
                 emotion_queue = mp.Queue()
                 robot.robotUR.textmsg("face found, moving to write")
-                robot.move_to_write(robot.current_row)
-                if robot.check_paper():
-                    robot.move_to_write(robot.current_row)
+                robot.check_paper()
+                robot.move_to_write()
                 robot.create_coordinates(cln_img, face_box)
                 
             if CONFIG.PROGRAMSTATE.level == 0:
