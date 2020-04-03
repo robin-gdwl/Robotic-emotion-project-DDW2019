@@ -10,3 +10,5 @@ Testing String writing.py
 .Main_Program.py.swp
 timetest.py
 *_.
+ur_log/UrEvent.log
+ur_log/UrDataLog.csv
