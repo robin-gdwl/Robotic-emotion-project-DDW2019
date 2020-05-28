@@ -29,7 +29,7 @@ class Robot:
         self.robotUR = None
         self.position = [0, 0]
         self.previous_position = [0, 0]
-        
+
 
         self.face_row_offset = CONFIG.FACE_ROW_OFFSET
         self.text_hor_offset = CONFIG.TEXT_HOR_OFFSET
@@ -718,6 +718,7 @@ class Robot:
 
     def move_to_position(self, target, face_bool=False):
         """ moves robot to target inside of the lookarea"""
+        #TODO : 
 
         target, exceeds = self.check_max_xy(target)
         # TODO: make sure the target actually is the real position otherwise it is possible the robot might drift outside of the area or the area gets smaller and smaller
