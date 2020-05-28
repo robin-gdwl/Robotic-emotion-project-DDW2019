@@ -188,9 +188,10 @@ def loop():
                     continue  # restart loop if there was no face returned from the face follow function 
                 else:
                     #TODO turn off image capture 
-                    filename = "/images/" +str(time.time()) + ".png"
+                    filename = "testimages/" +str(time.time()) + ".png"
                     cv2.imwrite(filename, face_img)
-                    filename = "/images/" +"cln-" + str(time.time()) + ".png"
+                    print("file save")
+                    filename = "testimages/" +"cln-" + str(time.time()) + ".png"
                     cv2.imwrite(filename, cln_img)
                 print("face follow done")
             

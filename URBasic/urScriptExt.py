@@ -376,6 +376,12 @@ end
                     read_input_float_register(3),
                     read_input_float_register(4),
                     read_input_float_register(5)]
+        
+        decelleration_flag = read_input_float_register(8)
+        if decelleration_flag:
+            stopj(1)
+        end
+
            
         servoj(get_inverse_kin(new_pose), t=0.2, lookahead_time= 0.19, gain=500)            
         sync()
@@ -424,6 +430,15 @@ end
 
         self.robotConnector.RTDE.setData('input_double_register_7', False)
         self.robotConnector.RTDE.sendData()
+    
+    def set_realtime_decellerated_stop(self, flag):
+        """[summary]
+
+        Arguments:
+            flag {bool} -- [description]
+        """
+        self.robotConnector.RTDE.setData('input_double_register_8', flag)
+
     
     def move_force_2stop(self, start_tolerance=0.01,
                          stop_tolerance=0.01,

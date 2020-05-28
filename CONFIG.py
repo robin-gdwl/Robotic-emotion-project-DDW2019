@@ -14,6 +14,7 @@ ROBOT_ACTION = 0
 #ROBOT_IP = "10.211.55.5"
 ROBOT_IP = "192.168.178.35"
 #ROBOT_IP = "192.168.178.165"
+#ROBOT_IP = "192.168.250.148"
 
 FACE_ACTIVATE = True
 FACE_ROW_OFFSET = [0, 0.01]
@@ -21,7 +22,7 @@ TEXT_HOR_OFFSET = 0.04
 Z_HOP = 0.006
 DRAWING_ZVAL = 0.017
 CURRENT_ROW = 0
-MAX_ROWS = 5
+MAX_ROWS = 6
 ROW_SPACING = 0.06
 LINE_SPACING = 0.012
 BLEND_RADIUS = 0.0005
@@ -40,6 +41,7 @@ FOLLOW_TIME = 5
 WANDER_DIST = 0.003
 W_ANGLECHANGE = 5.0
 ESCAPE_ANGLECHANGE = 45
+MAX_MOTION_ANGLECHANGE = 170
 
 # reporting
 PRINT_COORDINATES = False
@@ -57,9 +59,9 @@ PAPERSLOT_START = [0.657, -0.089, 0.210,
 # positions
 HOME_POS = (math.radians(180),
                  math.radians(-90),
-                 math.radians(-101.5),
+                 math.radians(-86.33),
                  math.radians(-19),
-                 math.radians(88),
+                 math.radians(91.38),
                  math.radians(0))
 
 ABOVE_PAPER = (math.radians(17.33),
