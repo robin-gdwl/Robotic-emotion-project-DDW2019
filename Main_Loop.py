@@ -92,8 +92,7 @@ def pause():
 
     CONFIG.PROGRAMSTATE.level = 1
     
-    if CONFIG.RASPBERRY_BOOL:
-    #if False:
+    if CONFIG.RASPBERRY_BOOL:  #if it runs on a raspberry pi
         print("waiting to continue")
         print("----" * 5)
         GPIO.wait_for_edge(PLAY_PIN, GPIO.BOTH)
@@ -167,10 +166,13 @@ robot.current_row = 0
 robot.start_rtde()
 time.sleep(0.5)
 
-print("____"*50)
+print("____"*20)
 
 
 def loop():
+    """[summary] Main Loop that runs during the exhibition. 
+                 This loop is interrupted by the pause and reset functions 
+    """
     #global PROGRAMSTATE
     print("looop")
     CONFIG.PROGRAMSTATE.level = 0
@@ -183,8 +185,9 @@ def loop():
                 cln_img, face_img, face_box, face_pos  = robot.follow_face(close=False)
                 
                 if not face_pos:
-                    continue
+                    continue  # restart loop if there was no face returned from the face follow function 
                 else:
+                    #TODO turn off image capture 
                     filename = "/images/" +str(time.time()) + ".png"
                     cv2.imwrite(filename, face_img)
                     filename = "/images/" +"cln-" + str(time.time()) + ".png"

@@ -1,12 +1,13 @@
 ### Program  
 Drawing:
-- [ ] squashed face fix
+- [x] squashed face fix
 - [x] multiple rows test
-- [ ] aruco marker detection
+- [ ] (aruco marker detection)
 
 Error Detection:
 - [ ] catch robot errors
 - [ ] check home position
+- [ ] motion ramp down correctly 
 
 Status:
 - [x] implement status LED
@@ -22,9 +23,9 @@ Status:
 - [x] assemble big version
 - [x] test big version 
 
-- [ ] reCAD big version
+- [x] reCAD big version
 - [x] rePrint big version
-- [ ] reTest big version
+- [x] reTest big version
 
 ### Button Box
 - [x] status LED build 

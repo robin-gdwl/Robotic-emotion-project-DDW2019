@@ -28,6 +28,8 @@ class Robot:
         self.ip = CONFIG.ROBOT_IP
         self.robotUR = None
         self.position = [0, 0]
+        self.previous_position = [0, 0]
+        
 
         self.face_row_offset = CONFIG.FACE_ROW_OFFSET
         self.text_hor_offset = CONFIG.TEXT_HOR_OFFSET
@@ -95,7 +97,8 @@ class Robot:
                 # face_positions, _, new_frame = self.find_faces_dnn(frame)
                 face_positions, _, new_frame, cln_frame = self.find_face_fast(frame)
 
-                if len(face_positions) > 0:
+                if len(face_positions) > 0:  
+                    # break when a face was found in the frame 
                     # cv2.imshow('current', new_frame)
                     # cv2.waitKey(1)
                     # time.sleep(10)
@@ -106,6 +109,7 @@ class Robot:
                         cv2.waitKey(1)
 
                     if exceeds != 0:
+                        # If the robot is already at the edge of the lookwindow
                         anglechange = random.uniform(-self.escape_anglechange, self.escape_anglechange)
                         # anglechange = 45
                     else:
