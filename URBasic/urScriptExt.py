@@ -384,7 +384,7 @@ end
         end
 
            
-        servoj(get_inverse_kin(new_pose), t=0.1, lookahead_time= 0.19, gain=500)            
+        servoj(get_inverse_kin(new_pose), t=0.3, lookahead_time= 0.05, gain=500)            
         sync()
     end
     stopj(2)
