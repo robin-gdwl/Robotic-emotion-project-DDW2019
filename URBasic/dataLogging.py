@@ -127,7 +127,7 @@ class DataLogging(with_metaclass(Singleton, object)):
                     os.makedirs(self.directory)
                 except:
                     original_umask = os.umask(0)
-                    os.makedirs(self.directory, 0777)
+                    os.makedirs(self.directory, 777)
                     os.umask(original_umask)
 
         return self.directory, self.logDir
