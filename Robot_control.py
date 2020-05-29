@@ -731,6 +731,7 @@ class Robot:
         
         if (angle > self.max_motion_anglechange or angle < -self.max_motion_anglechange):
             over_max_angle = True
+            print("over max angle !!!!")
         return over_max_angle
 
     def _unit_vector(self, vector):
