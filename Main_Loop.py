@@ -162,7 +162,7 @@ robot.initialise_robot()
 time.sleep(2)
 robot.move_home()
 
-robot.current_row = 0
+robot.current_row = CONFIG.CURRENT_ROW
 robot.start_rtde()
 time.sleep(0.5)
 
