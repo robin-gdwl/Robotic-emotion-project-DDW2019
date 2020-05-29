@@ -12,7 +12,8 @@ PROGRAMSTATE = ProgramState()
 ROBOT_ACTION = 0
 
 #ROBOT_IP = "10.211.55.5"
-ROBOT_IP = "192.168.178.35"
+#ROBOT_IP = "192.168.178.35"
+ROBOT_IP = "192.168.178.36"
 #ROBOT_IP = "192.168.178.165"
 #ROBOT_IP = "192.168.250.148"
 
@@ -87,7 +88,7 @@ VIDEO_MIDPOINT = (int(VIDEO_RESOLUTION[0]/2),
 VIDEO_ASPECT_RATIO  = VIDEO_RESOLUTION[0] / VIDEO_RESOLUTION[1]  # Aspect ration of each frame
 VIDEO_VIEWANGLE_HOR = math.radians(25)  # Camera FOV (field of fiew) angle in radians in horizontal direction
 #video_viewangle_vert = video_viewangle_hor / video_asp_ratio  #  Camera FOV (field of fiew) angle in radians in vertical direction
-M_PER_PIXEL = 00.00009  # Variable which scales the robot movement from pixels to meters.
+M_PER_PIXEL = 00.00008  # Variable which scales the robot movement from pixels to meters.
 
 # LED Pins: 
 # Led colour pins

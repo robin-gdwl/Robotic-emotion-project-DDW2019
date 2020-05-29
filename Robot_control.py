@@ -534,7 +534,7 @@ class Robot:
 
         if CONFIG.SHOW_FRAME:
             cv2.imshow('current', frame)
-            k = cv2.waitKey(6) & 0xff
+            k = cv2.waitKey(1) & 0xff
 
     def send_interrupting_prg(self):
         """sends a simple program to stop the one currently running"""
