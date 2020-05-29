@@ -760,11 +760,11 @@ class Robot:
         #self.position - self.previous position
         prev_vector = [a - b for a, b in zip(self.position, self.previous_position)]  # vector between previous position and current position 
         next_vector = [a - b for a, b in zip(target, self.position)]  # vector between current and next position 
-        print("vector lengths: ", np.linalg.norm(prev_vector), np.linalg.norm(next_vector))
+        #print("vector lengths: ", np.linalg.norm(prev_vector), np.linalg.norm(next_vector))
         if not(np.linalg.norm(prev_vector)==0 or np.linalg.norm(next_vector)==0):
             # check if any of the vectors is zero-length.
             # only do the angle comparison if that is not the case
-            print("no vector zero length")    
+            #print("no vector zero length")    
             if self._check_angle_between(prev_vector,next_vector):
                 self.robotUR.set_realtime_decellerated_stop(True)
             else: 

@@ -380,6 +380,7 @@ end
         decelleration_flag = read_input_float_register(8)
         if decelleration_flag:
             stopj(1)
+            textmsg("stop-l to prevent ramp error")
         end
 
            
