@@ -183,7 +183,7 @@ def loop():
                 
                 robot.wander()
                 cln_img, face_img, face_box, face_pos  = robot.follow_face(close=False)
-                robot.show_frame(cln_img)
+                #robot.show_frame(cln_img)
                 if not face_pos:
                     continue  # restart loop if there was no face returned from the face follow function 
                 else:

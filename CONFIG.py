@@ -45,7 +45,7 @@ MAX_MOTION_ANGLECHANGE = 170
 
 # reporting
 PRINT_COORDINATES = False
-SHOW_FRAME = True
+SHOW_FRAME = False
 
 # self.face_detect = dlib.get_frontal_face_detector()
 #dnnFaceDetector = dlib.cnn_face_detection_model_v1("models/mmod_human_face_detector.dat")
