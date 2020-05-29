@@ -31,10 +31,10 @@ LETTER_SPACING = 0.006
 
 MAX_X = 0.3
 MAX_Y = 0.15
-HOR_ROT_MAX = math.radians(50)
-VERT_ROT_MAX = math.radians(10)
+HOR_ROT_MAX = math.radians(45)
+VERT_ROT_MAX = math.radians(12)
 ACCEL = 0.3
-VEL= 0.6
+VEL= 0.9
 
 
 FOLLOW_TIME = 5
