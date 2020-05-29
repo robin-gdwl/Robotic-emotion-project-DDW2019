@@ -384,10 +384,10 @@ end
         end
 
            
-        servoj(get_inverse_kin(new_pose), t=0.2, lookahead_time= 0.19, gain=500)            
+        servoj(get_inverse_kin(new_pose), t=0.1, lookahead_time= 0.19, gain=500)            
         sync()
     end
-    stopj(0.5)
+    stopj(2)
     textmsg("realtime control loop ended---------------")
 end
 '''
