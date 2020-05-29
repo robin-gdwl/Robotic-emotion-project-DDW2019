@@ -52,7 +52,7 @@ SHOW_FRAME = False
 # paper advancing
 DRAG_DIST = 0.14 # 10 cm
 #PLUNGE_DIST = 0.1273
-PLUNGE_DIST = 0.081
+PLUNGE_DIST = 0.085
 PAPERSLOT_START = [0.659, -0.089, 0.210, 
                    2.2214, -2.2214, 0]
 
