@@ -123,7 +123,13 @@ class DataLogging(with_metaclass(Singleton, object)):
             else:
                 self.directory =  os.path.join(path, time.strftime("%Y-%m-%d", time.localtime()), time.strftime("%H-%M-%S", time.localtime()))
             if not os.path.exists(self.directory):
-                os.makedirs(self.directory)
+                try:
+                    os.makedirs(self.directory)
+                except:
+                    original_umask = os.umask(0)
+                    os.makedirs(self.directory, 0777)
+                    os.umask(original_umask)
+
         return self.directory, self.logDir
 
     def AddEventLogging(self, name='root', log2file=False, log2Consol=True, level = logging.DEBUG):
