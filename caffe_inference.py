@@ -163,7 +163,7 @@ def inference(frame, show=False):
     #print("ori size", ori_size)
     rect = cv2.resize(img_ori, (witdh, height))
     #img_cln = rect
-    cv2.circle(img_ori, video_midpoint, 4, (250, 200, 0), 6)
+    #cv2.circle(img_ori, video_midpoint, 4, (250, 200, 0), 6)
     rect = cv2.cvtColor(rect, cv2.COLOR_BGR2RGB)
 
     net.setInput(dnn.blobFromImage(rect, 1 / image_std, (witdh, height), 127))
@@ -188,8 +188,8 @@ def inference(frame, show=False):
                int(box[1] + (box[3]-box[1]) / 2))
         loc_from_center = (loc[0] - video_midpoint[0], loc[1] - video_midpoint[1])
         
-        cv2.line(img_ori, video_midpoint, loc, (0, 200, 0), 5)
-        cv2.circle(img_ori, loc, 4, (0, 200, 200), 3)
+        #cv2.line(img_ori, video_midpoint, loc, (0, 200, 0), 5)
+        #cv2.circle(img_ori, loc, 4, (0, 200, 200), 3)
         rectangles.append(rectangle)
         locations.append(loc_from_center)
     if show:

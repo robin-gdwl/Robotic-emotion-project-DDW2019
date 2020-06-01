@@ -151,6 +151,7 @@ CONFIG.PROGRAMSTATE.level = -1
 print("___"*20)
 print("Starting Process")
 time.sleep(1)
+
 wait4play()
 
 print("initialising loop")
@@ -162,7 +163,7 @@ robot.initialise_robot()
 time.sleep(2)
 robot.move_home()
 
-robot.current_row = 0
+robot.current_row = CONFIG.CURRENT_ROW
 robot.start_rtde()
 time.sleep(0.5)
 
@@ -183,15 +184,17 @@ def loop():
                 
                 robot.wander()
                 cln_img, face_img, face_box, face_pos  = robot.follow_face(close=False)
-                
+                #robot.show_frame(cln_img)
                 if not face_pos:
                     continue  # restart loop if there was no face returned from the face follow function 
                 else:
-                    #TODO turn off image capture 
-                    filename = "/images/" +str(time.time()) + ".png"
+                    """#TODO turn off image capture 
+                    filename = "testimages/" +str(time.time()) + ".png"
                     cv2.imwrite(filename, face_img)
-                    filename = "/images/" +"cln-" + str(time.time()) + ".png"
-                    cv2.imwrite(filename, cln_img)
+                    print("file save")
+                    filename = "testimages/" +"cln-" + str(time.time()) + ".png"
+                    cv2.imwrite(filename, cln_img)"""
+                    pass
                 print("face follow done")
             
             if CONFIG.PROGRAMSTATE.level == 0:

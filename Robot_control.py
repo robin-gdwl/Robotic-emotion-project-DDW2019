@@ -29,7 +29,7 @@ class Robot:
         self.robotUR = None
         self.position = [0, 0]
         self.previous_position = [0, 0]
-        
+
 
         self.face_row_offset = CONFIG.FACE_ROW_OFFSET
         self.text_hor_offset = CONFIG.TEXT_HOR_OFFSET
@@ -53,6 +53,7 @@ class Robot:
         self.wander_dist =     CONFIG.WANDER_DIST
         self.w_anglechange =   CONFIG.W_ANGLECHANGE
         self.escape_anglechange = CONFIG.ESCAPE_ANGLECHANGE
+        self.max_motion_anglechange = CONFIG.MAX_MOTION_ANGLECHANGE
 
         # reporting
         self.print_coordinates = CONFIG.PRINT_COORDINATES
@@ -152,6 +153,7 @@ class Robot:
                     face_positions, face_boxes, annotated_frame, cln_frame = self.find_face_fast(frame)
                     self.show_frame(annotated_frame)
                     if len(face_positions) > 0:
+                        #print("here1")
                         if time.time() - timer < self.follow_time:
                             self.position = self.move_to_face(face_positions, self.position)
                         else:
@@ -179,13 +181,12 @@ class Robot:
                 # Remember to always close the robot connection, otherwise it is not possible to reconnect
                 self.robotUR.close()
 
-            except:
-                print("error during facetracking")
+            except Exception as e:
+                print("error during facetracking: ", e)
                 self.robotUR.close()
 
         else:
             return cln_frame, annotated_frame, face_boxes, face_positions
-            pass
 
     def move_between(self):
         self.robotUR.movej(q=CONFIG.BETWEEN, a=self.accel, v=self.vel)
@@ -533,7 +534,7 @@ class Robot:
 
         if CONFIG.SHOW_FRAME:
             cv2.imshow('current', frame)
-            k = cv2.waitKey(6) & 0xff
+            k = cv2.waitKey(1) & 0xff
 
     def send_interrupting_prg(self):
         """sends a simple program to stop the one currently running"""
@@ -700,7 +701,7 @@ class Robot:
             robot_pos: position of the robot in 2D - coordinates
 
         Return Value:
-            prev_robot_pos: 2D robot position the robot will move to. The basis for the next call to this funtion as robot_pos
+            next_robot_pos: 2D robot position the robot will move to. The basis for the next call to this funtion as robot_pos
         """
 
         face_from_center = list(list_of_facepos[0])  # TODO: find way of making the selected face persistent
@@ -715,6 +716,40 @@ class Robot:
         next_robot_pos, _ = self.move_to_position(robot_target_xy, face_bool=True)
 
         return next_robot_pos
+    
+    def _check_angle_between(self, vec1, vec2):
+        """check if the angle is over the max angle
+
+        Arguments:
+            vec1 {list} -- Vector
+            vec2 {list} -- Vector
+        Returns:
+            bool -- Flag if angle is larger than allowed
+        """
+        over_max_angle = False
+        angle = self._angle_between(vec1, vec2)
+        
+        if (angle > self.max_motion_anglechange or angle < -self.max_motion_anglechange):
+            over_max_angle = True
+            print("over max angle !!!!")
+        return over_max_angle
+
+    def _unit_vector(self, vector):
+        """ Returns the unit vector of the vector.  """
+        return vector / np.linalg.norm(vector)
+
+    def _angle_between(self, v1, v2):
+        """ Returns the angle in radians between vectors 'v1' and 'v2'::
+                >>> angle_between((1, 0, 0), (0, 1, 0))
+                1.5707963267948966
+                >>> angle_between((1, 0, 0), (1, 0, 0))
+                0.0
+                >>> angle_between((1, 0, 0), (-1, 0, 0))
+                3.141592653589793
+        """
+        v1_u = self._unit_vector(v1)
+        v2_u = self._unit_vector(v2)
+        return np.arccos(np.clip(np.dot(v1_u, v2_u), -1.0, 1.0))
 
     def move_to_position(self, target, face_bool=False):
         """ moves robot to target inside of the lookarea"""
@@ -722,8 +757,24 @@ class Robot:
         target, exceeds = self.check_max_xy(target)
         # TODO: make sure the target actually is the real position otherwise it is possible the robot might drift outside of the area or the area gets smaller and smaller
 
+        #self.position - self.previous position
+        prev_vector = [a - b for a, b in zip(self.position, self.previous_position)]  # vector between previous position and current position 
+        next_vector = [a - b for a, b in zip(target, self.position)]  # vector between current and next position 
+        #print("vector lengths: ", np.linalg.norm(prev_vector), np.linalg.norm(next_vector))
+        if not(np.linalg.norm(prev_vector)==0 or np.linalg.norm(next_vector)==0):
+            # check if any of the vectors is zero-length.
+            # only do the angle comparison if that is not the case
+            #print("no vector zero length")    
+            if self._check_angle_between(prev_vector,next_vector):
+                self.robotUR.set_realtime_decellerated_stop(True)
+            else: 
+                self.robotUR.set_realtime_decellerated_stop(False)
+        else: 
+            self.robotUR.set_realtime_decellerated_stop(False)
+
         if face_bool:
-            print("moving to face at", target)
+            #print("moving to face at", target)
+            pass
         else:
             print("moving to position:", target)
 
@@ -753,6 +804,7 @@ class Robot:
         # qnear = self.robotUR.get_actual_joint_positions()
         next_pose = coordinates  # TODO: why do I rename this variable 3 times ?? 
         self.robotUR.set_realtime_pose(next_pose)
+        self.previous_position = self.position 
         self.position = target
 
         return target, exceeds

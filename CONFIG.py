@@ -13,15 +13,17 @@ ROBOT_ACTION = 0
 
 #ROBOT_IP = "10.211.55.5"
 ROBOT_IP = "192.168.178.35"
+#ROBOT_IP = "192.168.178.36"
 #ROBOT_IP = "192.168.178.165"
+#ROBOT_IP = "192.168.250.148"
 
 FACE_ACTIVATE = True
 FACE_ROW_OFFSET = [0, 0.01]
 TEXT_HOR_OFFSET = 0.04
 Z_HOP = 0.006
-DRAWING_ZVAL = 0.015
-CURRENT_ROW = 0
-MAX_ROWS = 5
+DRAWING_ZVAL = 0.017
+CURRENT_ROW = 6
+MAX_ROWS = 6
 ROW_SPACING = 0.06
 LINE_SPACING = 0.012
 BLEND_RADIUS = 0.0005
@@ -30,20 +32,21 @@ LETTER_SPACING = 0.006
 
 MAX_X = 0.3
 MAX_Y = 0.15
-HOR_ROT_MAX = math.radians(50)
-VERT_ROT_MAX = math.radians(10)
+HOR_ROT_MAX = math.radians(45)
+VERT_ROT_MAX = math.radians(12)
 ACCEL = 0.3
-VEL= 0.6
+VEL= 1.3
 
 
-FOLLOW_TIME = 5
-WANDER_DIST = 0.003
+FOLLOW_TIME = 10
+WANDER_DIST = 0.004
 W_ANGLECHANGE = 5.0
 ESCAPE_ANGLECHANGE = 45
+MAX_MOTION_ANGLECHANGE = 170
 
 # reporting
 PRINT_COORDINATES = False
-SHOW_FRAME = True
+SHOW_FRAME = False
 
 # self.face_detect = dlib.get_frontal_face_detector()
 #dnnFaceDetector = dlib.cnn_face_detection_model_v1("models/mmod_human_face_detector.dat")
@@ -51,15 +54,15 @@ SHOW_FRAME = True
 DRAG_DIST = 0.14 # 10 cm
 #PLUNGE_DIST = 0.1273
 PLUNGE_DIST = 0.079
-PAPERSLOT_START = [0.657, -0.089, 0.210, 
+PAPERSLOT_START = [0.659, -0.089, 0.210, 
                    2.2214, -2.2214, 0]
 
 # positions
 HOME_POS = (math.radians(180),
                  math.radians(-90),
-                 math.radians(-101.5),
+                 math.radians(-86.33),
                  math.radians(-19),
-                 math.radians(88),
+                 math.radians(91.38),
                  math.radians(0))
 
 ABOVE_PAPER = (math.radians(17.33),
@@ -85,7 +88,7 @@ VIDEO_MIDPOINT = (int(VIDEO_RESOLUTION[0]/2),
 VIDEO_ASPECT_RATIO  = VIDEO_RESOLUTION[0] / VIDEO_RESOLUTION[1]  # Aspect ration of each frame
 VIDEO_VIEWANGLE_HOR = math.radians(25)  # Camera FOV (field of fiew) angle in radians in horizontal direction
 #video_viewangle_vert = video_viewangle_hor / video_asp_ratio  #  Camera FOV (field of fiew) angle in radians in vertical direction
-M_PER_PIXEL = 00.00004  # Variable which scales the robot movement from pixels to meters.
+M_PER_PIXEL = 00.00008  # Variable which scales the robot movement from pixels to meters.
 
 # LED Pins: 
 # Led colour pins

@@ -74,7 +74,7 @@ class Face:
                 srtd_lst = np.argsort(preds)
 
                 emotion_results = []
-                for n in range(1, 3):
+                for n in range(1, 4):
                     emotion = EMOTIONS[srtd_lst[-n]]
                     prob = preds[srtd_lst[-n]] * 100
                     text = "{}-{:.0f} %".format(emotion, prob)
