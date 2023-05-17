@@ -1,17 +1,20 @@
+
 from String_to_Path import ThingToWrite
 import URBasic
 import math
 import math3d as m3d
 import random
-import dlib
+
 import cv2
 import imutils
 import numpy as np
 import time
 import caffe_inference as cf
+from ModbusRobot import RobotMB
 
 import CONFIG
-from Videostream import vs
+#from Videostream import vs
+import picamera2 as picam2
 
 if CONFIG.FACE_ACTIVATE:
     from Face_obj import Face
@@ -29,8 +32,9 @@ class Robot:
         self.robotUR = None
         self.position = [0, 0]
         self.previous_position = [0, 0]
-
-
+        self.camera = picam2.Picamera2()
+        #self.camera.configure(picam2.create_preview_configuration(main={"format": 'XRGB8888', "size": (640, 480)}))
+        self.camera.start()
         self.face_row_offset = CONFIG.FACE_ROW_OFFSET
         self.text_hor_offset = CONFIG.TEXT_HOR_OFFSET
         self.z_hop =           CONFIG.Z_HOP
@@ -40,7 +44,8 @@ class Robot:
         self.row_spacing =     CONFIG.ROW_SPACING
         self.line_spacing =    CONFIG.LINE_SPACING 
         self.blend_radius =    CONFIG.BLEND_RADIUS
-        self.robotURModel =    URBasic.robotModel.RobotModel()
+        #self.robotURModel =    URBasic.robotModel.RobotModel()
+        self.robotUR =    RobotMB(self.ip)
         self.max_x =           CONFIG.MAX_X
         self.max_y =           CONFIG.MAX_Y
         self.hor_rot_max =     CONFIG.HOR_ROT_MAX
@@ -72,8 +77,9 @@ class Robot:
         self.position_threshhold = 1
 
     def initialise_robot(self):
-        self.robotUR = URBasic.urScriptExt.UrScriptExt(host=self.ip, robotModel=self.robotURModel)
-        self.robotUR.reset_error()
+        """self.robotUR = URBasic.urScriptExt.UrScriptExt(host=self.ip, robotModel=self.robotURModel)
+        self.robotUR.reset_error()"""
+        self.robotUR.connect()
         pass
 
     def start_rtde(self):
@@ -94,7 +100,7 @@ class Robot:
             print("starting wander loop. CONFIG.ROBOT_ACTION: ", CONFIG.ROBOT_ACTION)
             while CONFIG.PROGRAMSTATE.level == 0:
                 # wander around
-                frame = vs.read()
+                frame = self.camera.capture_array()
                 # face_positions, _, new_frame = self.find_faces_dnn(frame)
                 face_positions, _, new_frame, cln_frame = self.find_face_fast(frame)
 
@@ -103,7 +109,9 @@ class Robot:
                     # cv2.imshow('current', new_frame)
                     # cv2.waitKey(1)
                     # time.sleep(10)
+                    print("face found", face_positions)
                     break
+                    
                 else:
                     if CONFIG.SHOW_FRAME:
                         cv2.imshow('current', new_frame)
@@ -130,6 +138,7 @@ class Robot:
             print("CONFIG.PROGRAMSTATE.level:  ", CONFIG.PROGRAMSTATE.level)
 
         else:
+            print("not wandering")
             pass
 
     def follow_face(self, close=False):
@@ -148,7 +157,7 @@ class Robot:
 
                 while CONFIG.PROGRAMSTATE.level == 0:
 
-                    frame = vs.read()
+                    frame = self.camera.capture_array()
                     # face_positions, face_boxes, new_frame = self.find_faces_dnn(frame)
                     face_positions, face_boxes, annotated_frame, cln_frame = self.find_face_fast(frame)
                     self.show_frame(annotated_frame)
@@ -189,7 +198,8 @@ class Robot:
             return cln_frame, annotated_frame, face_boxes, face_positions
 
     def move_between(self):
-        self.robotUR.movej(q=CONFIG.BETWEEN, a=self.accel, v=self.vel)
+        print("Between:", CONFIG.BETWEEN)
+        self.robotUR.movej(CONFIG.BETWEEN, self.accel, self.vel)
 
     def move_to_write(self, row=0):
         #TODO: check if paper is there 
@@ -538,7 +548,8 @@ class Robot:
 
     def send_interrupting_prg(self):
         """sends a simple program to stop the one currently running"""
-        self.robotUR.robotConnector.RealTimeClient.SendProgram(prg="set_digital_out(0, True)")
+        self.robotUR.send_interrupt()
+        #self.robotUR.robotConnector.RealTimeClient.SendProgram(prg="set_digital_out(0, True)")
         pass
 
     """def convert_rpy(angles):
@@ -885,7 +896,8 @@ class Robot:
     def check_position_dist(self, target):
         joints = self.robotUR.get_actual_joint_positions()
         print(target)
-        print(joints.tolist())
+        #print(joints.tolist())
+        print(joints)
         dist = 0
         for i in range(6):
             dist += (target[i] - joints[i]) ** 2

@@ -4,10 +4,19 @@ import time
 strings = ["the quick brown fox jumps over the lazy dog __ ", "THE QUICK BROWN FOX JUMPS OVER THE LAZY DOG", "ABCabc thijkqr"]
 robot = Robot()
 robot.initialise_robot()
+time.sleep(2)
 max_draws = 0
 
 robot.move_home()
+print("joints:",robot.robotUR.get_actual_joint_positions())
+print("tcp",robot.robotUR.get_actual_tcp_pose())
+
+robot.robotUR.init_realtime_control()
 robot.wander()
+print("wander done")
+time.sleep(5)
+
+
 #robot.move_to_write()
 #robot.write_strings(strings)
 i = 0

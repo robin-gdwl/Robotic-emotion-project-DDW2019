@@ -6,8 +6,8 @@ import imutils
 import time
 import math
 import numpy as np
-import tensorflow as tf
-tf.get_logger().setLevel('ERROR')
+#import tensorflow as tf
+#tf.get_logger().setLevel('ERROR')
 
 detector = dlib.get_frontal_face_detector()
 predictor = dlib.shape_predictor("shape_predictor_68_face_landmarks.dat")
