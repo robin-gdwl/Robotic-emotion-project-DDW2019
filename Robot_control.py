@@ -34,7 +34,7 @@ class Robot:
         self.previous_position = [0, 0]
         #self.camera = picam2.Picamera2()
         #self.camera.configure(picam2.create_preview_configuration(main={"format": 'XRGB8888', "size": (640, 480)}))
-        self.camera.start()
+        #self.camera.start()
         self.face_row_offset = CONFIG.FACE_ROW_OFFSET
         self.text_hor_offset = CONFIG.TEXT_HOR_OFFSET
         self.z_hop =           CONFIG.Z_HOP
