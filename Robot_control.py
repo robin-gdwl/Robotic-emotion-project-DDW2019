@@ -13,8 +13,8 @@ import caffe_inference as cf
 from ModbusRobot import RobotMB
 
 import CONFIG
-#from Videostream import vs
-import picamera2 as picam2
+from Videostream import vs
+import picamera
 
 if CONFIG.FACE_ACTIVATE:
     from Face_obj import Face
@@ -32,7 +32,7 @@ class Robot:
         self.robotUR = None
         self.position = [0, 0]
         self.previous_position = [0, 0]
-        self.camera = picam2.Picamera2()
+        #self.camera = picam2.Picamera2()
         #self.camera.configure(picam2.create_preview_configuration(main={"format": 'XRGB8888', "size": (640, 480)}))
         self.camera.start()
         self.face_row_offset = CONFIG.FACE_ROW_OFFSET
@@ -100,7 +100,8 @@ class Robot:
             print("starting wander loop. CONFIG.ROBOT_ACTION: ", CONFIG.ROBOT_ACTION)
             while CONFIG.PROGRAMSTATE.level == 0:
                 # wander around
-                frame = self.camera.capture_array()
+                #frame = self.camera.capture_array()
+                frame = vs.read()
                 # face_positions, _, new_frame = self.find_faces_dnn(frame)
                 face_positions, _, new_frame, cln_frame = self.find_face_fast(frame)
 
@@ -157,7 +158,8 @@ class Robot:
 
                 while CONFIG.PROGRAMSTATE.level == 0:
 
-                    frame = self.camera.capture_array()
+                    #frame = self.camera.capture_array()
+                    frame = vs.read()
                     # face_positions, face_boxes, new_frame = self.find_faces_dnn(frame)
                     face_positions, face_boxes, annotated_frame, cln_frame = self.find_face_fast(frame)
                     self.show_frame(annotated_frame)
