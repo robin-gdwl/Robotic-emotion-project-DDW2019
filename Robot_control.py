@@ -853,21 +853,21 @@ class Robot:
                                 y,
                                 z - self.plunge_dist,
                                 rx, ry, rz), self.accel, self.vel)  # plunge into the slot
-            self.robotUR.movel((x,
-                                y - self.drag_dist,
+            self.robotUR.movel((x-self.drag_dist,
+                                y,
                                 z - self.plunge_dist,
                                 rx, ry, rz), self.accel, self.vel)  # drag the desired drag distance
             #time.sleep(2)
-            self.robotUR.movel((x,
-                                y - self.drag_dist,
+            self.robotUR.movel((x- self.drag_dist,
+                                y ,
                                 z,
                                 rx, ry, rz), self.accel, self.vel)  # raise up to initial z height
-            self.robotUR.movel((x,
-                                y- self.drag_dist,
+            self.robotUR.movel((x- self.drag_dist,
+                                y,
                                 z - (self.plunge_dist / 3),
                                 rx, ry, rz), self.accel * 2.5, self.vel * 2.6)  # plunge down by half z
-            self.robotUR.movel((x,
-                                y - self.drag_dist,
+            self.robotUR.movel((x- self.drag_dist,
+                                y ,
                                 z + self.plunge_dist,
                                 rx, ry, rz), self.accel * 2.7, self.vel * 2.7)  # raise by plunge dist  
 
