@@ -8,8 +8,8 @@ import os
 import sys
 os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3'
 
-from keras.preprocessing.image import img_to_array
-from keras.models import load_model
+from tensorflow.keras.preprocessing.image import img_to_array
+from tensorflow.keras.models import load_model
 
 predictor = dlib.shape_predictor("shape_predictor_68_face_landmarks.dat")
 emotion_model_path = 'models/_mini_XCEPTION.102-0.66.hdf5'
